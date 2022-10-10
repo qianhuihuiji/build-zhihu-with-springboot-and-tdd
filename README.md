@@ -13,3 +13,7 @@
 - https://github.com/SalithaUCSC/spring-boot-testing
 
 这个项目里面涉及到一个注解：`AutoConfigureTestDatabase`，可以在测试的时候使用 h2 内存数据库进行测试。
+
+- [https://www.springcloud.io/post/2022-09/spring-boot-micro-service-test/](https://www.springcloud.io/post/2022-09/spring-boot-micro-service-test/)
+
+有一些集成测试的示例，并且有前置 sql 条件的执行操作，可以借鉴。
