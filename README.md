@@ -17,3 +17,7 @@
 - [https://www.springcloud.io/post/2022-09/spring-boot-micro-service-test/](https://www.springcloud.io/post/2022-09/spring-boot-micro-service-test/)
 
 有一些集成测试的示例，并且有前置 sql 条件的执行操作，可以借鉴。
+
+- [https://www.springboottutorial.com/unit-testing-for-spring-boot-rest-services](https://www.springboottutorial.com/unit-testing-for-spring-boot-rest-services)、[https://www.springboottutorial.com/integration-testing-for-spring-boot-rest-services](https://www.springboottutorial.com/integration-testing-for-spring-boot-rest-services)
+
+对 MockMvc、 Mockito 应用较多。
