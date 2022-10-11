@@ -27,3 +27,7 @@
 这是个系列文章的其中一篇，该系列文章包括 unit test、@WebMvcTest、 @DataJpaTest、Integration Test。其中提到的观点是：unit test 应该要运行的非常快，并且不依赖 spring。这点我十分赞同，如果一次测试需要消耗秒级别的时间，那么 tdd 开发将会十分痛苦，光是运行测试就要耗费大量的时间。unit test 运行时间应该是毫秒级别的。
 
 第3篇文章使用到了 Flyway、Liquibase，这是两个数据库版本控制的库，值得借鉴参考。
+
+- [https://docs.spring.io/spring-boot/docs/current/reference/html/test-auto-configuration.html](https://docs.spring.io/spring-boot/docs/current/reference/html/test-auto-configuration.html) 
+
+Spring 对不同组件，例如redis、mysql、mongodb 进行测试的支持
