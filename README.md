@@ -34,4 +34,4 @@ Spring 对不同组件，例如redis、mysql、mongodb 进行测试的支持
 
 - [https://www.javaguides.net/2022/03/spring-boot-unit-testing-service-layer.html](https://www.javaguides.net/2022/03/spring-boot-unit-testing-service-layer.html) 
 
-一系列比较全的教程，不同层级的单元测试，还有 TestContainer 的使用（结合docker的）。
+一系列比较全的教程，不同层级的单元测试，还有 TestContainer 的使用（结合docker的）。TestContainer 是个用来搞集成测试的好东西，唯一的依赖就是 docker，通过命令行创建不用的容器（如redis、mysql、rabbitMq 等等），可以模拟一个跟生产环境一样的测试环境，最大范围地避免环境问题对测试代理的影响。
