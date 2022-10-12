@@ -31,3 +31,7 @@
 - [https://docs.spring.io/spring-boot/docs/current/reference/html/test-auto-configuration.html](https://docs.spring.io/spring-boot/docs/current/reference/html/test-auto-configuration.html) 
 
 Spring 对不同组件，例如redis、mysql、mongodb 进行测试的支持
+
+- [https://www.javaguides.net/2022/03/spring-boot-unit-testing-service-layer.html](https://www.javaguides.net/2022/03/spring-boot-unit-testing-service-layer.html) 
+
+一系列比较全的教程，不同层级的单元测试，还有 TestContainer 的使用（结合docker的）。
