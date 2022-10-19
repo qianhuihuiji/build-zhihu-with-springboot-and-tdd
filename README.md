@@ -38,3 +38,5 @@ Spring 对不同组件，例如redis、mysql、mongodb 进行测试的支持
 
 
 - [SpringBoot Test及注解详解](https://www.cnblogs.com/myitnews/p/12330297.html) 这篇文章详细里面介绍了 springboot test 里面的大量注解，对于理解springboot 测试非常重要！
+
+- [【保姆级教程】Spring Boot 单元测试]{https://cloud.tencent.com/developer/article/1779117} 确实是保姆级教程
