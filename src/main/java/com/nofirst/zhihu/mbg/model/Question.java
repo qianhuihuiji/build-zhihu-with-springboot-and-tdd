@@ -1,7 +1,10 @@
 package com.nofirst.zhihu.mbg.model;
 
+import lombok.Builder;
+
 import java.io.Serializable;
 
+@Builder
 public class Question implements Serializable {
     private Long id;
 

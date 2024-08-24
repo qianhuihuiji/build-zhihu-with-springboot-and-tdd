@@ -1,7 +1,7 @@
 package com.nofirst.zhihu.controller;
 
 import com.nofirst.zhihu.mbg.model.Question;
-import com.nofirst.zhihu.service.QuestionsService;
+import com.nofirst.zhihu.service.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +27,11 @@ class ViewQuestionsTests {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private QuestionsService questionsService;
+    private QuestionService questionService;
 
     @Test
     void user_can_view_a_single_question() throws Exception {
-        when(this.questionsService.show(1L)).thenReturn(new Question(1L, 1L, "title", "content"));
+        when(this.questionService.show(1L)).thenReturn(new Question(1L, 1L, "title", "content"));
         this.mockMvc.perform(get("/questions/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(1L))
