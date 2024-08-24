@@ -46,3 +46,5 @@ Spring 对不同组件，例如redis、mysql、mongodb 进行测试的支持
 确实是保姆级教程
 
 - [SpringBoot Test 人类使用指南](https://zhuanlan.zhihu.com/p/111418479)
+
+- [优化基于@SpringBootTest 的测试案例，让你的测试飞起来](https://segmentfault.com/a/1190000041591890)
