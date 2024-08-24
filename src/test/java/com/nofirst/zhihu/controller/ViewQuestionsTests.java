@@ -1,13 +1,11 @@
 package com.nofirst.zhihu.controller;
 
-import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.service.QuestionsService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,8 +30,8 @@ class ViewQuestionsTests {
     private QuestionsService questionsService;
 
     @Test
-    void user_can_view_a_single_question() throws Exception{
-        when(this.questionsService.show(1L)).thenReturn(new Question(1L,"title","content"));
+    void user_can_view_a_single_question() throws Exception {
+        when(this.questionsService.show(1L)).thenReturn(new Question(1L, 1L, "title", "content"));
         this.mockMvc.perform(get("/questions/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(1L))
