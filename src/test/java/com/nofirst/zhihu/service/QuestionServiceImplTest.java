@@ -28,7 +28,7 @@ class QuestionServiceImplTest {
     public void setup() {
         question = Question.builder()
                 .id(1L)
-                .userId(1L)
+                .userId(1)
                 .title("title")
                 .content("content")
                 .build();

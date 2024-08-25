@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest
 class ViewQuestionsTests {
+
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -31,7 +32,7 @@ class ViewQuestionsTests {
 
     @Test
     void user_can_view_a_single_question() throws Exception {
-        when(this.questionService.show(1L)).thenReturn(new Question(1L, 1L, "title", "content"));
+        when(this.questionService.show(1L)).thenReturn(new Question(1L, 1, "title", "content"));
         this.mockMvc.perform(get("/questions/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(1L))

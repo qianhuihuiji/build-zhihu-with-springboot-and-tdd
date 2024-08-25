@@ -13,7 +13,7 @@ public class Question implements Serializable {
      *
      * @mbggenerated
      */
-    private Long userId;
+    private Integer userId;
 
     /**
      * 标题
@@ -31,7 +31,7 @@ public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Question(Long id, Long userId, String title, String content) {
+    public Question(Long id, Integer userId, String title, String content) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -46,11 +46,11 @@ public class Question implements Serializable {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
