@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @date 2020-08-24 21:52
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest
+@WebMvcTest(QuestionsController.class)
 class ViewQuestionsTests {
 
     @Autowired
