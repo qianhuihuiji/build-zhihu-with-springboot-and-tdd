@@ -1,8 +1,13 @@
 package com.nofirst.zhihu.mbg.model;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class Answer implements Serializable {
     private Integer id;
 

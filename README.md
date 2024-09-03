@@ -51,3 +51,7 @@ docker，通过命令行创建不用的容器（如redis、mysql、rabbitMq 等�
 - [SpringBoot Test 人类使用指南](https://zhuanlan.zhihu.com/p/111418479)
 
 - [优化基于@SpringBootTest 的测试案例，让你的测试飞起来](https://segmentfault.com/a/1190000041591890)
+
+- [手把手教你实战TDD | 京东云技术团队](https://segmentfault.com/a/1190000043898785)
+
+
