@@ -55,3 +55,6 @@ docker，通过命令行创建不用的容器（如redis、mysql、rabbitMq 等�
 - [手把手教你实战TDD | 京东云技术团队](https://segmentfault.com/a/1190000043898785)
 
 
+- [Guide to JUnit 5 Functional Interfaces](https://reflectoring.io/junit5-functional-interfaces/)
+
+有一些断言的使用方法
