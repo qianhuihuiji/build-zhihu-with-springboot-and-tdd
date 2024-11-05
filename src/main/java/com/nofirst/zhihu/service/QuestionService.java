@@ -1,6 +1,9 @@
 package com.nofirst.zhihu.service;
 
+import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
+
+import java.util.List;
 
 /**
  * QuestionService
@@ -10,4 +13,6 @@ import com.nofirst.zhihu.mbg.model.Question;
  */
 public interface QuestionService {
     Question show(Long id);
+
+    List<Answer> answers(Long questionId);
 }

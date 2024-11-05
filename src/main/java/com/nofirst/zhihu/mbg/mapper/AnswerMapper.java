@@ -2,15 +2,16 @@ package com.nofirst.zhihu.mbg.mapper;
 
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.AnswerExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface AnswerMapper {
     int countByExample(AnswerExample example);
 
     int deleteByExample(AnswerExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(Answer record);
 
@@ -20,7 +21,7 @@ public interface AnswerMapper {
 
     List<Answer> selectByExample(AnswerExample example);
 
-    Answer selectByPrimaryKey(Integer id);
+    Answer selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") Answer record, @Param("example") AnswerExample example);
 

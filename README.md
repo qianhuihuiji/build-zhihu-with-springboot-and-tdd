@@ -58,3 +58,7 @@ docker，通过命令行创建不用的容器（如redis、mysql、rabbitMq 等�
 - [Guide to JUnit 5 Functional Interfaces](https://reflectoring.io/junit5-functional-interfaces/)
 
 有一些断言的使用方法
+
+- [Mockito的断言匹配器（Argument Matchers）](https://www.baeldung-cn.com/mockito-argument-matchers#google_vignette)
+
+测试时，可以对方法调用进行验证。使用:com.nofirst.zhihu.controller.PostAnswersTests#user_can_post_an_answer_to_a_question

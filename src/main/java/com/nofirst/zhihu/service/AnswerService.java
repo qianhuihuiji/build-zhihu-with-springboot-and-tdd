@@ -10,4 +10,6 @@ import com.nofirst.zhihu.mbg.model.Answer;
  */
 public interface AnswerService {
     Answer show(Long id);
+
+    void store(Long questionId, Answer answer);
 }

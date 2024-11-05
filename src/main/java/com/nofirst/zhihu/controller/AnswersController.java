@@ -1,9 +1,11 @@
 package com.nofirst.zhihu.controller;
 
+import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.service.AnswerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2020-08-24 22:24
  */
 @RestController
+@AllArgsConstructor
 public class AnswersController {
 
-    @Autowired
-    private AnswerService answerService;
+    private final AnswerService answerService;
 
     @PostMapping("/questions/{questionId}/answers")
-    public void store(@PathVariable Long questionId) {
-
+    public void store(@PathVariable Long questionId, @RequestBody Answer answer) {
+        answerService.store(questionId, answer);
     }
 }

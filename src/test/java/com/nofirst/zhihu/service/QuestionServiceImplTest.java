@@ -1,6 +1,8 @@
 package com.nofirst.zhihu.service;
 
+import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
+import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.service.impl.QuestionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -22,7 +28,12 @@ class QuestionServiceImplTest {
     @Mock
     private QuestionMapper questionMapper;
 
+    @Mock
+    private AnswerMapper answerMapper;
+
     private Question question;
+
+    private List<Answer> answers = new ArrayList<>();
 
     @BeforeEach
     public void setup() {
@@ -32,6 +43,24 @@ class QuestionServiceImplTest {
                 .title("title")
                 .content("content")
                 .build();
+        Date now = new Date();
+        Answer answer1 = new Answer();
+        answer1.setId(1L);
+        answer1.setQuestionId(1L);
+        answer1.setUserId(1);
+        answer1.setCreatedAt(now);
+        answer1.setUpdatedAt(now);
+        answer1.setContent("this is a answer");
+        Answer answer2 = new Answer();
+        answer2.setId(2L);
+        answer2.setQuestionId(1L);
+        answer2.setUserId(1);
+        answer2.setCreatedAt(now);
+        answer2.setUpdatedAt(now);
+        answer2.setContent("this is another answer");
+        answers.add(answer1);
+        answers.add(answer2);
+
     }
 
     @Test
@@ -61,4 +90,19 @@ class QuestionServiceImplTest {
         // then
         assertThat(existedQuestion).isNull();
     }
+
+
+    @Test
+    void a_question_has_many_answers() {
+        // given
+        given(answerMapper.selectByQuestionId(1L)).willReturn(this.answers);
+
+        // when
+        List<Answer> results = questionService.answers(1L);
+
+        // then
+        assertThat(results.size()).isEqualTo(this.answers.size());
+    }
+
+
 }
