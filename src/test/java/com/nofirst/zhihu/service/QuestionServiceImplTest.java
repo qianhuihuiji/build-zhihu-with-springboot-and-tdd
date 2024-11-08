@@ -42,7 +42,7 @@ class QuestionServiceImplTest {
 
     @BeforeEach
     public void setup() {
-        question = QuestionFactory.createPushlishedQuestion();
+        question = QuestionFactory.createPublishedQuestion();
 
         Answer answer1 = AnswerFactory.createAnswer(question.getId());
         Answer answer2 = AnswerFactory.createAnswer(question.getId());
@@ -96,7 +96,7 @@ class QuestionServiceImplTest {
 
     @Test
     void can_get_published_question_by_show_method() {
-        Question pushlishedQuestion = QuestionFactory.createPushlishedQuestion();
+        Question pushlishedQuestion = QuestionFactory.createPublishedQuestion();
         when(this.questionMapper.selectByPrimaryKey(1L)).thenReturn(pushlishedQuestion);
 
         // when
@@ -112,7 +112,7 @@ class QuestionServiceImplTest {
 
     @Test
     void get_exception_if_try_get_not_published_question_by_show_method() {
-        Question unpushlishedQuestion = QuestionFactory.createUnpushlishedQuestion();
+        Question unpushlishedQuestion = QuestionFactory.createUnpublishedQuestion();
         when(this.questionMapper.selectByPrimaryKey(1L)).thenReturn(unpushlishedQuestion);
 
         // then

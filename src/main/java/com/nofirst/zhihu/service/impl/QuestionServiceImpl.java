@@ -24,10 +24,10 @@ public class QuestionServiceImpl implements QuestionService {
     public Question show(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
         if (Objects.isNull(question)) {
-            throw new QuestionNotExistedException("question not exist");
+            throw new QuestionNotExistedException();
         }
         if (Objects.isNull(question.getPublishedAt())) {
-            throw new QuestionNotPublishedException("question not publish");
+            throw new QuestionNotPublishedException();
         }
         return question;
     }

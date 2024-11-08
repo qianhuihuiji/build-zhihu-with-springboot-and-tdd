@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class QuestionFactory {
 
-    public static Question createPushlishedQuestion() {
+    public static Question createPublishedQuestion() {
         Date lastWeek = DateUtils.addWeeks(new Date(), -1);
 
         return Question.builder()
@@ -19,7 +19,7 @@ public class QuestionFactory {
                 .build();
     }
 
-    public static Question createUnpushlishedQuestion() {
+    public static Question createUnpublishedQuestion() {
 
         return Question.builder()
                 .id(1L)

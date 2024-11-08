@@ -1,8 +1,13 @@
 package com.nofirst.zhihu.service;
 
+import com.nofirst.zhihu.exception.QuestionNotPublishedException;
+import com.nofirst.zhihu.factory.AnswerFactory;
+import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.matcher.AnswerMatcher;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
+import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
+import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.service.impl.AnswerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,9 +16,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Date;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -27,22 +31,14 @@ class AnswerServiceImplTest {
 
     @Mock
     private AnswerMapper answerMapper;
+    @Mock
+    private QuestionMapper questionMapper;
 
     private Answer answer;
 
     @BeforeEach
     public void setup() {
-        Date now = new Date();
-        Answer answer1 = new Answer();
-        answer1.setId(1L);
-        answer1.setQuestionId(1L);
-        answer1.setUserId(1);
-        answer1.setCreatedAt(now);
-        answer1.setUpdatedAt(now);
-        answer1.setContent("this is a answer");
-
-        this.answer = answer1;
-
+        this.answer = AnswerFactory.createAnswer(1L);
     }
 
     @Test
@@ -62,14 +58,26 @@ class AnswerServiceImplTest {
     }
 
     @Test
-    void can_store_an_answer() {
+    void can_post_an_answer_to_a_published_question() {
         // given
-
         // when
         answerService.store(1L, this.answer);
 
         // then
         verify(answerMapper, times(1)).insert(argThat(new AnswerMatcher(answer)));
+    }
 
+    @Test
+    void can_not_post_an_answer_to_an_unpublished_question() {
+        // given
+        Question unpublishedQuestion = QuestionFactory.createUnpublishedQuestion();
+        given(questionMapper.selectByPrimaryKey(unpublishedQuestion.getId())).willReturn(unpublishedQuestion);
+
+        // then
+        assertThatThrownBy(() -> {
+            // when
+            answerService.store(unpublishedQuestion.getId(), this.answer);
+        }).isInstanceOf(QuestionNotPublishedException.class)
+                .hasMessageStartingWith("question not publish");
     }
 }
