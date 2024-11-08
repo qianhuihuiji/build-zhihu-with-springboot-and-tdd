@@ -1,10 +1,15 @@
 package com.nofirst.zhihu.mbg.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Builder
+@Data
+@AllArgsConstructor
 public class Question implements Serializable {
     private Long id;
 
@@ -29,44 +34,14 @@ public class Question implements Serializable {
      */
     private String content;
 
+    private Date publishedAt;
+
     private static final long serialVersionUID = 1L;
 
     public Question(Long id, Integer userId, String title, String content) {
         this.id = id;
         this.userId = userId;
         this.title = title;
-        this.content = content;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
         this.content = content;
     }
 

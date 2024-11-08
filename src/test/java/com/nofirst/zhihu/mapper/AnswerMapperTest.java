@@ -10,7 +10,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Date;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -24,6 +28,24 @@ public class AnswerMapperTest {
     public void testInsert() {
         List<Answer> answers = answerMapper.selectByQuestionId(1L);
         Assertions.assertEquals(1, answers.size());
+    }
+
+    @Test
+    public void testInsert2() {
+        Answer answer = new Answer();
+        answer.setId(2L);
+        answer.setQuestionId(1L);
+        answer.setUserId(1);
+        Date now = new Date();
+        answer.setCreatedAt(now);
+        answer.setUpdatedAt(now);
+        answer.setContent("just test");
+
+        int insert = answerMapper.insert(answer);
+
+        List<Answer> answers = answerMapper.selectByQuestionId(1L);
+        assertThat(insert).isEqualTo(2);
+        assertThat(answers.size()).isEqualTo(2);
     }
 
 }

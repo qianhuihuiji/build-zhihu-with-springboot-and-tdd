@@ -27,6 +27,11 @@ public class Answer implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public Answer(long id, Integer userId) {
+        this.id = id;
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

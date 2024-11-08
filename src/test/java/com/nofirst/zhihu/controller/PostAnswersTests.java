@@ -6,7 +6,6 @@ import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.service.AnswerService;
-import com.nofirst.zhihu.service.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +34,6 @@ class PostAnswersTests {
 
     @MockBean
     private AnswerService answerService;
-    @MockBean
-    private QuestionService questionService;
 
     @Test
     void user_can_post_an_answer_to_a_question() throws Exception {
