@@ -2,12 +2,13 @@ package com.nofirst.zhihu.service;
 
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
+import com.nofirst.zhihu.factory.AnswerFactory;
+import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.service.impl.QuestionServiceImpl;
-import org.apache.commons.lang.time.DateUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,28 +42,11 @@ class QuestionServiceImplTest {
 
     @BeforeEach
     public void setup() {
-        Date now = new Date();
-        question = Question.builder()
-                .id(1L)
-                .userId(1)
-                .title("title")
-                .content("content")
-                .publishedAt(now)
-                .build();
-        Answer answer1 = new Answer();
-        answer1.setId(1L);
-        answer1.setQuestionId(1L);
-        answer1.setUserId(1);
-        answer1.setCreatedAt(now);
-        answer1.setUpdatedAt(now);
-        answer1.setContent("this is a answer");
-        Answer answer2 = new Answer();
-        answer2.setId(2L);
-        answer2.setQuestionId(1L);
-        answer2.setUserId(1);
-        answer2.setCreatedAt(now);
-        answer2.setUpdatedAt(now);
-        answer2.setContent("this is another answer");
+        question = QuestionFactory.createPushlishedQuestion();
+
+        Answer answer1 = AnswerFactory.createAnswer(question.getId());
+        Answer answer2 = AnswerFactory.createAnswer(question.getId());
+
         answers.add(answer1);
         answers.add(answer2);
 
@@ -113,9 +96,8 @@ class QuestionServiceImplTest {
 
     @Test
     void can_get_published_question_by_show_method() {
-        Date lastWeek = DateUtils.addWeeks(new Date(), -1);
-        question.setPublishedAt(lastWeek);
-        when(this.questionMapper.selectByPrimaryKey(1L)).thenReturn(question);
+        Question pushlishedQuestion = QuestionFactory.createPushlishedQuestion();
+        when(this.questionMapper.selectByPrimaryKey(1L)).thenReturn(pushlishedQuestion);
 
         // when
         Question existedQuestion = questionService.show(1L);
@@ -130,8 +112,8 @@ class QuestionServiceImplTest {
 
     @Test
     void get_exception_if_try_get_not_published_question_by_show_method() {
-        this.question.setPublishedAt(null);
-        when(this.questionMapper.selectByPrimaryKey(1L)).thenReturn(this.question);
+        Question unpushlishedQuestion = QuestionFactory.createUnpushlishedQuestion();
+        when(this.questionMapper.selectByPrimaryKey(1L)).thenReturn(unpushlishedQuestion);
 
         // then
         assertThatThrownBy(() -> {
