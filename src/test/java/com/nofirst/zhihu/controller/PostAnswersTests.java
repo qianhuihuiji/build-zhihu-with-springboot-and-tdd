@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -31,6 +32,7 @@ class PostAnswersTests {
     private AnswerService answerService;
 
     @Test
+    @WithMockUser
     void user_can_post_an_answer_to_a_question() throws Exception {
         User user = new User(1, "luke");
         Question question = new Question(1L, user.getId(), "title", "content");
