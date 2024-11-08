@@ -8,6 +8,7 @@ import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
+import com.nofirst.zhihu.model.dto.AnswerDto;
 import com.nofirst.zhihu.service.impl.AnswerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,10 +36,12 @@ class AnswerServiceImplTest {
     private QuestionMapper questionMapper;
 
     private Answer answer;
+    private AnswerDto answerDto;
 
     @BeforeEach
     public void setup() {
         this.answer = AnswerFactory.createAnswer(1L);
+        this.answerDto = AnswerFactory.createAnswerDto();
     }
 
     @Test
@@ -60,8 +63,11 @@ class AnswerServiceImplTest {
     @Test
     void can_post_an_answer_to_a_published_question() {
         // given
+        Question publishedQuestion = QuestionFactory.createPublishedQuestion();
+        given(questionMapper.selectByPrimaryKey(publishedQuestion.getId())).willReturn(publishedQuestion);
+
         // when
-        answerService.store(1L, this.answer);
+        answerService.store(1L, this.answerDto);
 
         // then
         verify(answerMapper, times(1)).insert(argThat(new AnswerMatcher(answer)));
@@ -76,7 +82,7 @@ class AnswerServiceImplTest {
         // then
         assertThatThrownBy(() -> {
             // when
-            answerService.store(unpublishedQuestion.getId(), this.answer);
+            answerService.store(unpublishedQuestion.getId(), this.answerDto);
         }).isInstanceOf(QuestionNotPublishedException.class)
                 .hasMessageStartingWith("question not publish");
     }

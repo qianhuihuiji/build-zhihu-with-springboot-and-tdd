@@ -15,7 +15,8 @@ public class AnswerMatcher implements ArgumentMatcher<Answer> {
 
     @Override
     public boolean matches(Answer right) {
-        return left.getId().equals(right.getId()) &&
-                right.getId() != null;
+        return left.getQuestionId().equals(right.getQuestionId()) &&
+                left.getContent().equals(right.getContent()) &&
+                left.getUserId().equals(right.getUserId());
     }
 }

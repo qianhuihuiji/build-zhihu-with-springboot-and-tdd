@@ -1,6 +1,7 @@
 package com.nofirst.zhihu.factory;
 
 import com.nofirst.zhihu.mbg.model.Answer;
+import com.nofirst.zhihu.model.dto.AnswerDto;
 
 import java.util.Date;
 
@@ -14,6 +15,14 @@ public class AnswerFactory {
         answer.setUserId(1);
         answer.setCreatedAt(now);
         answer.setUpdatedAt(now);
+        answer.setContent("this is a answer");
+
+        return answer;
+    }
+
+    public static AnswerDto createAnswerDto() {
+        AnswerDto answer = new AnswerDto();
+        answer.setUserId(1);
         answer.setContent("this is a answer");
 
         return answer;
