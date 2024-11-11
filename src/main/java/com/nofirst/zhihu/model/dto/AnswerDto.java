@@ -9,6 +9,6 @@ public class AnswerDto {
 
     private Integer userId;
 
-    @NotBlank
+    @NotBlank(message = "答案内容不能为空")
     private String content;
 }

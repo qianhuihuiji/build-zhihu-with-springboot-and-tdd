@@ -1,12 +1,10 @@
 package com.nofirst.zhihu.exception;
 
-public class QuestionNotExistedException extends RuntimeException {
+import com.nofirst.zhihu.common.ResultCode;
 
-    public QuestionNotExistedException(String message) {
-        super(message);
-    }
+public class QuestionNotExistedException extends ApiException {
 
     public QuestionNotExistedException() {
-        super("question not exist");
+        super(ResultCode.FAILED, "question not exist");
     }
 }

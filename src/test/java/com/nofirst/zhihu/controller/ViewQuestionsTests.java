@@ -1,5 +1,6 @@
 package com.nofirst.zhihu.controller;
 
+import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Question;
@@ -68,6 +69,8 @@ class ViewQuestionsTests {
         when(this.questionService.show(any())).thenThrow(new QuestionNotPublishedException());
 
         this.mockMvc.perform(get("/questions/{id}", 1))
-                .andExpect(status().is(404));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultCode.FAILED.getCode()))
+                .andExpect(jsonPath("$.message").value("question not publish"));
     }
 }

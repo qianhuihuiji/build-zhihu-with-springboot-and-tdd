@@ -1,8 +1,10 @@
 package com.nofirst.zhihu.exception;
 
-public class QuestionNotPublishedException extends RuntimeException {
+import com.nofirst.zhihu.common.ResultCode;
+
+public class QuestionNotPublishedException extends ApiException {
 
     public QuestionNotPublishedException() {
-        super("question not publish");
+        super(ResultCode.FAILED, "question not publish");
     }
 }

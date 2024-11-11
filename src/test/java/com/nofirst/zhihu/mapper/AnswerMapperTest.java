@@ -25,13 +25,13 @@ public class AnswerMapperTest {
     private AnswerMapper answerMapper;
 
     @Test
-    public void testInsert() {
+    public void can_select_by_question_id() {
         List<Answer> answers = answerMapper.selectByQuestionId(1L);
         Assertions.assertEquals(1, answers.size());
     }
 
     @Test
-    public void testInsert2() {
+    public void can_insert_answer() {
         // given
         Answer answer = new Answer();
         answer.setId(2L);
