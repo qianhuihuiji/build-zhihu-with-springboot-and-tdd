@@ -32,6 +32,7 @@ public class AnswerMapperTest {
 
     @Test
     public void testInsert2() {
+        // given
         Answer answer = new Answer();
         answer.setId(2L);
         answer.setQuestionId(1L);
@@ -41,10 +42,12 @@ public class AnswerMapperTest {
         answer.setUpdatedAt(now);
         answer.setContent("just test");
 
+        // when:成功返回1
         int insert = answerMapper.insert(answer);
 
+        // then
         List<Answer> answers = answerMapper.selectByQuestionId(1L);
-        assertThat(insert).isEqualTo(2);
+        assertThat(insert).isEqualTo(1);
         assertThat(answers.size()).isEqualTo(2);
     }
 
