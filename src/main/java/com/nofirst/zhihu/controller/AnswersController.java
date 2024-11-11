@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AllArgsConstructor
+@Validated
 public class AnswersController {
 
     private final AnswerService answerService;
