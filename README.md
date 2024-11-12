@@ -69,6 +69,8 @@ docker，通过命令行创建不用的容器（如redis、mysql、rabbitMq 等�
 
 - [官方示例tests](https://github.com/spring-projects/spring-framework/tree/main/spring-test/src/test/java/org/springframework/test/web/servlet/samples)
 
+-[Spring Security + OAuth2 + JWT 基本使用](https://www.cnblogs.com/CF1314/p/14786321.html)
+
 - 没有仔细看的
 - https://stackabuse.com/test-driven-development-for-spring-boot-apis/
 - 
