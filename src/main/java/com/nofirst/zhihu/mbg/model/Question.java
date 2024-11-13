@@ -3,6 +3,7 @@ package com.nofirst.zhihu.mbg.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
 @Builder
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Question implements Serializable {
     private Long id;
 
@@ -37,6 +39,7 @@ public class Question implements Serializable {
     private Date publishedAt;
 
     private static final long serialVersionUID = 1L;
+
 
     public Question(Long id, Integer userId, String title, String content) {
         this.id = id;
