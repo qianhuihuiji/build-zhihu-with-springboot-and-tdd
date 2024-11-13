@@ -1,8 +1,8 @@
 package com.nofirst.zhihu.model.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 
 @Data
 public class AnswerDto {
