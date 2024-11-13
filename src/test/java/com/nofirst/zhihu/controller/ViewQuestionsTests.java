@@ -5,7 +5,7 @@ import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.service.QuestionService;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,7 @@ package com.nofirst.zhihu.exception;
 
 
 import com.nofirst.zhihu.common.CommonResult;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;

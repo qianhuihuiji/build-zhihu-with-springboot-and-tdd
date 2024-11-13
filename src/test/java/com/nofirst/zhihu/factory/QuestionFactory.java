@@ -1,7 +1,7 @@
 package com.nofirst.zhihu.factory;
 
 import com.nofirst.zhihu.mbg.model.Question;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import java.util.Date;
 
