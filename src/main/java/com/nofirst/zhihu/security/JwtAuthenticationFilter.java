@@ -5,13 +5,12 @@ import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.exception.ApiException;
 import com.nofirst.zhihu.uitl.JwtUtil;
 import io.jsonwebtoken.Claims;
-import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -22,13 +21,11 @@ import java.io.IOException;
 
 @Slf4j
 @Component
+@AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Resource
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private AccountUserDetailsService accountUserDetailsService;
+    private final JwtUtil jwtUtil;
+    private final AccountUserDetailsService accountUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {

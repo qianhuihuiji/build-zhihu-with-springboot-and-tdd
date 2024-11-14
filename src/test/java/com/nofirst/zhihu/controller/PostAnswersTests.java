@@ -1,6 +1,7 @@
 package com.nofirst.zhihu.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.mbg.model.Answer;
@@ -8,29 +9,40 @@ import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.dto.AnswerDto;
 import com.nofirst.zhihu.service.AnswerService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(AnswersController.class)
+@SpringBootTest(classes = BuildZhihuWithSpringbootAndTddApplication.class)
 class PostAnswersTests {
 
-    @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private WebApplicationContext context;
+
+    @BeforeEach
+    public void setup() {
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
 
     @MockBean
     private AnswerService answerService;
@@ -56,7 +68,6 @@ class PostAnswersTests {
     }
 
     @Test
-    @WithMockUser
     void content_is_required_to_post_answers() throws Exception {
         // given
         AnswerDto answerDto = AnswerFactory.createAnswerDto();
