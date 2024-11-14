@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+// 会启动完整的Spring容器，因此会非常耗时
 @SpringBootTest(classes = BuildZhihuWithSpringbootAndTddApplication.class)
 class PostAnswersTests {
 

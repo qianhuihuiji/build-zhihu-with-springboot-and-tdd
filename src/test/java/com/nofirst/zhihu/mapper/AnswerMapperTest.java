@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+// 作用是启动一个内存数据库，不使用真实的数据库
 @AutoConfigureTestDatabase
 public class AnswerMapperTest {
 
