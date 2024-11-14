@@ -68,6 +68,7 @@ class PostAnswersTests {
     }
 
     @Test
+    @WithMockUser(username = "felord", password = "felord.cn", roles = {"ADMIN"})
     void content_is_required_to_post_answers() throws Exception {
         // given
         AnswerDto answerDto = AnswerFactory.createAnswerDto();
