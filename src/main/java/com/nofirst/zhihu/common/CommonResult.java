@@ -110,6 +110,11 @@ public class CommonResult<T> {
         return new CommonResult<T>(ResultCode.FORBIDDEN.getCode(), ResultCode.FORBIDDEN.getMessage(), data);
     }
 
+    public static <T> CommonResult<T> error(String message) {
+        return new CommonResult<T>(ResultCode.UNAUTHORIZED.getCode(), message, null);
+
+    }
+
     public long getCode() {
         return code;
     }
