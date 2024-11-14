@@ -4,7 +4,7 @@ import com.nofirst.zhihu.common.CommonResult;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.dto.UserLoginDTO;
-import com.nofirst.zhihu.uitl.JwtUtil;
+import com.nofirst.zhihu.security.JwtUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

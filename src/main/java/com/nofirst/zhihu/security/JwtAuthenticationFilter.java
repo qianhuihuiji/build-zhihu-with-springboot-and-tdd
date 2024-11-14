@@ -3,7 +3,6 @@ package com.nofirst.zhihu.security;
 import cn.hutool.core.util.StrUtil;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.exception.ApiException;
-import com.nofirst.zhihu.uitl.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

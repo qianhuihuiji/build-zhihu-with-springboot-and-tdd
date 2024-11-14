@@ -1,4 +1,4 @@
-package com.nofirst.zhihu.uitl;
+package com.nofirst.zhihu.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;

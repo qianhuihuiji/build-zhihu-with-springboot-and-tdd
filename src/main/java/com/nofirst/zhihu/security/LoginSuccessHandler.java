@@ -2,7 +2,6 @@ package com.nofirst.zhihu.security;
 
 import cn.hutool.json.JSONUtil;
 import com.nofirst.zhihu.common.CommonResult;
-import com.nofirst.zhihu.uitl.JwtUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
