@@ -15,3 +15,5 @@
  
  这两种方式都保留，后续写文档的时候可以提出来进行对比。
 ```
+
+- HandlerMethodArgumentResolver，来给 controller 注入一个当前登录的用户进来
