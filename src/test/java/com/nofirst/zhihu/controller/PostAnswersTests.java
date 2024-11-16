@@ -1,27 +1,27 @@
 package com.nofirst.zhihu.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.factory.AnswerFactory;
-import com.nofirst.zhihu.mbg.model.Answer;
+import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.model.Question;
-import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.dto.AnswerDto;
-import com.nofirst.zhihu.service.AnswerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,21 +44,21 @@ class PostAnswersTests {
                 .build();
     }
 
-    @MockBean
-    private AnswerService answerService;
 
     @Test
-    @WithMockUser(username = "felord", password = "felord.cn", roles = {"ADMIN"})
-    void user_can_post_an_answer_to_a_question() throws Exception {
-        User user = new User(1, "luke");
-        Question question = new Question(1L, user.getId(), "title", "content");
-        Answer answer = new Answer(1L, user.getId());
+    @WithUserDetails(userDetailsServiceBeanName = "accountUserDetailsService")
+    void signed_in_user_can_post_an_answer_to_a_published_question() throws Exception {
+        // given
+        Question question = QuestionFactory.createPublishedQuestion();
 
+        AnswerDto answer = AnswerFactory.createAnswerDto();
         this.mockMvc.perform(post("/questions/{id}/answers", question.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(answer))
+                        .content(JSONUtil.toJsonStr(answer))
                 )
-                .andExpect(status().isOk());
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
         //注1：这样验证时因为不是同一个对象，测试会报参数不匹配从而测试失败
 //        verify(answerService, times(1)).store(1L, answer);

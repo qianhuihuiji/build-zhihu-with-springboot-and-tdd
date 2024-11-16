@@ -22,7 +22,6 @@ public class AnswerFactory {
 
     public static AnswerDto createAnswerDto() {
         AnswerDto answer = new AnswerDto();
-        answer.setUserId(1);
         answer.setContent("this is a answer");
 
         return answer;

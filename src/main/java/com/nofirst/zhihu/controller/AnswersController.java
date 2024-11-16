@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 /**
  * QuestionsController
  *
@@ -23,7 +25,7 @@ public class AnswersController {
     private final AnswerService answerService;
 
     @PostMapping("/questions/{questionId}/answers")
-    public void store(@PathVariable Long questionId, @RequestBody @Validated AnswerDto answerDto) {
+    public void store(@PathVariable Long questionId, @RequestBody @Validated AnswerDto answerDto, Principal principal) {
         answerService.store(questionId, answerDto);
     }
 }

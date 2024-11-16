@@ -14,3 +14,9 @@
 
 @WebMvcTest 也自动配置了 MockMvc。 Mock MVC提供了一种强大的方式来快速测试MVC controller，而不需要启动一个完整的HTTP服务器。
 
+- @WithMockUser
+  使用一个mock用户，注入到当前上下文当中，本项目不适用，因为我们引入了JWT
+- @WithUserDetails
+  自定义 principal 通常由一个自定义的 UserDetailsService 返回，该Service返回一个同时实现了 UserDetails
+  和自定义类型的对象。对于这样的情况，通过使用自定义 UserDetailsService 来创建测试用户是很有用的。就比如我们使用了
+  AccountUserDetailsService 来自定义了UserDetailService.

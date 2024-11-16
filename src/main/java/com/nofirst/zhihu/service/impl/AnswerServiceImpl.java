@@ -38,7 +38,7 @@ public class AnswerServiceImpl implements AnswerService {
         Date now = new Date();
         Answer answer = new Answer();
         answer.setQuestionId(questionId);
-        answer.setUserId(answerDto.getUserId());
+//        answer.setUserId(answerDto.getUserId());
         answer.setCreatedAt(now);
         answer.setUpdatedAt(now);
         answer.setContent(answerDto.getContent());
