@@ -72,6 +72,9 @@ docker，通过命令行创建不用的容器（如redis、mysql、rabbitMq 等�
 - [Spring Security + OAuth2 + JWT 基本使用](https://www.cnblogs.com/CF1314/p/14786321.html)
 - [在 Spring Boot 中使用 Spring Security + JWT + MySQL 实现基于 Token 的身份认证](https://springdoc.cn/spring-boot-spring-security-jwt-mysql/)
 
+- [ Spring Security 的授权与角色管理](https://developer.aliyun.com/article/1487148)
+  例如只允许文章的作者或管理员编辑文章，而访客只能阅读文章。
+
 - 没有仔细看的
 - https://stackabuse.com/test-driven-development-for-spring-boot-apis/
 - 
