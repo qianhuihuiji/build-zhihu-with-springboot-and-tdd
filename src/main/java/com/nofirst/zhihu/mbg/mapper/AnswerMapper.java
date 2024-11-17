@@ -36,4 +36,6 @@ public interface AnswerMapper {
     int updateByPrimaryKey(Answer record);
 
     List<Answer> selectByQuestionId(Long questionId);
+
+    List<Answer> selectByUserId(Long userId);
 }

@@ -3,12 +3,14 @@ package com.nofirst.zhihu.service;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
+import com.nofirst.zhihu.factory.UserFactory;
 import com.nofirst.zhihu.matcher.AnswerMatcher;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.dto.AnswerDto;
+import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.impl.AnswerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,7 +69,8 @@ class AnswerServiceImplTest {
         given(questionMapper.selectByPrimaryKey(publishedQuestion.getId())).willReturn(publishedQuestion);
 
         // when
-        answerService.store(1L, this.answerDto);
+        AccountUser accountUser = UserFactory.createAccountUser();
+        answerService.store(1L, this.answerDto, accountUser);
 
         // then
         verify(answerMapper, times(1)).insert(argThat(new AnswerMatcher(answer)));
@@ -82,7 +85,8 @@ class AnswerServiceImplTest {
         // then
         assertThatThrownBy(() -> {
             // when
-            answerService.store(unpublishedQuestion.getId(), this.answerDto);
+            AccountUser accountUser = UserFactory.createAccountUser();
+            answerService.store(unpublishedQuestion.getId(), this.answerDto, accountUser);
         }).isInstanceOf(QuestionNotPublishedException.class)
                 .hasMessageStartingWith("question not publish");
     }

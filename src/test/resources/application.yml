@@ -20,3 +20,5 @@ spring:
       platform: h2
 mybatis:
   mapper-locations: classpath*:mappers/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

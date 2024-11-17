@@ -32,6 +32,12 @@ public class AnswerMapperTest {
     }
 
     @Test
+    public void can_select_by_user_id() {
+        List<Answer> answers = answerMapper.selectByUserId(1L);
+        Assertions.assertEquals(1, answers.size());
+    }
+
+    @Test
     public void can_insert_answer() {
         // given
         Answer answer = new Answer();

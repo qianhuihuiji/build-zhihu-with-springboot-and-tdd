@@ -2,6 +2,7 @@ package com.nofirst.zhihu.service;
 
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.model.dto.AnswerDto;
+import com.nofirst.zhihu.security.AccountUser;
 
 /**
  * QuestionService
@@ -12,5 +13,5 @@ import com.nofirst.zhihu.model.dto.AnswerDto;
 public interface AnswerService {
     Answer show(Long id);
 
-    void store(Long questionId, AnswerDto answerDto);
+    void store(Long questionId, AnswerDto answerDto, AccountUser accountUser);
 }

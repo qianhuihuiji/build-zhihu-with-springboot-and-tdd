@@ -6,6 +6,8 @@ import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
+import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
+import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.dto.AnswerDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +21,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -36,6 +41,9 @@ class PostAnswersTests {
     @Autowired
     private WebApplicationContext context;
 
+    @Autowired
+    private AnswerMapper answerMapper;
+
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders
@@ -46,7 +54,9 @@ class PostAnswersTests {
 
 
     @Test
-    @WithUserDetails(userDetailsServiceBeanName = "accountUserDetailsService")
+    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 another_user 的用户
+    // 而这个用户是初始化脚本 data.sql 插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
+    @WithUserDetails(value = "another_user", userDetailsServiceBeanName = "accountUserDetailsService")
     void signed_in_user_can_post_an_answer_to_a_published_question() throws Exception {
         // given
         Question question = QuestionFactory.createPublishedQuestion();
@@ -65,6 +75,9 @@ class PostAnswersTests {
         // 注2：重载 Answer 类的 equals 方法可以让测试通过
         // 注3：还可以通过自定义 matcher 的方式来进行测试，特别注意，有多个参数时，每个参数都需要mock，如eq(1L)
 //        verify(answerService, times(1)).store(eq(1L), argThat(new AnswerMatcher(answer)));
+
+        List<Answer> answers = answerMapper.selectByUserId(2L);
+        assertThat(answers.size()).isEqualTo(1);
     }
 
     @Test
