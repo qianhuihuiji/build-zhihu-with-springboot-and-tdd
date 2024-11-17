@@ -5,7 +5,7 @@ import com.nofirst.zhihu.model.dto.AnswerDto;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.AnswerService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +26,7 @@ public class AnswersController {
     private final AnswerService answerService;
 
     @PostMapping("/questions/{questionId}/answers")
-    public CommonResult store(@PathVariable Long questionId, @RequestBody @Validated AnswerDto answerDto, UsernamePasswordAuthenticationToken authentication) {
-        AccountUser accountUser = (AccountUser) authentication.getPrincipal();
+    public CommonResult store(@PathVariable Long questionId, @RequestBody @Validated AnswerDto answerDto, @AuthenticationPrincipal AccountUser accountUser) {
 
         answerService.store(questionId, answerDto, accountUser);
 
