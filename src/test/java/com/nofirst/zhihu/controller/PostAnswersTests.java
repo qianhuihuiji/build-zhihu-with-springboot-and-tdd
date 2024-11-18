@@ -81,7 +81,22 @@ class PostAnswersTests {
     }
 
     @Test
-    @WithMockUser(username = "felord", password = "felord.cn", roles = {"ADMIN"})
+    void guests_may_not_post_an_answer() throws Exception {
+        // given
+        Question question = QuestionFactory.createPublishedQuestion();
+
+        AnswerDto answer = AnswerFactory.createAnswerDto();
+        this.mockMvc.perform(post("/questions/{id}/answers", question.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JSONUtil.toJsonStr(answer))
+                )
+                .andDo(print())
+                .andExpect(status().is(401));
+    }
+
+    @Test
+    // 只需要一个用户即可，至于真不真实不重要，因为我的测试的重点是前置校验
+    @WithMockUser
     void content_is_required_to_post_answers() throws Exception {
         // given
         AnswerDto answerDto = AnswerFactory.createAnswerDto();
