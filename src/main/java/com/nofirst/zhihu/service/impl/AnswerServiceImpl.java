@@ -62,6 +62,6 @@ public class AnswerServiceImpl implements AnswerService {
             throw new QuestionNotPublishedException();
         }
         question.setBestAnswerId(answerId);
-        questionMapper.updateByPrimaryKeySelective(question);
+        questionMapper.markAsBestAnswer(question.getId(), answer.getId());
     }
 }

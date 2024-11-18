@@ -2,8 +2,9 @@ package com.nofirst.zhihu.mbg.mapper;
 
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.QuestionExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface QuestionMapper {
 
@@ -34,4 +35,6 @@ public interface QuestionMapper {
     int updateByPrimaryKeyWithBLOBs(Question record);
 
     int updateByPrimaryKey(Question record);
+
+    void markAsBestAnswer(Long questionId, Long answerId);
 }

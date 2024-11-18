@@ -7,7 +7,6 @@ import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.factory.UserFactory;
 import com.nofirst.zhihu.matcher.AnswerMatcher;
-import com.nofirst.zhihu.matcher.QuestionMatcher;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
@@ -107,7 +106,7 @@ class AnswerServiceImplTest {
         answerService.markAsBest(1L);
 
         // then
-        verify(questionMapper, times(1)).updateByPrimaryKeySelective(argThat(new QuestionMatcher(publishedQuestion)));
+        verify(questionMapper, times(1)).markAsBestAnswer(publishedQuestion.getId(), answer.getId());
         assertThat(answer.isBest(publishedQuestion)).isTrue();
     }
 

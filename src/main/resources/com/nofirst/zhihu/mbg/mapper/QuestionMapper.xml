@@ -239,4 +239,9 @@
             title   = #{title,jdbcType=VARCHAR}
         where id = #{id,jdbcType=BIGINT}
     </update>
+    <update id="markAsBestAnswer">
+        update question
+        set best_answer_id = #{answerId,jdbcType=BIGINT}
+        where id = #{questionId,jdbcType=BIGINT}
+    </update>
 </mapper>

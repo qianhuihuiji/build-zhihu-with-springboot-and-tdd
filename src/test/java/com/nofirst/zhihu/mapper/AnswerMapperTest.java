@@ -39,7 +39,7 @@ public class AnswerMapperTest {
     @Test
     public void can_select_by_user_id() {
         List<Answer> answers = answerMapper.selectByUserId(1L);
-        Assertions.assertTrue(!answers.isEmpty());
+        Assertions.assertTrue(answers.size() > 0);
     }
 
     @Test
