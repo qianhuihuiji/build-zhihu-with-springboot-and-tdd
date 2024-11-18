@@ -1,5 +1,6 @@
 package com.nofirst.zhihu.service.impl;
 
+import com.nofirst.zhihu.exception.AnswerNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
@@ -49,6 +50,18 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public void markAsBest(Long answerId) {
-
+        Answer answer = answerMapper.selectByPrimaryKey(answerId);
+        if (Objects.isNull(answer)) {
+            throw new AnswerNotExistedException();
+        }
+        Question question = questionMapper.selectByPrimaryKey(answer.getQuestionId());
+        if (Objects.isNull(question)) {
+            throw new QuestionNotExistedException();
+        }
+        if (Objects.isNull(question.getPublishedAt())) {
+            throw new QuestionNotPublishedException();
+        }
+        question.setBestAnswerId(answerId);
+        questionMapper.updateByPrimaryKeySelective(question);
     }
 }

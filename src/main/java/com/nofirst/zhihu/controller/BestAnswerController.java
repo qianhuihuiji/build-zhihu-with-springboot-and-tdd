@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @Validated
-public class BestAnswersController {
+public class BestAnswerController {
 
     private final AnswerService answerService;
 

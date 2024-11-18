@@ -20,9 +20,10 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public User(Integer id, String name) {
+    public User(Integer id, String name, String password) {
         this.id = id;
         this.name = name;
+        this.password = password;
     }
 
     public Integer getId() {

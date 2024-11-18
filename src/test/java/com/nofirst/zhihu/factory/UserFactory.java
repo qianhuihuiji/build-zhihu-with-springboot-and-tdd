@@ -8,7 +8,7 @@ import java.util.Collections;
 public class UserFactory {
 
     public static User createUser() {
-        return new User(1, "user");
+        return new User(1, "user", "password");
     }
 
     public static AccountUser createAccountUser() {
