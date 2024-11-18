@@ -4,6 +4,7 @@ import com.nofirst.zhihu.common.CommonResult;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.AnswerService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +19,9 @@ public class BestAnswerController {
     private final AnswerService answerService;
 
     @PostMapping("/answers/{answerId}/best")
+    @PreAuthorize("@questionPolicy.isQuestionOwner(#answerId, #accountUser)")
     public CommonResult store(@PathVariable Long answerId, @AuthenticationPrincipal AccountUser accountUser) {
-        answerService.markAsBest(answerId);
+        answerService.markAsBest(answerId, accountUser);
 
         return CommonResult.success(null);
     }

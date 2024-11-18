@@ -103,7 +103,8 @@ class AnswerServiceImplTest {
         given(answerMapper.selectByPrimaryKey(publishedQuestion.getId())).willReturn(answer);
 
         // when
-        answerService.markAsBest(1L);
+        AccountUser accountUser = UserFactory.createAccountUser();
+        answerService.markAsBest(1L, accountUser);
 
         // then
         verify(questionMapper, times(1)).markAsBestAnswer(publishedQuestion.getId(), answer.getId());
@@ -113,12 +114,13 @@ class AnswerServiceImplTest {
     @Test
     void answer_and_question_are_both_valid_when_mark_one_answer_as_the_best() {
         // given
+        AccountUser accountUser = UserFactory.createAccountUser();
         given(answerMapper.selectByPrimaryKey(anyLong())).willReturn(null);
 
         // then
         assertThatThrownBy(() -> {
             // when
-            answerService.markAsBest(1L);
+            answerService.markAsBest(1L, accountUser);
         }).isInstanceOf(AnswerNotExistedException.class)
                 .hasMessageContaining("answer not exist");
 
@@ -131,7 +133,7 @@ class AnswerServiceImplTest {
         // then
         assertThatThrownBy(() -> {
             // when
-            answerService.markAsBest(1L);
+            answerService.markAsBest(1L, accountUser);
         }).isInstanceOf(QuestionNotExistedException.class)
                 .hasMessageContaining("question not exist");
 
@@ -144,7 +146,7 @@ class AnswerServiceImplTest {
         // then
         assertThatThrownBy(() -> {
             // when
-            answerService.markAsBest(1L);
+            answerService.markAsBest(1L, accountUser);
         }).isInstanceOf(QuestionNotPublishedException.class)
                 .hasMessageContaining("question not publish");
     }

@@ -15,5 +15,5 @@ public interface AnswerService {
 
     void store(Long questionId, AnswerDto answerDto, AccountUser accountUser);
 
-    void markAsBest(Long answerId);
+    void markAsBest(Long answerId, AccountUser accountUser);
 }
