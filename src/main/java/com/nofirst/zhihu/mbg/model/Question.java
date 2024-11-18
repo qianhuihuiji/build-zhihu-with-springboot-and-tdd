@@ -22,6 +22,8 @@ public class Question implements Serializable {
      */
     private Integer userId;
 
+    private Long bestAnswerId;
+
     /**
      * 标题
      *

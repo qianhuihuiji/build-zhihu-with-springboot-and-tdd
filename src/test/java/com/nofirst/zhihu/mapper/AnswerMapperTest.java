@@ -1,7 +1,9 @@
 package com.nofirst.zhihu.mapper;
 
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
+import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
+import com.nofirst.zhihu.mbg.model.Question;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +26,9 @@ public class AnswerMapperTest {
 
     @Autowired
     private AnswerMapper answerMapper;
+
+    @Autowired
+    private QuestionMapper questionMapper;
 
     @Test
     public void can_select_by_question_id() {
@@ -56,6 +61,22 @@ public class AnswerMapperTest {
         List<Answer> answers = answerMapper.selectByQuestionId(1L);
         assertThat(insert).isEqualTo(1);
         assertThat(answers.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void it_knows_if_it_is_the_best() {
+        // 数据库里面已经存在初始化的数据
+        // given
+        Long answerId = 1L;
+        Question question = questionMapper.selectByPrimaryKey(1L);
+        question.setBestAnswerId(answerId);
+
+        // when
+        questionMapper.updateByPrimaryKeySelective(question);
+
+        // then
+        Answer answer = answerMapper.selectByPrimaryKey(answerId);
+        assertThat(answer.isBest(question)).isEqualTo(true);
     }
 
 }

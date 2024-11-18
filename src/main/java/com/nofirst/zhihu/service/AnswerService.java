@@ -14,4 +14,6 @@ public interface AnswerService {
     Answer show(Long id);
 
     void store(Long questionId, AnswerDto answerDto, AccountUser accountUser);
+
+    void markAsBest(Long answerId);
 }

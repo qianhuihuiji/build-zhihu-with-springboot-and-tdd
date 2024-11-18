@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @Builder
 @Data
@@ -47,6 +48,10 @@ public class Answer implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public boolean isBest(Question question) {
+        return Objects.nonNull(question.getBestAnswerId()) && question.getBestAnswerId().equals(this.getId());
     }
 
 //    @Override

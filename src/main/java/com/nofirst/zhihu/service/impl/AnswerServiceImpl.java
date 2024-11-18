@@ -46,4 +46,9 @@ public class AnswerServiceImpl implements AnswerService {
 
         answerMapper.insert(answer);
     }
+
+    @Override
+    public void markAsBest(Long answerId) {
+
+    }
 }

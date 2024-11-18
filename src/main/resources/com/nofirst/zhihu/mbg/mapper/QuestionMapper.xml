@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.nofirst.zhihu.mbg.model.Question">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="best_answer_id" jdbcType="BIGINT" property="bestAnswerId"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
         <result column="published_at" jdbcType="TIMESTAMP" property="publishedAt"/>
     </resultMap>

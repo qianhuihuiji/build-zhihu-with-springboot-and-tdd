@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // 会启动完整的Spring容器，因此会非常耗时
 @SpringBootTest(classes = BuildZhihuWithSpringbootAndTddApplication.class)
-class PostAnswersTests {
+class PostAnswersTest {
 
     private MockMvc mockMvc;
     @Autowired

@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * ViewQuestionsTests
+ * ViewQuestionsTest
  * todo: controller 层应视为集成测试，启动spring容器、数据库等进行真实测试
  *
  * @author nofirst
@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import({SecurityConfig.class})
 // SpringSecurity 提供的测试注解，注入一个Mock的User，模拟登录、授权的情况
 @WithMockUser
-class ViewQuestionsTests {
+class ViewQuestionsTest {
 
     @Autowired
     private MockMvc mockMvc;
