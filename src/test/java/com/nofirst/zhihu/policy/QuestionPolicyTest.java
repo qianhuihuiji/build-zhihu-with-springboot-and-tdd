@@ -39,7 +39,7 @@ class QuestionPolicyTest {
         Question publishedQuestion = QuestionFactory.createPublishedQuestion();
         given(questionMapper.selectByPrimaryKey(publishedQuestion.getId())).willReturn(publishedQuestion);
         Answer answer = AnswerFactory.createAnswer(publishedQuestion.getId());
-        given(answerMapper.selectByPrimaryKey(publishedQuestion.getId())).willReturn(answer);
+        given(answerMapper.selectByPrimaryKey(answer.getId())).willReturn(answer);
 
         // when
         AccountUser accountUser = UserFactory.createAccountUser();

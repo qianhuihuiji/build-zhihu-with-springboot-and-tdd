@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @date 2020-08-24 21:52
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = QuestionsController.class)
+@WebMvcTest(controllers = QuestionController.class)
 @Import({SecurityConfig.class})
 // SpringSecurity 提供的测试注解，注入一个Mock的User，模拟登录、授权的情况
 @WithMockUser

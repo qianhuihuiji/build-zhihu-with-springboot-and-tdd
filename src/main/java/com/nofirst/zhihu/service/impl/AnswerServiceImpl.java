@@ -63,4 +63,9 @@ public class AnswerServiceImpl implements AnswerService {
         }
         questionMapper.markAsBestAnswer(question.getId(), answer.getId());
     }
+
+    @Override
+    public void destroy(Long answerId, AccountUser accountUser) {
+
+    }
 }
