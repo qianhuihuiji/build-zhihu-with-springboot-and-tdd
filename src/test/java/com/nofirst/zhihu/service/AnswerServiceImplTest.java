@@ -95,9 +95,10 @@ class AnswerServiceImplTest {
     void can_mark_one_answer_as_the_best() {
         // given
         Question publishedQuestion = QuestionFactory.createPublishedQuestion();
-        given(questionMapper.selectByPrimaryKey(publishedQuestion.getId())).willReturn(publishedQuestion);
         Answer answer = AnswerFactory.createAnswer(publishedQuestion.getId());
-        given(answerMapper.selectByPrimaryKey(publishedQuestion.getId())).willReturn(answer);
+        publishedQuestion.setBestAnswerId(answer.getId());
+        given(questionMapper.selectByPrimaryKey(publishedQuestion.getId())).willReturn(publishedQuestion);
+        given(answerMapper.selectByPrimaryKey(answer.getId())).willReturn(answer);
 
         // when
         AccountUser accountUser = UserFactory.createAccountUser();
