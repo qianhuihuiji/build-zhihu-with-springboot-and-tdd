@@ -66,6 +66,6 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public void destroy(Long answerId, AccountUser accountUser) {
-
+        answerMapper.deleteByPrimaryKey(answerId);
     }
 }

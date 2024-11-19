@@ -109,4 +109,16 @@ class AnswerServiceImplTest {
         assertThat(answer.isBest(publishedQuestion)).isTrue();
     }
 
+    @Test
+    void can_delete_answer() {
+        // given
+
+        // when
+        AccountUser accountUser = UserFactory.createAccountUser();
+        answerService.destroy(1L, accountUser);
+
+        // then
+        verify(answerMapper, times(1)).deleteByPrimaryKey(1L);
+    }
+
 }

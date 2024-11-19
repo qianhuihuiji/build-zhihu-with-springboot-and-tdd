@@ -64,7 +64,7 @@ class DeleteAnswerTest {
 
     @Test
     @WithMockUser
-        // 这里我们只验证 markAsBest() 方法被调用了一次即可，Service 的逻辑放到service里面进行测试
+        // 这里我们只验证 destroy() 方法被调用了一次即可，Service 的逻辑放到service里面进行测试
     void can_delete_answer() throws Exception {
         when(this.answerPolicy.canDelete(anyLong(), any())).thenReturn(true);
         this.mockMvc.perform(delete("/answers/{id}", 1))
