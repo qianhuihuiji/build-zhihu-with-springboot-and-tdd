@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * QuestionsController
+ * QuestionController
  *
  * @author nofirst
  * @date 2020-08-24 22:24
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @Validated
-public class AnswersController {
+public class AnswerController {
 
     private final AnswerService answerService;
 

@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * QuestionsController
+ * QuestionController
  *
  * @author nofirst
  * @date 2020-08-24 22:24
  */
 @RestController
-public class QuestionsController {
+public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
