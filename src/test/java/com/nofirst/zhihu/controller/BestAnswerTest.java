@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = BestAnswerController.class)
-@Import({SecurityConfig.class, QuestionPolicy.class})
+@Import({SecurityConfig.class})
 class BestAnswerTest {
 
     @Autowired
@@ -53,7 +53,8 @@ class BestAnswerTest {
     @MockBean
     private UserMapper userMapper;
 
-    @MockBean
+    // 如果不加 name 属性，会报错，可以去掉name属性试一下 only_the_question_creator_can_mark_a_best_answer 测试用例
+    @MockBean(name = "questionPolicy")
     private QuestionPolicy questionPolicy;
 
     @Test

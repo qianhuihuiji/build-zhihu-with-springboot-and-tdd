@@ -11,7 +11,6 @@ import com.nofirst.zhihu.model.dto.AnswerDto;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.AnswerService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -50,7 +49,6 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    @PreAuthorize("@questionPolicy.isQuestionOwner(#answerId, accountUser)")
     public void markAsBest(Long answerId, AccountUser accountUser) {
         Answer answer = answerMapper.selectByPrimaryKey(answerId);
         if (Objects.isNull(answer)) {

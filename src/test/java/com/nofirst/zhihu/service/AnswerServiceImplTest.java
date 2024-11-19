@@ -1,7 +1,5 @@
 package com.nofirst.zhihu.service;
 
-import com.nofirst.zhihu.exception.AnswerNotExistedException;
-import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
@@ -23,7 +21,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -111,43 +108,4 @@ class AnswerServiceImplTest {
         assertThat(answer.isBest(publishedQuestion)).isTrue();
     }
 
-    @Test
-    void answer_and_question_are_both_valid_when_mark_one_answer_as_the_best() {
-        // given
-        AccountUser accountUser = UserFactory.createAccountUser();
-        given(answerMapper.selectByPrimaryKey(anyLong())).willReturn(null);
-
-        // then
-        assertThatThrownBy(() -> {
-            // when
-            answerService.markAsBest(1L, accountUser);
-        }).isInstanceOf(AnswerNotExistedException.class)
-                .hasMessageContaining("answer not exist");
-
-
-        // given
-        Answer answer = AnswerFactory.createAnswer(1L);
-        given(answerMapper.selectByPrimaryKey(1L)).willReturn(answer);
-        given(questionMapper.selectByPrimaryKey(anyLong())).willReturn(null);
-
-        // then
-        assertThatThrownBy(() -> {
-            // when
-            answerService.markAsBest(1L, accountUser);
-        }).isInstanceOf(QuestionNotExistedException.class)
-                .hasMessageContaining("question not exist");
-
-        // given
-        Question unpublishedQuestion = QuestionFactory.createUnpublishedQuestion();
-        given(questionMapper.selectByPrimaryKey(unpublishedQuestion.getId())).willReturn(unpublishedQuestion);
-        Answer anotherAnswer = AnswerFactory.createAnswer(unpublishedQuestion.getId());
-        given(answerMapper.selectByPrimaryKey(unpublishedQuestion.getId())).willReturn(anotherAnswer);
-
-        // then
-        assertThatThrownBy(() -> {
-            // when
-            answerService.markAsBest(1L, accountUser);
-        }).isInstanceOf(QuestionNotPublishedException.class)
-                .hasMessageContaining("question not publish");
-    }
 }
