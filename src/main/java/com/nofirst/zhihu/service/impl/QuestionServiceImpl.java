@@ -6,8 +6,10 @@ import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
+import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
+import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.service.QuestionService;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
+    private final UserMapper userMapper;
     private QuestionMapper questionMapper;
     private AnswerMapper answerMapper;
 
@@ -50,5 +53,10 @@ public class QuestionServiceImpl implements QuestionService {
         PageHelper.startPage(pageNow, pageSize);
         List<Answer> answers = answerMapper.selectByQuestionId(questionId);
         return new PageInfo<>(answers);
+    }
+
+    @Override
+    public User owner(Integer userId) {
+        return userMapper.selectByPrimaryKey(userId);
     }
 }

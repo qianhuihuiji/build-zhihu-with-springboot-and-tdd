@@ -5,10 +5,13 @@ import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
+import com.nofirst.zhihu.factory.UserFactory;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
+import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
+import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.service.impl.QuestionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +40,9 @@ class QuestionServiceImplTest {
 
     @Mock
     private AnswerMapper answerMapper;
+
+    @Mock
+    private UserMapper userMapper;
 
     private Question question;
 
@@ -125,5 +131,19 @@ class QuestionServiceImplTest {
             questionService.show(1L);
         }).isInstanceOf(QuestionNotPublishedException.class)
                 .hasMessageStartingWith("question not publish");
+    }
+
+    @Test
+    void a_question_belongs_to_a_creator() {
+        // given
+        User user = UserFactory.createUser();
+        given(userMapper.selectByPrimaryKey(1)).willReturn(user);
+
+        // when
+        User result = questionService.owner(1);
+
+        // then
+        assertThat(result.getId()).isEqualTo(user.getId());
+        assertThat(result.getName()).isEqualTo(user.getName());
     }
 }

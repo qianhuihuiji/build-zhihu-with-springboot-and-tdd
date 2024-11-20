@@ -2,6 +2,7 @@ package com.nofirst.zhihu.service;
 
 import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.mbg.model.Answer;
+import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.vo.QuestionVo;
 
 /**
@@ -14,4 +15,6 @@ public interface QuestionService {
     QuestionVo show(Long id);
 
     PageInfo<Answer> answers(Long questionId, int pageNow, int pageSize);
+
+    User owner(Integer userId);
 }
