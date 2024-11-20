@@ -1,6 +1,7 @@
 package com.nofirst.zhihu.factory;
 
 import com.nofirst.zhihu.mbg.model.Question;
+import com.nofirst.zhihu.model.vo.QuestionVo;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.util.Date;
@@ -28,5 +29,17 @@ public class QuestionFactory {
                 .content("content")
                 .publishedAt(null)
                 .build();
+    }
+
+    public static QuestionVo createVO(Question question) {
+        QuestionVo questionVo = new QuestionVo();
+        questionVo.setId(question.getId());
+        questionVo.setUserId(question.getUserId());
+        questionVo.setBestAnswerId(question.getBestAnswerId());
+        questionVo.setTitle(question.getTitle());
+        questionVo.setContent(question.getContent());
+        questionVo.setPublishedAt(question.getPublishedAt());
+
+        return questionVo;
     }
 }

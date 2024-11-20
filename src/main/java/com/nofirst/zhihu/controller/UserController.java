@@ -3,7 +3,7 @@ package com.nofirst.zhihu.controller;
 import com.nofirst.zhihu.common.CommonResult;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.User;
-import com.nofirst.zhihu.model.dto.UserLoginDTO;
+import com.nofirst.zhihu.model.dto.UserLoginDto;
 import com.nofirst.zhihu.security.JwtUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @PostMapping("/login")
-    public CommonResult login(@RequestBody @Validated UserLoginDTO userLoginDTO, HttpServletResponse response) {
+    public CommonResult login(@RequestBody @Validated UserLoginDto userLoginDTO, HttpServletResponse response) {
         String username = userLoginDTO.getUsername();
         String password = userLoginDTO.getPassword();
         User user = userMapper.selectByUsername(username);

@@ -1,9 +1,8 @@
 package com.nofirst.zhihu.service;
 
+import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.mbg.model.Answer;
-import com.nofirst.zhihu.mbg.model.Question;
-
-import java.util.List;
+import com.nofirst.zhihu.model.vo.QuestionVo;
 
 /**
  * QuestionService
@@ -12,7 +11,7 @@ import java.util.List;
  * @date 2020-08-24 22:34
  */
 public interface QuestionService {
-    Question show(Long id);
+    QuestionVo show(Long id);
 
-    List<Answer> answers(Long questionId);
+    PageInfo<Answer> answers(Long questionId, int pageNow, int pageSize);
 }

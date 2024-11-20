@@ -1,11 +1,16 @@
 package com.nofirst.zhihu.controller;
 
+import cn.hutool.json.JSONUtil;
+import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.config.SecurityConfig;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
-import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
+import com.nofirst.zhihu.factory.AnswerFactory;
+import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
+import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
+import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.service.QuestionService;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.jupiter.api.Test;
@@ -17,9 +22,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -44,14 +53,19 @@ class ViewQuestionsTest {
     private MockMvc mockMvc;
     @MockBean
     private QuestionService questionService;
-    @MockBean
-    private QuestionMapper questionMapper;
+    // 这个是SpringSecurity需要的
     @MockBean
     private UserMapper userMapper;
 
     @Test
     void user_can_view_a_single_question() throws Exception {
-        when(this.questionService.show(1L)).thenReturn(new Question(1L, 1, "title", "content"));
+        QuestionVo questionVo = new QuestionVo();
+        questionVo.setId(1L);
+        questionVo.setUserId(1);
+        questionVo.setTitle("title");
+        questionVo.setContent("content");
+
+        when(this.questionService.show(1L)).thenReturn(questionVo);
         this.mockMvc.perform(get("/questions/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(1L))
@@ -64,7 +78,8 @@ class ViewQuestionsTest {
         Question question = new Question(1L, 1, "title", "content");
         Date lastWeek = DateUtils.addWeeks(new Date(), -1);
         question.setPublishedAt(lastWeek);
-        when(this.questionService.show(1L)).thenReturn(question);
+        QuestionVo questionVo = QuestionFactory.createVO(question);
+        when(this.questionService.show(1L)).thenReturn(questionVo);
 
         this.mockMvc.perform(get("/questions/{id}", 1))
                 .andExpect(status().isOk())
@@ -81,5 +96,34 @@ class ViewQuestionsTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.FAILED.getCode()))
                 .andExpect(jsonPath("$.message").value("question not publish"));
+    }
+
+    @Test
+    void can_see_answers_when_view_a_published_question() throws Exception {
+        Question question = new Question(1L, 1, "title", "content");
+        Date lastWeek = DateUtils.addWeeks(new Date(), -1);
+        question.setPublishedAt(lastWeek);
+        QuestionVo questionVo = QuestionFactory.createVO(question);
+
+        Answer answer1 = AnswerFactory.createAnswer(question.getId());
+        Answer answer2 = AnswerFactory.createAnswer(question.getId());
+        List<Answer> answers = new ArrayList<>();
+        answers.add(answer1);
+        answers.add(answer2);
+        PageInfo<Answer> answerPageInfo = new PageInfo<>(answers);
+        questionVo.setAnswers(answerPageInfo);
+        when(this.questionService.show(1L)).thenReturn(questionVo);
+
+        MvcResult result = this.mockMvc.perform(get("/questions/{id}", 1))
+                .andExpect(status().isOk()).andReturn();
+
+        String json = result.getResponse().getContentAsString();
+        QuestionVo content = JSONUtil.toBean(json, QuestionVo.class);
+        assertThat(content).isNotNull();
+        assertThat(content.getId()).isEqualTo(1L);
+        assertThat(content.getTitle()).isEqualTo("title");
+        assertThat(content.getContent()).isEqualTo("content");
+        assertThat(content.getAnswers().getList()).isEqualTo(answers);
+        assertThat(content.getAnswers().getList().size()).isEqualTo(2);
     }
 }

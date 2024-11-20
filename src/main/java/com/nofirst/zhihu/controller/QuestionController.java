@@ -1,6 +1,6 @@
 package com.nofirst.zhihu.controller;
 
-import com.nofirst.zhihu.mbg.model.Question;
+import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class QuestionController {
     private QuestionService questionService;
 
     @GetMapping("/questions/{id}")
-    public Question show(@PathVariable Long id) {
+    public QuestionVo show(@PathVariable Long id) {
         return questionService.show(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.nofirst.zhihu.service;
 
+import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.factory.AnswerFactory;
@@ -8,6 +9,7 @@ import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
+import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.service.impl.QuestionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,7 +60,7 @@ class QuestionServiceImplTest {
         given(questionMapper.selectByPrimaryKey(1L)).willReturn(this.question);
 
         // when
-        Question existedQuestion = questionService.show(1L);
+        QuestionVo existedQuestion = questionService.show(1L);
 
         // then
         assertThat(existedQuestion).isNotNull();
@@ -88,9 +90,11 @@ class QuestionServiceImplTest {
         given(answerMapper.selectByQuestionId(1L)).willReturn(this.answers);
 
         // when
-        List<Answer> results = questionService.answers(1L);
+        PageInfo<Answer> answersPage = questionService.answers(1L, 1, 10);
+        List<Answer> results = answersPage.getList();
 
         // then
+        assertThat(answersPage.getTotal()).isEqualTo(2);
         assertThat(results.size()).isEqualTo(this.answers.size());
     }
 
@@ -100,7 +104,7 @@ class QuestionServiceImplTest {
         when(this.questionMapper.selectByPrimaryKey(1L)).thenReturn(pushlishedQuestion);
 
         // when
-        Question existedQuestion = questionService.show(1L);
+        QuestionVo existedQuestion = questionService.show(1L);
 
         // then
         assertThat(existedQuestion).isNotNull();
