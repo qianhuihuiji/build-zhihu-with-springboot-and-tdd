@@ -34,6 +34,7 @@ CREATE TABLE `vote` (
                          `user_id` int(4) NOT NULL,
                          `voted_id` int(10) NOT NULL,
                          `voted_type` VARCHAR(10) NOT NULL,
+                         `type` VARCHAR(10) NOT NULL,
                          `created_at` timestamp NOT NULL DEFAULT NULL,
                          `updated_at` timestamp NOT NULL DEFAULT NULL,
                           PRIMARY KEY (`id`)

@@ -4,47 +4,19 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Vote implements Serializable {
-    /**
-     * 主键
-     *
-     * @mbg.generated
-     */
     private Long id;
 
-    /**
-     * 用户id
-     *
-     * @mbg.generated
-     */
     private Integer userId;
 
-    /**
-     * 投票资源主体id
-     *
-     * @mbg.generated
-     */
     private Long votedId;
 
-    /**
-     * 类型，up为赞同，down为反对
-     *
-     * @mbg.generated
-     */
     private String votedType;
 
-    /**
-     * 创建时间
-     *
-     * @mbg.generated
-     */
     private Date createdAt;
 
-    /**
-     * 更新时间
-     *
-     * @mbg.generated
-     */
     private Date updatedAt;
+
+    private String type;
 
     private static final long serialVersionUID = 1L;
 
@@ -96,6 +68,14 @@ public class Vote implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -108,6 +88,7 @@ public class Vote implements Serializable {
         sb.append(", votedType=").append(votedType);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
+        sb.append(", type=").append(type);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

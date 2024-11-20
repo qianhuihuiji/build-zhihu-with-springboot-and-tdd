@@ -11,4 +11,6 @@ import com.nofirst.zhihu.security.AccountUser;
 public interface AnswerUpVoteService {
 
     void store(Long answerId, AccountUser accountUser);
+
+    void destroy(Long answerId, AccountUser accountUser);
 }

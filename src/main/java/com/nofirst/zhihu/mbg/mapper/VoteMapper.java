@@ -29,5 +29,7 @@ public interface VoteMapper {
 
     int updateByPrimaryKey(Vote row);
 
-    List<Vote> selectByVotedId(Long voteId);
+    List<Vote> selectByVotedId(Long voteId, String votedType, String type);
+
+    void deleteByVotedId(Long votedId, String votedType, String type);
 }
