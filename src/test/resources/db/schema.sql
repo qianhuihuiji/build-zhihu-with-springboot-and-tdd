@@ -27,3 +27,14 @@ CREATE TABLE `user` (
                         `updated_at` timestamp NULL DEFAULT NULL,
                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE `vote` (
+                        `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                         `user_id` int(4) NOT NULL,
+                         `voted_id` int(10) NOT NULL,
+                         `voted_type` VARCHAR(10) NOT NULL,
+                         `created_at` timestamp NOT NULL DEFAULT NULL,
+                         `updated_at` timestamp NOT NULL DEFAULT NULL,
+                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 ;

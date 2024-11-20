@@ -4,7 +4,6 @@ import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +32,13 @@ public class AnswerMapperTest {
     @Test
     public void can_select_by_question_id() {
         List<Answer> answers = answerMapper.selectByQuestionId(1L);
-        Assertions.assertEquals(1, answers.size());
+        assertThat(answers.size()).isEqualTo(1);
     }
 
     @Test
     public void can_select_by_user_id() {
         List<Answer> answers = answerMapper.selectByUserId(1L);
-        Assertions.assertTrue(answers.size() > 0);
+        assertThat(!answers.isEmpty()).isTrue();
     }
 
     @Test
