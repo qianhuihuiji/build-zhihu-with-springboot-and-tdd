@@ -285,73 +285,143 @@ public class VoteExample {
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeIsNull() {
-            addCriterion("voted_type is null");
+        public Criteria andResourceTypeIsNull() {
+            addCriterion("resource_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeIsNotNull() {
-            addCriterion("voted_type is not null");
+        public Criteria andResourceTypeIsNotNull() {
+            addCriterion("resource_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeEqualTo(String value) {
-            addCriterion("voted_type =", value, "votedType");
+        public Criteria andResourceTypeEqualTo(String value) {
+            addCriterion("resource_type =", value, "resourceType");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeNotEqualTo(String value) {
-            addCriterion("voted_type <>", value, "votedType");
+        public Criteria andResourceTypeNotEqualTo(String value) {
+            addCriterion("resource_type <>", value, "resourceType");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeGreaterThan(String value) {
-            addCriterion("voted_type >", value, "votedType");
+        public Criteria andResourceTypeGreaterThan(String value) {
+            addCriterion("resource_type >", value, "resourceType");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("voted_type >=", value, "votedType");
+        public Criteria andResourceTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("resource_type >=", value, "resourceType");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeLessThan(String value) {
-            addCriterion("voted_type <", value, "votedType");
+        public Criteria andResourceTypeLessThan(String value) {
+            addCriterion("resource_type <", value, "resourceType");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeLessThanOrEqualTo(String value) {
-            addCriterion("voted_type <=", value, "votedType");
+        public Criteria andResourceTypeLessThanOrEqualTo(String value) {
+            addCriterion("resource_type <=", value, "resourceType");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeLike(String value) {
-            addCriterion("voted_type like", value, "votedType");
+        public Criteria andResourceTypeLike(String value) {
+            addCriterion("resource_type like", value, "resourceType");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeNotLike(String value) {
-            addCriterion("voted_type not like", value, "votedType");
+        public Criteria andResourceTypeNotLike(String value) {
+            addCriterion("resource_type not like", value, "resourceType");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeIn(List<String> values) {
-            addCriterion("voted_type in", values, "votedType");
+        public Criteria andResourceTypeIn(List<String> values) {
+            addCriterion("resource_type in", values, "resourceType");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeNotIn(List<String> values) {
-            addCriterion("voted_type not in", values, "votedType");
+        public Criteria andResourceTypeNotIn(List<String> values) {
+            addCriterion("resource_type not in", values, "resourceType");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeBetween(String value1, String value2) {
-            addCriterion("voted_type between", value1, value2, "votedType");
+        public Criteria andResourceTypeBetween(String value1, String value2) {
+            addCriterion("resource_type between", value1, value2, "resourceType");
             return (Criteria) this;
         }
 
-        public Criteria andVotedTypeNotBetween(String value1, String value2) {
-            addCriterion("voted_type not between", value1, value2, "votedType");
+        public Criteria andResourceTypeNotBetween(String value1, String value2) {
+            addCriterion("resource_type not between", value1, value2, "resourceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeIsNull() {
+            addCriterion("action_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeIsNotNull() {
+            addCriterion("action_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeEqualTo(String value) {
+            addCriterion("action_type =", value, "actionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeNotEqualTo(String value) {
+            addCriterion("action_type <>", value, "actionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeGreaterThan(String value) {
+            addCriterion("action_type >", value, "actionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("action_type >=", value, "actionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeLessThan(String value) {
+            addCriterion("action_type <", value, "actionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeLessThanOrEqualTo(String value) {
+            addCriterion("action_type <=", value, "actionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeLike(String value) {
+            addCriterion("action_type like", value, "actionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeNotLike(String value) {
+            addCriterion("action_type not like", value, "actionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeIn(List<String> values) {
+            addCriterion("action_type in", values, "actionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeNotIn(List<String> values) {
+            addCriterion("action_type not in", values, "actionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeBetween(String value1, String value2) {
+            addCriterion("action_type between", value1, value2, "actionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionTypeNotBetween(String value1, String value2) {
+            addCriterion("action_type not between", value1, value2, "actionType");
             return (Criteria) this;
         }
 
@@ -472,76 +542,6 @@ public class VoteExample {
 
         public Criteria andUpdatedAtNotBetween(Date value1, Date value2) {
             addCriterion("updated_at not between", value1, value2, "updatedAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIsNull() {
-            addCriterion("type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeEqualTo(String value) {
-            addCriterion("type =", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotEqualTo(String value) {
-            addCriterion("type <>", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeGreaterThan(String value) {
-            addCriterion("type >", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("type >=", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLessThan(String value) {
-            addCriterion("type <", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLessThanOrEqualTo(String value) {
-            addCriterion("type <=", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeLike(String value) {
-            addCriterion("type like", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotLike(String value) {
-            addCriterion("type not like", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIn(List<String> values) {
-            addCriterion("type in", values, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotIn(List<String> values) {
-            addCriterion("type not in", values, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeBetween(String value1, String value2) {
-            addCriterion("type between", value1, value2, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotBetween(String value1, String value2) {
-            addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
     }

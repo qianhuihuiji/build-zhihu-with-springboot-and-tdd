@@ -5,9 +5,12 @@ import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
+import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.dto.AnswerDto;
+import com.nofirst.zhihu.model.enums.VoteActionType;
+import com.nofirst.zhihu.model.enums.VoteResourceType;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.AnswerService;
 import lombok.AllArgsConstructor;
@@ -22,6 +25,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerMapper answerMapper;
     private final QuestionMapper questionMapper;
+    private final VoteMapper voteMapper;
 
     @Override
     public Answer show(Long id) {
@@ -67,5 +71,10 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public void destroy(Long answerId, AccountUser accountUser) {
         answerMapper.deleteByPrimaryKey(answerId);
+    }
+
+    @Override
+    public Boolean isVotedUp(Long answerId) {
+        return voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode()) > 0;
     }
 }

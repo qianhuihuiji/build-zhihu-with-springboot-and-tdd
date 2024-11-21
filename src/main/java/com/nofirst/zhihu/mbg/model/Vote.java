@@ -10,13 +10,13 @@ public class Vote implements Serializable {
 
     private Long votedId;
 
-    private String votedType;
+    private String resourceType;
+
+    private String actionType;
 
     private Date createdAt;
 
     private Date updatedAt;
-
-    private String type;
 
     private static final long serialVersionUID = 1L;
 
@@ -44,12 +44,20 @@ public class Vote implements Serializable {
         this.votedId = votedId;
     }
 
-    public String getVotedType() {
-        return votedType;
+    public String getResourceType() {
+        return resourceType;
     }
 
-    public void setVotedType(String votedType) {
-        this.votedType = votedType;
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
+
+    public String getActionType() {
+        return actionType;
+    }
+
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
     }
 
     public Date getCreatedAt() {
@@ -68,14 +76,6 @@ public class Vote implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -85,10 +85,10 @@ public class Vote implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", userId=").append(userId);
         sb.append(", votedId=").append(votedId);
-        sb.append(", votedType=").append(votedType);
+        sb.append(", resourceType=").append(resourceType);
+        sb.append(", actionType=").append(actionType);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
-        sb.append(", type=").append(type);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -7,9 +7,12 @@ import com.nofirst.zhihu.factory.UserFactory;
 import com.nofirst.zhihu.matcher.AnswerMatcher;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
+import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.dto.AnswerDto;
+import com.nofirst.zhihu.model.enums.VoteActionType;
+import com.nofirst.zhihu.model.enums.VoteResourceType;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.impl.AnswerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +39,8 @@ class AnswerServiceImplTest {
     private AnswerMapper answerMapper;
     @Mock
     private QuestionMapper questionMapper;
+    @Mock
+    private VoteMapper voteMapper;
 
     private Answer defaultAnswer;
     private AnswerDto defaultAnswerDto;
@@ -121,4 +126,16 @@ class AnswerServiceImplTest {
         verify(answerMapper, times(1)).deleteByPrimaryKey(1L);
     }
 
+    @Test
+    void answer_can_know_it_is_voted_up() {
+        // given
+        Long answerId = 1L;
+        given(voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
+
+        // when
+        Boolean votedUp = answerService.isVotedUp(answerId);
+
+        // then
+        assertThat(votedUp).isTrue();
+    }
 }

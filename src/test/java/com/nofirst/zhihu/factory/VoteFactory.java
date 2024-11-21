@@ -6,13 +6,13 @@ import java.util.Date;
 
 public class VoteFactory {
 
-    public static Vote createVoteUp(String votedType, String type) {
+    public static Vote createVote(String resourceType, String actionType) {
         Date now = new Date();
         Vote vote = new Vote();
         vote.setUserId(1);
         vote.setVotedId(1L);
-        vote.setVotedType(votedType);
-        vote.setType(type);
+        vote.setResourceType(resourceType);
+        vote.setActionType(actionType);
         vote.setCreatedAt(now);
         vote.setUpdatedAt(now);
 

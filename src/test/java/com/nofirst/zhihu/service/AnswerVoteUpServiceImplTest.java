@@ -5,8 +5,8 @@ import com.nofirst.zhihu.factory.VoteFactory;
 import com.nofirst.zhihu.matcher.VoteMatcher;
 import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Vote;
-import com.nofirst.zhihu.model.enums.VoteType;
-import com.nofirst.zhihu.model.enums.VoteUpType;
+import com.nofirst.zhihu.model.enums.VoteActionType;
+import com.nofirst.zhihu.model.enums.VoteResourceType;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.impl.AnswerVoteUpServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ class AnswerVoteUpServiceImplTest {
     @Test
     void can_post_an_answer_to_a_published_question() {
         // given
-        Vote vote = VoteFactory.createVoteUp(VoteType.ANSWER.getCode(), VoteUpType.VOTE_UP.getCode());
+        Vote vote = VoteFactory.createVote(VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode());
         // when
         AccountUser accountUser = UserFactory.createAccountUser();
         answerVoteUpService.store(1L, accountUser);

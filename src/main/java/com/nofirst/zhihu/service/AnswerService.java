@@ -18,4 +18,6 @@ public interface AnswerService {
     void markAsBest(Long answerId, AccountUser accountUser);
 
     void destroy(Long answerId, AccountUser accountUser);
+
+    Boolean isVotedUp(Long answerId);
 }

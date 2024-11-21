@@ -5,10 +5,10 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="voted_id" jdbcType="BIGINT" property="votedId"/>
-        <result column="voted_type" jdbcType="VARCHAR" property="votedType"/>
+        <result column="resource_type" jdbcType="VARCHAR" property="resourceType"/>
+        <result column="action_type" jdbcType="VARCHAR" property="actionType"/>
         <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
         <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
-        <result column="type" jdbcType="VARCHAR" property="type"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -72,7 +72,7 @@
     </sql>
     <sql id="Base_Column_List">
         id
-        , user_id, voted_id, voted_type, created_at, updated_at, type
+        , user_id, voted_id, resource_type, action_type, created_at, updated_at
     </sql>
     <select id="selectByExample" parameterType="com.nofirst.zhihu.mbg.model.VoteExample" resultMap="BaseResultMap">
         select
@@ -105,22 +105,15 @@
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <delete id="deleteByVotedId">
-        delete
-        from vote
-        where voted_id = #{votedId,jdbcType=BIGINT}
-          and voted_type = #{votedType,jdbcType=VARCHAR}
-          and type = #{type,jdbcType=VARCHAR}
-    </delete>
     <insert id="insert" parameterType="com.nofirst.zhihu.mbg.model.Vote">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into vote (user_id, voted_id, voted_type,
-        created_at, updated_at, type
+        insert into vote (user_id, voted_id, resource_type,
+        action_type, created_at, updated_at
         )
-        values (#{userId,jdbcType=INTEGER}, #{votedId,jdbcType=BIGINT}, #{votedType,jdbcType=VARCHAR},
-        #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}
+        values (#{userId,jdbcType=INTEGER}, #{votedId,jdbcType=BIGINT}, #{resourceType,jdbcType=VARCHAR},
+        #{actionType,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.nofirst.zhihu.mbg.model.Vote">
@@ -135,17 +128,17 @@
             <if test="votedId != null">
                 voted_id,
             </if>
-            <if test="votedType != null">
-                voted_type,
+            <if test="resourceType != null">
+                resource_type,
+            </if>
+            <if test="actionType != null">
+                action_type,
             </if>
             <if test="createdAt != null">
                 created_at,
             </if>
             <if test="updatedAt != null">
                 updated_at,
-            </if>
-            <if test="type != null">
-                type,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -155,17 +148,17 @@
             <if test="votedId != null">
                 #{votedId,jdbcType=BIGINT},
             </if>
-            <if test="votedType != null">
-                #{votedType,jdbcType=VARCHAR},
+            <if test="resourceType != null">
+                #{resourceType,jdbcType=VARCHAR},
+            </if>
+            <if test="actionType != null">
+                #{actionType,jdbcType=VARCHAR},
             </if>
             <if test="createdAt != null">
                 #{createdAt,jdbcType=TIMESTAMP},
             </if>
             <if test="updatedAt != null">
                 #{updatedAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="type != null">
-                #{type,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -174,14 +167,6 @@
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
-    </select>
-    <select id="selectByVotedId" resultType="com.nofirst.zhihu.mbg.model.Vote">
-        select
-        <include refid="Base_Column_List"/>
-        from vote
-        where voted_id = #{voteId,jdbcType=BIGINT}
-        and voted_type = #{votedType,jdbcType=VARCHAR}
-        and type = #{type,jdbcType=VARCHAR}
     </select>
     <update id="updateByExampleSelective" parameterType="map">
         update vote
@@ -195,17 +180,17 @@
             <if test="row.votedId != null">
                 voted_id = #{row.votedId,jdbcType=BIGINT},
             </if>
-            <if test="row.votedType != null">
-                voted_type = #{row.votedType,jdbcType=VARCHAR},
+            <if test="row.resourceType != null">
+                resource_type = #{row.resourceType,jdbcType=VARCHAR},
+            </if>
+            <if test="row.actionType != null">
+                action_type = #{row.actionType,jdbcType=VARCHAR},
             </if>
             <if test="row.createdAt != null">
                 created_at = #{row.createdAt,jdbcType=TIMESTAMP},
             </if>
             <if test="row.updatedAt != null">
                 updated_at = #{row.updatedAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="row.type != null">
-                type = #{row.type,jdbcType=VARCHAR},
             </if>
         </set>
         <if test="example != null">
@@ -217,10 +202,10 @@
         set id = #{row.id,jdbcType=BIGINT},
         user_id = #{row.userId,jdbcType=INTEGER},
         voted_id = #{row.votedId,jdbcType=BIGINT},
-        voted_type = #{row.votedType,jdbcType=VARCHAR},
+        resource_type = #{row.resourceType,jdbcType=VARCHAR},
+        action_type = #{row.actionType,jdbcType=VARCHAR},
         created_at = #{row.createdAt,jdbcType=TIMESTAMP},
-        updated_at = #{row.updatedAt,jdbcType=TIMESTAMP},
-        type = #{row.type,jdbcType=VARCHAR}
+        updated_at = #{row.updatedAt,jdbcType=TIMESTAMP}
         <if test="example != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -234,8 +219,11 @@
             <if test="votedId != null">
                 voted_id = #{votedId,jdbcType=BIGINT},
             </if>
-            <if test="votedType != null">
-                voted_type = #{votedType,jdbcType=VARCHAR},
+            <if test="resourceType != null">
+                resource_type = #{resourceType,jdbcType=VARCHAR},
+            </if>
+            <if test="actionType != null">
+                action_type = #{actionType,jdbcType=VARCHAR},
             </if>
             <if test="createdAt != null">
                 created_at = #{createdAt,jdbcType=TIMESTAMP},
@@ -243,20 +231,41 @@
             <if test="updatedAt != null">
                 updated_at = #{updatedAt,jdbcType=TIMESTAMP},
             </if>
-            <if test="type != null">
-                type = #{type,jdbcType=VARCHAR},
-            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.nofirst.zhihu.mbg.model.Vote">
         update vote
-        set user_id    = #{userId,jdbcType=INTEGER},
-            voted_id   = #{votedId,jdbcType=BIGINT},
-            voted_type = #{votedType,jdbcType=VARCHAR},
-            created_at = #{createdAt,jdbcType=TIMESTAMP},
-            updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-            type       = #{type,jdbcType=VARCHAR}
+        set user_id       = #{userId,jdbcType=INTEGER},
+            voted_id      = #{votedId,jdbcType=BIGINT},
+            resource_type = #{resourceType,jdbcType=VARCHAR},
+            action_type   = #{actionType,jdbcType=VARCHAR},
+            created_at    = #{createdAt,jdbcType=TIMESTAMP},
+            updated_at    = #{updatedAt,jdbcType=TIMESTAMP}
         where id = #{id,jdbcType=BIGINT}
     </update>
+
+    <delete id="deleteByVotedId">
+        delete
+        from vote
+        where voted_id = #{votedId,jdbcType=BIGINT}
+          and resource_type = #{resourceType,jdbcType=VARCHAR}
+          and action_type = #{actionType,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="selectByVotedId" resultType="com.nofirst.zhihu.mbg.model.Vote">
+        select
+        <include refid="Base_Column_List"/>
+        from vote
+        where voted_id = #{voteId,jdbcType=BIGINT}
+        and resource_type = #{resourceType,jdbcType=VARCHAR}
+        and action_type = #{actionType,jdbcType=VARCHAR}
+    </select>
+    <select id="countByVotedId" resultType="java.lang.Integer">
+        select count(*)
+        from vote
+        where voted_id = #{voteId,jdbcType=BIGINT}
+          and resource_type = #{resourceType,jdbcType=VARCHAR}
+          and action_type = #{actionType,jdbcType=VARCHAR}
+    </select>
 </mapper>

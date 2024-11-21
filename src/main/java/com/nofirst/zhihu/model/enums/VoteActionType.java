@@ -1,18 +1,18 @@
 package com.nofirst.zhihu.model.enums;
 
 /**
- * 投票的资源类型
+ * 投票的动作类型
  */
-public enum VoteType {
+public enum VoteActionType {
 
-    ANSWER("answer", "回答"),
+    VOTE_UP("vote_up", "赞同"),
 
-    QUESTION("question", "提问");
+    VOTE_DOWN("vote_down", "反对");
 
     private final String code;
     private final String description;
 
-    VoteType(String code, String description) {
+    VoteActionType(String code, String description) {
         this.code = code;
         this.description = description;
     }

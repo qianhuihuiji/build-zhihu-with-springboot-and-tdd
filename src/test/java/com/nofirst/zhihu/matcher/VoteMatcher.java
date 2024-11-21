@@ -17,6 +17,7 @@ public class VoteMatcher implements ArgumentMatcher<Vote> {
     public boolean matches(Vote right) {
         return left.getUserId().equals(right.getUserId())
                 && left.getVotedId().equals(right.getVotedId())
-                && left.getVotedType().equals(right.getVotedType());
+                && left.getResourceType().equals(right.getResourceType())
+                && left.getActionType().equals(right.getActionType());
     }
 }
