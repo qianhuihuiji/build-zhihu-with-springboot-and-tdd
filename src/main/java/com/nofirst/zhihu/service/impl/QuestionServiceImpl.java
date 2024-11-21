@@ -10,7 +10,9 @@ import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.User;
+import com.nofirst.zhihu.model.dto.QuestionDto;
 import com.nofirst.zhihu.model.vo.QuestionVo;
+import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.QuestionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -58,5 +60,15 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public User owner(Integer userId) {
         return userMapper.selectByPrimaryKey(userId);
+    }
+
+    @Override
+    public void store(QuestionDto dto, AccountUser accountUser) {
+        Question question = new Question();
+        question.setUserId(accountUser.getUserId());
+        question.setTitle(dto.getTitle());
+        question.setContent(dto.getContent());
+
+        questionMapper.insert(question);
     }
 }
