@@ -82,4 +82,14 @@ public class AnswerServiceImpl implements AnswerService {
     public Integer upVotesCount(Long answerId) {
         return voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode());
     }
+
+    @Override
+    public Boolean isVotedDown(Long answerId) {
+        return voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_DOWN.getCode()) > 0;
+    }
+
+    @Override
+    public Integer downVotesCount(Long answerId) {
+        return voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_DOWN.getCode());
+    }
 }

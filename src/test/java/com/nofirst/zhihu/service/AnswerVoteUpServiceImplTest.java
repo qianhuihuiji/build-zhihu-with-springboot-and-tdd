@@ -29,7 +29,7 @@ class AnswerVoteUpServiceImplTest {
     private VoteMapper voteMapper;
 
     @Test
-    void can_post_an_answer_to_a_published_question() {
+    void answer_can_vote_up() {
         // given
         Vote vote = VoteFactory.createVote(VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode());
         // when

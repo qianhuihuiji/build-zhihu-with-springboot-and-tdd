@@ -8,7 +8,7 @@ import com.nofirst.zhihu.security.AccountUser;
  * @author nofirst
  * @date 2020-08-24 22:34
  */
-public interface AnswerUpVoteService {
+public interface AnswerVoteDownService {
 
     void store(Long answerId, AccountUser accountUser);
 

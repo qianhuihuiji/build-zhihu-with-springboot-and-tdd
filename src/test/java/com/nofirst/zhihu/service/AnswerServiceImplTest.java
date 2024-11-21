@@ -151,4 +151,31 @@ class AnswerServiceImplTest {
         // then
         assertThat(votedUpCount).isEqualTo(1);
     }
+
+
+    @Test
+    void answer_can_know_it_is_voted_down() {
+        // given
+        Long answerId = 1L;
+        given(voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
+
+        // when
+        Boolean votedUp = answerService.isVotedDown(answerId);
+
+        // then
+        assertThat(votedUp).isTrue();
+    }
+
+    @Test
+    void answer_can_know_down_votes_count() {
+        // given
+        Long answerId = 1L;
+        given(voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
+
+        // when
+        Integer votedUpCount = answerService.downVotesCount(answerId);
+
+        // then
+        assertThat(votedUpCount).isEqualTo(1);
+    }
 }
