@@ -26,4 +26,6 @@ public interface AnswerService {
     Boolean isVotedDown(Long answerId);
 
     Integer downVotesCount(Long answerId);
+
+    String getResourceType();
 }

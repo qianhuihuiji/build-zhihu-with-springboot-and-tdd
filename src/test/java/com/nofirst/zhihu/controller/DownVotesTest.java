@@ -3,9 +3,9 @@ package com.nofirst.zhihu.controller;
 import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.mbg.mapper.VoteMapper;
+import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Vote;
 import com.nofirst.zhihu.model.enums.VoteActionType;
-import com.nofirst.zhihu.model.enums.VoteResourceType;
 import com.nofirst.zhihu.service.AnswerService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,7 +68,7 @@ class DownVotesTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
-        Vote vote = voteMapper.selectByVotedId(1L, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_DOWN.getCode());
+        Vote vote = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
         assertThat(vote).isNotNull();
     }
 
@@ -79,7 +79,7 @@ class DownVotesTest {
     void an_authenticated_user_can_cancel_vote_down() throws Exception {
         // given
         this.mockMvc.perform(post("/answers/1/down-votes"));
-        Vote vote = voteMapper.selectByVotedId(1L, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_DOWN.getCode());
+        Vote vote = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
         assertThat(vote).isNotNull();
         // when
         this.mockMvc.perform(delete("/answers/1/down-votes"))
@@ -88,7 +88,7 @@ class DownVotesTest {
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
         // then
-        vote = voteMapper.selectByVotedId(1L, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_DOWN.getCode());
+        vote = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
         assertThat(vote).isNull();
     }
 

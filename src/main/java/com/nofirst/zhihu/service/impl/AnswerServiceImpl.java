@@ -10,7 +10,6 @@ import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.dto.AnswerDto;
 import com.nofirst.zhihu.model.enums.VoteActionType;
-import com.nofirst.zhihu.model.enums.VoteResourceType;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.AnswerService;
 import lombok.AllArgsConstructor;
@@ -75,21 +74,26 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public Boolean isVotedUp(Long answerId) {
-        return voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode()) > 0;
+        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_UP.getCode()) > 0;
     }
 
     @Override
     public Integer upVotesCount(Long answerId) {
-        return voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode());
+        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_UP.getCode());
     }
 
     @Override
     public Boolean isVotedDown(Long answerId) {
-        return voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_DOWN.getCode()) > 0;
+        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_DOWN.getCode()) > 0;
     }
 
     @Override
     public Integer downVotesCount(Long answerId) {
-        return voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_DOWN.getCode());
+        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_DOWN.getCode());
+    }
+
+    @Override
+    public String getResourceType() {
+        return Answer.class.getSimpleName();
     }
 }

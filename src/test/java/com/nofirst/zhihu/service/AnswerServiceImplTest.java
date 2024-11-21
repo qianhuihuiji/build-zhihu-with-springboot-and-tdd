@@ -12,7 +12,6 @@ import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.dto.AnswerDto;
 import com.nofirst.zhihu.model.enums.VoteActionType;
-import com.nofirst.zhihu.model.enums.VoteResourceType;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.impl.AnswerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -130,7 +129,7 @@ class AnswerServiceImplTest {
     void answer_can_know_it_is_voted_up() {
         // given
         Long answerId = 1L;
-        given(voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
+        given(voteMapper.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
 
         // when
         Boolean votedUp = answerService.isVotedUp(answerId);
@@ -143,7 +142,7 @@ class AnswerServiceImplTest {
     void answer_can_know_up_votes_count() {
         // given
         Long answerId = 1L;
-        given(voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
+        given(voteMapper.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
 
         // when
         Integer votedUpCount = answerService.upVotesCount(answerId);
@@ -157,7 +156,7 @@ class AnswerServiceImplTest {
     void answer_can_know_it_is_voted_down() {
         // given
         Long answerId = 1L;
-        given(voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
+        given(voteMapper.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
 
         // when
         Boolean votedUp = answerService.isVotedDown(answerId);
@@ -170,7 +169,7 @@ class AnswerServiceImplTest {
     void answer_can_know_down_votes_count() {
         // given
         Long answerId = 1L;
-        given(voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
+        given(voteMapper.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
 
         // when
         Integer votedUpCount = answerService.downVotesCount(answerId);
