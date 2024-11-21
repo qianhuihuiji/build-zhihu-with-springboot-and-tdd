@@ -1,6 +1,7 @@
 package com.nofirst.zhihu.mbg.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class QuestionExample {
@@ -11,7 +12,7 @@ public class QuestionExample {
     protected List<Criteria> oredCriteria;
 
     public QuestionExample() {
-        oredCriteria = new ArrayList<Criteria>();
+        oredCriteria = new ArrayList<>();
     }
 
     public void setOrderByClause(String orderByClause) {
@@ -68,7 +69,7 @@ public class QuestionExample {
 
         protected GeneratedCriteria() {
             super();
-            criteria = new ArrayList<Criterion>();
+            criteria = new ArrayList<>();
         }
 
         public boolean isValid() {
@@ -174,52 +175,52 @@ public class QuestionExample {
             return (Criteria) this;
         }
 
-        public Criteria andUserIdEqualTo(Long value) {
+        public Criteria andUserIdEqualTo(Integer value) {
             addCriterion("user_id =", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotEqualTo(Long value) {
+        public Criteria andUserIdNotEqualTo(Integer value) {
             addCriterion("user_id <>", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdGreaterThan(Long value) {
+        public Criteria andUserIdGreaterThan(Integer value) {
             addCriterion("user_id >", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andUserIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("user_id >=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdLessThan(Long value) {
+        public Criteria andUserIdLessThan(Integer value) {
             addCriterion("user_id <", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdLessThanOrEqualTo(Long value) {
+        public Criteria andUserIdLessThanOrEqualTo(Integer value) {
             addCriterion("user_id <=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdIn(List<Long> values) {
+        public Criteria andUserIdIn(List<Integer> values) {
             addCriterion("user_id in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotIn(List<Long> values) {
+        public Criteria andUserIdNotIn(List<Integer> values) {
             addCriterion("user_id not in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdBetween(Long value1, Long value2) {
+        public Criteria andUserIdBetween(Integer value1, Integer value2) {
             addCriterion("user_id between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotBetween(Long value1, Long value2) {
+        public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
@@ -293,10 +294,189 @@ public class QuestionExample {
             addCriterion("title not between", value1, value2, "title");
             return (Criteria) this;
         }
+
+        public Criteria andPublishedAtIsNull() {
+            addCriterion("published_at is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishedAtIsNotNull() {
+            addCriterion("published_at is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishedAtEqualTo(Date value) {
+            addCriterion("published_at =", value, "publishedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishedAtNotEqualTo(Date value) {
+            addCriterion("published_at <>", value, "publishedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishedAtGreaterThan(Date value) {
+            addCriterion("published_at >", value, "publishedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishedAtGreaterThanOrEqualTo(Date value) {
+            addCriterion("published_at >=", value, "publishedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishedAtLessThan(Date value) {
+            addCriterion("published_at <", value, "publishedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishedAtLessThanOrEqualTo(Date value) {
+            addCriterion("published_at <=", value, "publishedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishedAtIn(List<Date> values) {
+            addCriterion("published_at in", values, "publishedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishedAtNotIn(List<Date> values) {
+            addCriterion("published_at not in", values, "publishedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishedAtBetween(Date value1, Date value2) {
+            addCriterion("published_at between", value1, value2, "publishedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishedAtNotBetween(Date value1, Date value2) {
+            addCriterion("published_at not between", value1, value2, "publishedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdIsNull() {
+            addCriterion("best_answer_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdIsNotNull() {
+            addCriterion("best_answer_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdEqualTo(Long value) {
+            addCriterion("best_answer_id =", value, "bestAnswerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdNotEqualTo(Long value) {
+            addCriterion("best_answer_id <>", value, "bestAnswerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdGreaterThan(Long value) {
+            addCriterion("best_answer_id >", value, "bestAnswerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("best_answer_id >=", value, "bestAnswerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdLessThan(Long value) {
+            addCriterion("best_answer_id <", value, "bestAnswerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdLessThanOrEqualTo(Long value) {
+            addCriterion("best_answer_id <=", value, "bestAnswerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdIn(List<Long> values) {
+            addCriterion("best_answer_id in", values, "bestAnswerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdNotIn(List<Long> values) {
+            addCriterion("best_answer_id not in", values, "bestAnswerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdBetween(Long value1, Long value2) {
+            addCriterion("best_answer_id between", value1, value2, "bestAnswerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBestAnswerIdNotBetween(Long value1, Long value2) {
+            addCriterion("best_answer_id not between", value1, value2, "bestAnswerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdIsNull() {
+            addCriterion("category_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdIsNotNull() {
+            addCriterion("category_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdEqualTo(Short value) {
+            addCriterion("category_id =", value, "categoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdNotEqualTo(Short value) {
+            addCriterion("category_id <>", value, "categoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdGreaterThan(Short value) {
+            addCriterion("category_id >", value, "categoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdGreaterThanOrEqualTo(Short value) {
+            addCriterion("category_id >=", value, "categoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdLessThan(Short value) {
+            addCriterion("category_id <", value, "categoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdLessThanOrEqualTo(Short value) {
+            addCriterion("category_id <=", value, "categoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdIn(List<Short> values) {
+            addCriterion("category_id in", values, "categoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdNotIn(List<Short> values) {
+            addCriterion("category_id not in", values, "categoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdBetween(Short value1, Short value2) {
+            addCriterion("category_id between", value1, value2, "categoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdNotBetween(Short value1, Short value2) {
+            addCriterion("category_id not between", value1, value2, "categoryId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
-
         protected Criteria() {
             super();
         }

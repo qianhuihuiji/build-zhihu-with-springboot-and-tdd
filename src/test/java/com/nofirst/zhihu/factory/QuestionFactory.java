@@ -28,6 +28,7 @@ public class QuestionFactory {
                 .title("title")
                 .content("content")
                 .publishedAt(null)
+                .categoryId((short) 1)
                 .build();
     }
 

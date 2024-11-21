@@ -18,27 +18,44 @@ public class Question implements Serializable {
     /**
      * 创建用户id
      *
-     * @mbggenerated
+     * @mbg.generated
      */
     private Integer userId;
-
-    private Long bestAnswerId;
 
     /**
      * 标题
      *
-     * @mbggenerated
+     * @mbg.generated
      */
     private String title;
 
     /**
+     * 发布时间
+     *
+     * @mbg.generated
+     */
+    private Date publishedAt;
+
+    /**
+     * 最佳答案
+     *
+     * @mbg.generated
+     */
+    private Long bestAnswerId;
+
+    /**
+     * 分类编号
+     *
+     * @mbg.generated
+     */
+    private Short categoryId;
+
+    /**
      * 内容
      *
-     * @mbggenerated
+     * @mbg.generated
      */
     private String content;
-
-    private Date publishedAt;
 
     private static final long serialVersionUID = 1L;
 
@@ -59,6 +76,9 @@ public class Question implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", userId=").append(userId);
         sb.append(", title=").append(title);
+        sb.append(", publishedAt=").append(publishedAt);
+        sb.append(", bestAnswerId=").append(bestAnswerId);
+        sb.append(", categoryId=").append(categoryId);
         sb.append(", content=").append(content);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

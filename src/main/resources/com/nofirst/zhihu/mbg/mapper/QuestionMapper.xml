@@ -3,10 +3,11 @@
 <mapper namespace="com.nofirst.zhihu.mbg.mapper.QuestionMapper">
     <resultMap id="BaseResultMap" type="com.nofirst.zhihu.mbg.model.Question">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="user_id" jdbcType="BIGINT" property="userId"/>
-        <result column="best_answer_id" jdbcType="BIGINT" property="bestAnswerId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
         <result column="published_at" jdbcType="TIMESTAMP" property="publishedAt"/>
+        <result column="best_answer_id" jdbcType="BIGINT" property="bestAnswerId"/>
+        <result column="category_id" jdbcType="SMALLINT" property="categoryId"/>
     </resultMap>
     <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.nofirst.zhihu.mbg.model.Question">
         <result column="content" jdbcType="LONGVARCHAR" property="content"/>
@@ -73,7 +74,7 @@
     </sql>
     <sql id="Base_Column_List">
         id
-        , user_id, title, published_at
+        , user_id, title, published_at, best_answer_id, category_id
     </sql>
     <sql id="Blob_Column_List">
         content
@@ -132,9 +133,11 @@
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into question (user_id, title, content
+        insert into question (user_id, title, published_at,
+        best_answer_id, category_id, content
         )
-        values (#{userId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+        values (#{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{publishedAt,jdbcType=TIMESTAMP},
+        #{bestAnswerId,jdbcType=BIGINT}, #{categoryId,jdbcType=SMALLINT}, #{content,jdbcType=LONGVARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.nofirst.zhihu.mbg.model.Question">
@@ -149,16 +152,34 @@
             <if test="title != null">
                 title,
             </if>
+            <if test="publishedAt != null">
+                published_at,
+            </if>
+            <if test="bestAnswerId != null">
+                best_answer_id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
             <if test="content != null">
                 content,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">
-                #{userId,jdbcType=BIGINT},
+                #{userId,jdbcType=INTEGER},
             </if>
             <if test="title != null">
                 #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="publishedAt != null">
+                #{publishedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="bestAnswerId != null">
+                #{bestAnswerId,jdbcType=BIGINT},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=SMALLINT},
             </if>
             <if test="content != null">
                 #{content,jdbcType=LONGVARCHAR},
@@ -175,39 +196,54 @@
     <update id="updateByExampleSelective" parameterType="map">
         update question
         <set>
-            <if test="record.id != null">
-                id = #{record.id,jdbcType=BIGINT},
+            <if test="row.id != null">
+                id = #{row.id,jdbcType=BIGINT},
             </if>
-            <if test="record.userId != null">
-                user_id = #{record.userId,jdbcType=BIGINT},
+            <if test="row.userId != null">
+                user_id = #{row.userId,jdbcType=INTEGER},
             </if>
-            <if test="record.title != null">
-                title = #{record.title,jdbcType=VARCHAR},
+            <if test="row.title != null">
+                title = #{row.title,jdbcType=VARCHAR},
             </if>
-            <if test="record.content != null">
-                content = #{record.content,jdbcType=LONGVARCHAR},
+            <if test="row.publishedAt != null">
+                published_at = #{row.publishedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="row.bestAnswerId != null">
+                best_answer_id = #{row.bestAnswerId,jdbcType=BIGINT},
+            </if>
+            <if test="row.categoryId != null">
+                category_id = #{row.categoryId,jdbcType=SMALLINT},
+            </if>
+            <if test="row.content != null">
+                content = #{row.content,jdbcType=LONGVARCHAR},
             </if>
         </set>
-        <if test="_parameter != null">
+        <if test="example != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
     <update id="updateByExampleWithBLOBs" parameterType="map">
         update question
-        set id = #{record.id,jdbcType=BIGINT},
-        user_id = #{record.userId,jdbcType=BIGINT},
-        title = #{record.title,jdbcType=VARCHAR},
-        content = #{record.content,jdbcType=LONGVARCHAR}
-        <if test="_parameter != null">
+        set id = #{row.id,jdbcType=BIGINT},
+        user_id = #{row.userId,jdbcType=INTEGER},
+        title = #{row.title,jdbcType=VARCHAR},
+        published_at = #{row.publishedAt,jdbcType=TIMESTAMP},
+        best_answer_id = #{row.bestAnswerId,jdbcType=BIGINT},
+        category_id = #{row.categoryId,jdbcType=SMALLINT},
+        content = #{row.content,jdbcType=LONGVARCHAR}
+        <if test="example != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
         update question
-        set id = #{record.id,jdbcType=BIGINT},
-        user_id = #{record.userId,jdbcType=BIGINT},
-        title = #{record.title,jdbcType=VARCHAR}
-        <if test="_parameter != null">
+        set id = #{row.id,jdbcType=BIGINT},
+        user_id = #{row.userId,jdbcType=INTEGER},
+        title = #{row.title,jdbcType=VARCHAR},
+        published_at = #{row.publishedAt,jdbcType=TIMESTAMP},
+        best_answer_id = #{row.bestAnswerId,jdbcType=BIGINT},
+        category_id = #{row.categoryId,jdbcType=SMALLINT}
+        <if test="example != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
@@ -215,10 +251,19 @@
         update question
         <set>
             <if test="userId != null">
-                user_id = #{userId,jdbcType=BIGINT},
+                user_id = #{userId,jdbcType=INTEGER},
             </if>
             <if test="title != null">
                 title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="publishedAt != null">
+                published_at = #{publishedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="bestAnswerId != null">
+                best_answer_id = #{bestAnswerId,jdbcType=BIGINT},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=SMALLINT},
             </if>
             <if test="content != null">
                 content = #{content,jdbcType=LONGVARCHAR},
@@ -228,15 +273,21 @@
     </update>
     <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.nofirst.zhihu.mbg.model.Question">
         update question
-        set user_id = #{userId,jdbcType=BIGINT},
-            title   = #{title,jdbcType=VARCHAR},
-            content = #{content,jdbcType=LONGVARCHAR}
+        set user_id        = #{userId,jdbcType=INTEGER},
+            title          = #{title,jdbcType=VARCHAR},
+            published_at   = #{publishedAt,jdbcType=TIMESTAMP},
+            best_answer_id = #{bestAnswerId,jdbcType=BIGINT},
+            category_id    = #{categoryId,jdbcType=SMALLINT},
+            content        = #{content,jdbcType=LONGVARCHAR}
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.nofirst.zhihu.mbg.model.Question">
         update question
-        set user_id = #{userId,jdbcType=BIGINT},
-            title   = #{title,jdbcType=VARCHAR}
+        set user_id        = #{userId,jdbcType=INTEGER},
+            title          = #{title,jdbcType=VARCHAR},
+            published_at   = #{publishedAt,jdbcType=TIMESTAMP},
+            best_answer_id = #{bestAnswerId,jdbcType=BIGINT},
+            category_id    = #{categoryId,jdbcType=SMALLINT}
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="markAsBestAnswer">
