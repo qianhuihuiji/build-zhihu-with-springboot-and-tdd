@@ -77,4 +77,9 @@ public class AnswerServiceImpl implements AnswerService {
     public Boolean isVotedUp(Long answerId) {
         return voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode()) > 0;
     }
+
+    @Override
+    public Integer upVotesCount(Long answerId) {
+        return voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode());
+    }
 }

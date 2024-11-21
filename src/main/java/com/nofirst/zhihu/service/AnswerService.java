@@ -20,4 +20,6 @@ public interface AnswerService {
     void destroy(Long answerId, AccountUser accountUser);
 
     Boolean isVotedUp(Long answerId);
+
+    Integer upVotesCount(Long answerId);
 }

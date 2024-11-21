@@ -138,4 +138,17 @@ class AnswerServiceImplTest {
         // then
         assertThat(votedUp).isTrue();
     }
+
+    @Test
+    void answer_can_know_up_votes_count() {
+        // given
+        Long answerId = 1L;
+        given(voteMapper.countByVotedId(answerId, VoteResourceType.ANSWER.getCode(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
+
+        // when
+        Integer votedUpCount = answerService.upVotesCount(answerId);
+
+        // then
+        assertThat(votedUpCount).isEqualTo(1);
+    }
 }
