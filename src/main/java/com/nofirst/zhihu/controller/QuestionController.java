@@ -5,8 +5,10 @@ import com.nofirst.zhihu.model.dto.QuestionDto;
 import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.QuestionService;
+import com.nofirst.zhihu.validator.ValidCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +33,7 @@ public class QuestionController {
     }
 
     @PostMapping("/questions")
-    public CommonResult store(@RequestBody QuestionDto dto, @AuthenticationPrincipal AccountUser accountUser) {
+    public CommonResult store(@RequestBody @Validated @ValidCategory QuestionDto dto, @AuthenticationPrincipal AccountUser accountUser) {
         questionService.store(dto, accountUser);
         return CommonResult.success(null);
     }
