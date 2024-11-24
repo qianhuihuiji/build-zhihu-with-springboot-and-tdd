@@ -21,7 +21,7 @@ public @interface ValidCategory {
     /**
      * 不合法时 抛出异常信息
      */
-    String message() default "分类值不合法";
+    String message() default "问题分类不存在";
 
     Class<?>[] groups() default {};
 

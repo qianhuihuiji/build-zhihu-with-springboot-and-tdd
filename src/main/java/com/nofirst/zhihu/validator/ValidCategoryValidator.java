@@ -19,13 +19,18 @@ public class ValidCategoryValidator implements ConstraintValidator<ValidCategory
 
     @Override
     public boolean isValid(QuestionDto value, ConstraintValidatorContext context) {
-        if (Objects.isNull(value.getCategoryId())) {
+        Category category = categoryMapper.selectByPrimaryKey(value.getCategoryId());
+
+        if (Objects.isNull(category)) {
+            // 这里可以设置 ValidCategory 的 message，可以应对复杂的消息提醒
+//            context.disableDefaultConstraintViolation();
+//            context.buildConstraintViolationWithTemplate("问题分类不存在")
+//                    .addConstraintViolation();
+
             return false;
         }
 
-        Category category = categoryMapper.selectByPrimaryKey(value.getCategoryId());
-
-        return Objects.nonNull(category);
+        return true;
     }
 
     @Autowired

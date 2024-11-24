@@ -2,6 +2,8 @@ package com.nofirst.zhihu.exception;
 
 
 import com.nofirst.zhihu.common.CommonResult;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.SQLSyntaxErrorException;
+import java.util.Set;
 
 /**
  * 全局异常处理类
@@ -55,6 +58,20 @@ public class GlobalExceptionHandler {
             }
         }
         return CommonResult.validateFailed(message);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public CommonResult handleConstraintViolationException(ConstraintViolationException e) {
+        Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
+        StringBuilder messageBuilder = new StringBuilder();
+        constraintViolations.forEach(constraintViolation -> {
+            // 使用我们自定义的消息，而不是封装后的
+            messageBuilder.append(constraintViolation.getMessage()).append(",");
+        });
+        messageBuilder.replace(messageBuilder.length() - 1, messageBuilder.length(), "");
+
+        return CommonResult.validateFailed(messageBuilder.toString());
     }
 
     @ResponseBody

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -58,7 +59,6 @@ class CreateQuestionsTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-//        mySQLContainer.start();
     }
 
 
@@ -104,5 +104,74 @@ class CreateQuestionsTest {
         int afterCount = questionMapper.countByExample(null);
         // 调用之后 question 增加了 1 条
         assertThat(afterCount - beforeCount).isEqualTo(1);
+    }
+
+    @Test
+    @WithMockUser
+    void title_is_required() throws Exception {
+        // given
+        Question question = QuestionFactory.createUnpublishedQuestion();
+        question.setTitle("");
+
+        // when
+        this.mockMvc.perform(post("/questions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JSONUtil.toJsonStr(question)))
+                // then
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultCode.VALIDATE_FAILED.getCode()))
+                .andExpect(jsonPath("$.message").value("标题不能为空"));
+    }
+
+    @Test
+    @WithMockUser
+    void content_is_required() throws Exception {
+        // given
+        Question question = QuestionFactory.createUnpublishedQuestion();
+        question.setContent("");
+
+        // when
+        this.mockMvc.perform(post("/questions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JSONUtil.toJsonStr(question)))
+                // then
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultCode.VALIDATE_FAILED.getCode()))
+                .andExpect(jsonPath("$.message").value("内容不能为空"));
+    }
+
+    @Test
+    @WithMockUser
+    void category_id_is_required() throws Exception {
+        // given
+        Question question = QuestionFactory.createUnpublishedQuestion();
+        question.setCategoryId(null);
+
+        // when
+        this.mockMvc.perform(post("/questions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JSONUtil.toJsonStr(question)))
+                // then
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultCode.VALIDATE_FAILED.getCode()))
+                .andExpect(jsonPath("$.message").value("问题分类不能为空"));
+    }
+
+    @Test
+    @WithMockUser
+    void category_id_is_valid() throws Exception {
+        // given
+        Question question = QuestionFactory.createUnpublishedQuestion();
+        question.setCategoryId((short) 999);
+
+        // when
+        this.mockMvc.perform(post("/questions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JSONUtil.toJsonStr(question)))
+                // then
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.code").value(ResultCode.VALIDATE_FAILED.getCode()))
+                .andExpect(jsonPath("$.message").value("问题分类不存在"));
     }
 }

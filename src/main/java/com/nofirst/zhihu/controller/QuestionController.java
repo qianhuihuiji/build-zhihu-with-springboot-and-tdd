@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2020-08-24 22:24
  */
 @RestController
+@Validated
 public class QuestionController {
 
     @Autowired
@@ -33,7 +34,7 @@ public class QuestionController {
     }
 
     @PostMapping("/questions")
-    public CommonResult store(@RequestBody @Validated @ValidCategory QuestionDto dto, @AuthenticationPrincipal AccountUser accountUser) {
+    public CommonResult store(@RequestBody @Validated @ValidCategory(message = "问题分类不存在") QuestionDto dto, @AuthenticationPrincipal AccountUser accountUser) {
         questionService.store(dto, accountUser);
         return CommonResult.success(null);
     }
