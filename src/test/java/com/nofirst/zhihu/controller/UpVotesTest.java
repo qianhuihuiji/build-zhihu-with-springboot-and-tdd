@@ -84,7 +84,7 @@ class UpVotesTest {
 
     @Test
     // 这个注解会尝试在SpringSecurity上下文中注入一个username为 another_user 的用户
-    // 而这个用户是初始化脚本 data.sql 插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
+    // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
     @WithUserDetails(value = "another_user", userDetailsServiceBeanName = "accountUserDetailsService")
     void authenticated_user_can_vote_up() throws Exception {
         // given
@@ -99,7 +99,7 @@ class UpVotesTest {
 
     @Test
     // 这个注解会尝试在SpringSecurity上下文中注入一个username为 another_user 的用户
-    // 而这个用户是初始化脚本 data.sql 插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
+    // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
     @WithUserDetails(value = "another_user", userDetailsServiceBeanName = "accountUserDetailsService")
     void an_authenticated_user_can_cancel_vote_up() throws Exception {
         // given
@@ -119,7 +119,7 @@ class UpVotesTest {
 
     @Test
     // 这个注解会尝试在SpringSecurity上下文中注入一个username为 another_user 的用户
-    // 而这个用户是初始化脚本 data.sql 插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
+    // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
     @WithUserDetails(value = "another_user", userDetailsServiceBeanName = "accountUserDetailsService")
     void can_vote_up_only_once() {
         // given
@@ -133,7 +133,7 @@ class UpVotesTest {
 
     @Test
     // 这个注解会尝试在SpringSecurity上下文中注入一个username为 another_user 的用户
-    // 而这个用户是初始化脚本 data.sql 插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
+    // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
     @WithUserDetails(value = "another_user", userDetailsServiceBeanName = "accountUserDetailsService")
     void answer_can_know_it_is_voted_up() throws Exception {
         // given

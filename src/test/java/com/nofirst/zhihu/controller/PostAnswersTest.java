@@ -83,7 +83,7 @@ class PostAnswersTest {
 
     @Test
     // 这个注解会尝试在SpringSecurity上下文中注入一个username为 another_user 的用户
-    // 而这个用户是初始化脚本 data.sql 插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
+    // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
     @WithUserDetails(value = "another_user", userDetailsServiceBeanName = "accountUserDetailsService")
     void signed_in_user_can_post_an_answer_to_a_published_question() throws Exception {
         // given
