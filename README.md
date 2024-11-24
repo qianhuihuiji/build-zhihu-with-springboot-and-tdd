@@ -2,6 +2,10 @@
 
 参考文章：
 
+- [Testcontainers介绍，与Spring Boot、MySQL集成](https://www.jianshu.com/p/fec115848b22)
+  配置成单例模式进行使用，搭配数据库版本控制 flyway 创建表，初始化数据
+- [Flyway简介及使用](https://blog.csdn.net/qianzhitu/article/details/110629847)
+
 - [junit and test containers](https://www.freecodecamp.org/news/integration-testing-using-junit-5-testcontainers-with-springboot-example/)
 
 这篇文章里面介绍了利用docker创建跟生产环境一样的容器进行测试的概念，可以用来最后跑集成测试的时候使用。尤其是mysql部分，搭配

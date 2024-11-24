@@ -68,6 +68,7 @@ public class QuestionServiceImpl implements QuestionService {
         question.setUserId(accountUser.getUserId());
         question.setTitle(dto.getTitle());
         question.setContent(dto.getContent());
+        question.setCategoryId(dto.getCategoryId());
 
         questionMapper.insert(question);
     }

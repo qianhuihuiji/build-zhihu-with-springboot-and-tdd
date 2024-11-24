@@ -17,6 +17,7 @@ public class QuestionFactory {
                 .title("title")
                 .content("content")
                 .publishedAt(lastWeek)
+                .categoryId((short) 1)
                 .build();
     }
 

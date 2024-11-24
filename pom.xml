@@ -99,6 +99,13 @@
             <artifactId>hutool-all</artifactId>
             <version>5.3.3</version>
         </dependency>
+        <!-- 帮助我们创建表结构 -->
+        <!-- flyway 从 8.2.0之后将mysql的支持抽取程 flyway-mysql 插件，必须单独引入，不能只引入 flyway-core-->
+        <!-- 这里 flyway-mysql 已经引用了flyway-core -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+        </dependency>
 
 
         <!--   test 相关-->
@@ -135,6 +142,19 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <!-- testcontainers 依赖 -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mysql</artifactId>
+            <version>1.20.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>1.20.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
