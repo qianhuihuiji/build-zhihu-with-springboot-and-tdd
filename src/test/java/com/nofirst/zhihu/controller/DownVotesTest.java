@@ -85,9 +85,9 @@ class DownVotesTest {
     }
 
     @Test
-    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 another_user 的用户
+    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 John 的用户
     // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
-    @WithUserDetails(value = "another_user", userDetailsServiceBeanName = "accountUserDetailsService")
+    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void authenticated_user_can_vote_down() throws Exception {
         // given
         this.mockMvc.perform(post("/answers/1/down-votes"))
@@ -100,9 +100,9 @@ class DownVotesTest {
     }
 
     @Test
-    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 another_user 的用户
+    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 John 的用户
     // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
-    @WithUserDetails(value = "another_user", userDetailsServiceBeanName = "accountUserDetailsService")
+    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void an_authenticated_user_can_cancel_vote_down() throws Exception {
         // given
         this.mockMvc.perform(post("/answers/1/down-votes"));
@@ -120,9 +120,9 @@ class DownVotesTest {
     }
 
     @Test
-    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 another_user 的用户
+    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 John 的用户
     // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
-    @WithUserDetails(value = "another_user", userDetailsServiceBeanName = "accountUserDetailsService")
+    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void can_vote_down_only_once() {
         // given
         try {
@@ -134,9 +134,9 @@ class DownVotesTest {
     }
 
     @Test
-    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 another_user 的用户
+    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 John 的用户
     // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
-    @WithUserDetails(value = "another_user", userDetailsServiceBeanName = "accountUserDetailsService")
+    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void answer_can_know_it_is_voted_down() throws Exception {
         // given
         this.mockMvc.perform(post("/answers/1/down-votes"));

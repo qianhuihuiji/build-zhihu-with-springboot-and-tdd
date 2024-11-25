@@ -86,7 +86,7 @@ class CreateQuestionsTest {
 
 
     @Test
-    @WithUserDetails(value = "another_user", userDetailsServiceBeanName = "accountUserDetailsService")
+    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void an_authenticated_user_can_create_new_questions() throws Exception {
         // given
         Question question = QuestionFactory.createUnpublishedQuestion();

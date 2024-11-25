@@ -6,7 +6,6 @@ import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Question;
-import com.nofirst.zhihu.mbg.model.QuestionExample;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.MySQLContainer;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,12 +28,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // 会启动完整的Spring容器，因此会非常耗时
 @SpringBootTest(classes = BuildZhihuWithSpringbootAndTddApplication.class)
-class PublishQuestionTest {
+class InviteUserTest {
 
     private MockMvc mockMvc;
 
     @Autowired
     private WebApplicationContext context;
+
 
     @Autowired
     private QuestionMapper questionMapper;
@@ -68,17 +67,16 @@ class PublishQuestionTest {
         registry.add("spring.datasource.username", mySQLContainer::getUsername);
     }
 
+
     @Test
     @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
-    void can_publish_question() throws Exception {
+    void invited_users_are_notified_when_publish_a_question() throws Exception {
         // given
         Question question = QuestionFactory.createUnpublishedQuestion();
         question.setUserId(2);
+        question.setContent("@Jane please help me");
         questionMapper.insert(question);
-        QuestionExample example = new QuestionExample();
-        QuestionExample.Criteria criteria = example.createCriteria();
-        criteria.andPublishedAtIsNotNull();
-        int beforeCount = questionMapper.countByExample(example);
+
         // when
         this.mockMvc.perform(post("/questions/{questionId}/published-questions", question.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -88,29 +86,15 @@ class PublishQuestionTest {
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
         // then
-        int afterCount = questionMapper.countByExample(example);
-        // 调用之后 question 增加了 1 条
-        assertThat(afterCount - beforeCount).isEqualTo(1);
-    }
-
-    @Test
-    void guests_may_not_publish_questions() throws Exception {
-        // given
-        Question question = QuestionFactory.createUnpublishedQuestion();
-        // when
-        this.mockMvc.perform(post("/questions/{questionId}/published-questions", question.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(JSONUtil.toJsonStr(question)))
-                .andDo(print())
-                .andExpect(status().is(401));
     }
 
     @Test
     @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
-    void only_the_question_creator_can_publish_it() throws Exception {
+    void all_invited_users_are_notified() throws Exception {
         // given
         Question question = QuestionFactory.createUnpublishedQuestion();
-        question.setUserId(1);
+        question.setUserId(2);
+        question.setContent("@Jane @Foo please help me");
         questionMapper.insert(question);
 
         // when
@@ -118,8 +102,10 @@ class PublishQuestionTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JSONUtil.toJsonStr(question)))
                 .andDo(print())
-                .andExpect(status().is(403));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
+        // then
     }
 
 }
