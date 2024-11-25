@@ -67,7 +67,7 @@ class BestAnswerTest {
     @WithMockUser
         // 这里我们只验证 markAsBest() 方法被调用了一次即可，Service 的逻辑放到service里面进行测试
     void can_mark_one_answer_as_the_best() throws Exception {
-        when(this.questionPolicy.isQuestionOwner(anyLong(), any())).thenReturn(true);
+        when(this.questionPolicy.canMarkAnswerAsBest(anyLong(), any())).thenReturn(true);
         this.mockMvc.perform(post("/answers/{answerId}/best", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
@@ -82,7 +82,7 @@ class BestAnswerTest {
         // given
         User user = UserFactory.createUser();
         when(this.userMapper.selectByUsername(anyString())).thenReturn(user);
-        when(this.questionPolicy.isQuestionOwner(anyLong(), any())).thenReturn(false);
+        when(this.questionPolicy.canMarkAnswerAsBest(anyLong(), any())).thenReturn(false);
         this.mockMvc.perform(post("/answers/{id}/best", 1))
                 .andExpect(status().is(403));
     }

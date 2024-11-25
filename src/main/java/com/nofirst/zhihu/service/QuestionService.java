@@ -21,4 +21,6 @@ public interface QuestionService {
     User owner(Integer userId);
 
     void store(QuestionDto dto, AccountUser accountUser);
+
+    void publish(Long questionId);
 }

@@ -43,7 +43,7 @@ class QuestionPolicyTest {
 
         // when
         AccountUser accountUser = UserFactory.createAccountUser();
-        boolean questionOwner = questionPolicy.isQuestionOwner(1L, accountUser);
+        boolean questionOwner = questionPolicy.canMarkAnswerAsBest(1L, accountUser);
 
         // then
         assertThat(questionOwner).isTrue();
@@ -58,7 +58,7 @@ class QuestionPolicyTest {
         // then
         assertThatThrownBy(() -> {
             // when
-            questionPolicy.isQuestionOwner(1L, accountUser);
+            questionPolicy.canMarkAnswerAsBest(1L, accountUser);
         }).isInstanceOf(AnswerNotExistedException.class)
                 .hasMessageContaining("answer not exist");
 
@@ -71,7 +71,7 @@ class QuestionPolicyTest {
         // then
         assertThatThrownBy(() -> {
             // when
-            questionPolicy.isQuestionOwner(1L, accountUser);
+            questionPolicy.canMarkAnswerAsBest(1L, accountUser);
         }).isInstanceOf(QuestionNotExistedException.class)
                 .hasMessageContaining("question not exist");
 
@@ -84,7 +84,7 @@ class QuestionPolicyTest {
         // then
         assertThatThrownBy(() -> {
             // when
-            questionPolicy.isQuestionOwner(1L, accountUser);
+            questionPolicy.canMarkAnswerAsBest(1L, accountUser);
         }).isInstanceOf(QuestionNotPublishedException.class)
                 .hasMessageContaining("question not publish");
     }

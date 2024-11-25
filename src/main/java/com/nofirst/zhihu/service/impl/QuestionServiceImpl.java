@@ -17,6 +17,7 @@ import com.nofirst.zhihu.service.QuestionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,5 +72,10 @@ public class QuestionServiceImpl implements QuestionService {
         question.setCategoryId(dto.getCategoryId());
 
         questionMapper.insert(question);
+    }
+
+    @Override
+    public void publish(Long questionId) {
+        questionMapper.publish(questionId, new Date());
     }
 }

@@ -295,4 +295,9 @@
         set best_answer_id = #{answerId,jdbcType=BIGINT}
         where id = #{questionId,jdbcType=BIGINT}
     </update>
+    <update id="publish">
+        update question
+        set published_at = #{publishedAt,jdbcType=TIMESTAMP},
+            where id = #{questionId,jdbcType=BIGINT}
+    </update>
 </mapper>

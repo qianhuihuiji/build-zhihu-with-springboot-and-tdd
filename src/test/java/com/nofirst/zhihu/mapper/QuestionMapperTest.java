@@ -15,6 +15,8 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.MySQLContainer;
 
+import java.util.Date;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -61,5 +63,35 @@ public class QuestionMapperTest {
         int totalAfter = questionMapper.countByExample(null);
         // 新增了一条数据
         assertThat(totalAfter - totalBefore).isEqualTo(1);
+    }
+
+    @Test
+    public void can_mark_an_answer_as_best() {
+        // given
+        Question question = QuestionFactory.createPublishedQuestion();
+        questionMapper.insert(question);
+
+        Question result = questionMapper.selectByPrimaryKey(question.getId());
+        assertThat(result.getBestAnswerId()).isNull();
+        // when
+        questionMapper.markAsBestAnswer(question.getId(), 1L);
+        // then
+        result = questionMapper.selectByPrimaryKey(question.getId());
+        assertThat(result.getBestAnswerId()).isNotNull();
+    }
+
+    @Test
+    public void can_publish_question() {
+        // given
+        Question question = QuestionFactory.createUnpublishedQuestion();
+        questionMapper.insert(question);
+
+        Question result = questionMapper.selectByPrimaryKey(question.getId());
+        assertThat(result.getPublishedAt()).isNull();
+        // when
+        questionMapper.publish(question.getId(), new Date());
+        // then
+        result = questionMapper.selectByPrimaryKey(question.getId());
+        assertThat(result.getPublishedAt()).isNotNull();
     }
 }
