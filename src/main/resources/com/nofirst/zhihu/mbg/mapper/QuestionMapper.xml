@@ -297,7 +297,7 @@
     </update>
     <update id="publish">
         update question
-        set published_at = #{publishedAt,jdbcType=TIMESTAMP},
-            where id = #{questionId,jdbcType=BIGINT}
+        set published_at = #{publishedAt,jdbcType=TIMESTAMP}
+        where id = #{questionId,jdbcType=BIGINT}
     </update>
 </mapper>

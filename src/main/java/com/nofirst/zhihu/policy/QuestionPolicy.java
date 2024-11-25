@@ -40,9 +40,7 @@ public class QuestionPolicy {
         if (Objects.isNull(question)) {
             throw new QuestionNotExistedException();
         }
-        if (Objects.isNull(question.getPublishedAt())) {
-            throw new QuestionNotPublishedException();
-        }
+
         return accountUser.getUserId().equals(question.getUserId());
     }
 }

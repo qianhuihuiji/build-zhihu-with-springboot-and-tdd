@@ -73,6 +73,7 @@ class PublishQuestionTest {
     void can_publish_question() throws Exception {
         // given
         Question question = QuestionFactory.createUnpublishedQuestion();
+        question.setUserId(2);
         questionMapper.insert(question);
         QuestionExample example = new QuestionExample();
         QuestionExample.Criteria criteria = example.createCriteria();
@@ -111,7 +112,7 @@ class PublishQuestionTest {
         Question question = QuestionFactory.createUnpublishedQuestion();
         question.setUserId(1);
         questionMapper.insert(question);
-        
+
         // when
         this.mockMvc.perform(post("/questions/{questionId}/published-questions", question.getId())
                         .contentType(MediaType.APPLICATION_JSON)
