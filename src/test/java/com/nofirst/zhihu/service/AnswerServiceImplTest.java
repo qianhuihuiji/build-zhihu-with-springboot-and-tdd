@@ -1,5 +1,6 @@
 package com.nofirst.zhihu.service;
 
+import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
@@ -38,6 +39,8 @@ class AnswerServiceImplTest {
     private AnswerMapper answerMapper;
     @Mock
     private QuestionMapper questionMapper;
+    @Mock
+    private QuestionDao questionDao;
     @Mock
     private VoteMapper voteMapper;
 
@@ -109,7 +112,7 @@ class AnswerServiceImplTest {
         answerService.markAsBest(1L, accountUser);
 
         // then
-        verify(questionMapper, times(1)).markAsBestAnswer(publishedQuestion.getId(), answer.getId());
+        verify(questionDao, times(1)).markAsBestAnswer(publishedQuestion.getId(), answer.getId());
         assertThat(answer.isBest(publishedQuestion)).isTrue();
     }
 

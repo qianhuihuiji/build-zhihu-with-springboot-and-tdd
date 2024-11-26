@@ -1,6 +1,7 @@
 package com.nofirst.zhihu.mapper;
 
 
+import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Question;
@@ -25,6 +26,9 @@ public class QuestionMapperTest {
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionDao questionDao;
 
     @BeforeAll
     public static void start() {
@@ -74,7 +78,7 @@ public class QuestionMapperTest {
         Question result = questionMapper.selectByPrimaryKey(question.getId());
         assertThat(result.getBestAnswerId()).isNull();
         // when
-        questionMapper.markAsBestAnswer(question.getId(), 1L);
+        questionDao.markAsBestAnswer(question.getId(), 1L);
         // then
         result = questionMapper.selectByPrimaryKey(question.getId());
         assertThat(result.getBestAnswerId()).isNotNull();
@@ -89,7 +93,7 @@ public class QuestionMapperTest {
         Question result = questionMapper.selectByPrimaryKey(question.getId());
         assertThat(result.getPublishedAt()).isNull();
         // when
-        questionMapper.publish(question.getId(), new Date());
+        questionDao.publish(question.getId(), new Date());
         // then
         result = questionMapper.selectByPrimaryKey(question.getId());
         assertThat(result.getPublishedAt()).isNotNull();

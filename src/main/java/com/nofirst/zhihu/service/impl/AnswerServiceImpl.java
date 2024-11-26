@@ -1,5 +1,6 @@
 package com.nofirst.zhihu.service.impl;
 
+import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.exception.AnswerNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
@@ -24,6 +25,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerMapper answerMapper;
     private final QuestionMapper questionMapper;
+    private final QuestionDao questionDao;
     private final VoteMapper voteMapper;
 
     @Override
@@ -64,7 +66,7 @@ public class AnswerServiceImpl implements AnswerService {
         if (Objects.isNull(question.getPublishedAt())) {
             throw new QuestionNotPublishedException();
         }
-        questionMapper.markAsBestAnswer(question.getId(), answer.getId());
+        questionDao.markAsBestAnswer(question.getId(), answer.getId());
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.nofirst.zhihu.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
@@ -30,6 +31,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final UserMapper userMapper;
     private QuestionMapper questionMapper;
+    private QuestionDao questionDao;
     private AnswerMapper answerMapper;
     private YouWereInvitedEventPublisher invitedEventPublisher;
 
@@ -90,6 +92,6 @@ public class QuestionServiceImpl implements QuestionService {
                 invitedEventPublisher.publishEvent(question, user);
             }
         }
-        questionMapper.publish(questionId, new Date());
+        questionDao.publish(questionId, new Date());
     }
 }

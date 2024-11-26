@@ -6,10 +6,9 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * MyBatis配置类
- * Created by macro on 2019/4/8.
  */
 @Configuration
-@MapperScan("com.nofirst.zhihu.mbg.mapper")
+@MapperScan({"com.nofirst.zhihu.mbg.mapper", "com.nofirst.zhihu.dao"})
 public class MyBatisConfig {
 }
 
