@@ -1,6 +1,6 @@
 create table `notification`
 (
-    `id`   smallint auto_increment comment '主键'
+    `id` int(10) unsigned auto_increment comment '主键'
         primary key,
     `type` varchar(255) not null comment '通知类型',
     `notifiable_id` int(10)  NOT NULL comment '接收者的id，如：user的id',
