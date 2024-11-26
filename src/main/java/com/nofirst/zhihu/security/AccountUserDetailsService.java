@@ -2,7 +2,7 @@ package com.nofirst.zhihu.security;
 
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class AccountUserDetailsService implements UserDetailsService {
-    @Autowired
     private UserMapper userMapper;
 
     @Override

@@ -6,10 +6,10 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LoginEventMessageNoticeListener {
+public class YouWereInvitedEventListener {
 
     @EventListener
-    public void LoginEventMessageNoticeListener(YouWereInvitedEvent event) {
+    public void youWereInvitedEventListener(YouWereInvitedEvent event) {
         User user = event.getUser();
         // 发送消息通知用户
         System.out.println("you are invited: " + user.getName());

@@ -7,7 +7,7 @@ import com.nofirst.zhihu.security.JwtAuthenticationFilter;
 import com.nofirst.zhihu.security.JwtLogoutSuccessHandler;
 import com.nofirst.zhihu.security.LoginFailureHandler;
 import com.nofirst.zhihu.security.LoginSuccessHandler;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,22 +26,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 @ComponentScan("com.nofirst.zhihu.security")
+@AllArgsConstructor
 public class SecurityConfig {
     private static final String[] URL_WHITELIST = {"/user/login", "/favicon.ico"};
 
-    @Autowired
     private AccountUserDetailsService accountUserDetailsService;
-    @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
-    @Autowired
     private JwtLogoutSuccessHandler jwtLogoutSuccessHandler;
-    @Autowired
     private JwtAccessDeniedHandler jwtAccessDeniedHandler;
-    @Autowired
     private LoginSuccessHandler loginSuccessHandler;
-    @Autowired
     private LoginFailureHandler loginFailureHandler;
-    @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     /**

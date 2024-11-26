@@ -5,10 +5,9 @@ import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.dto.UserLoginDto;
 import com.nofirst.zhihu.security.JwtUtil;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -24,11 +23,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/user", produces = "application/json;charset=utf-8")
+@AllArgsConstructor
 public class UserController {
-    @Resource
-    private JwtUtil jwtUtil;
 
-    @Autowired
+    private JwtUtil jwtUtil;
     private UserMapper userMapper;
 
     @PostMapping("/login")

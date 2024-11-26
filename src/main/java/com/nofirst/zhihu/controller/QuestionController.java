@@ -6,7 +6,7 @@ import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.QuestionService;
 import com.nofirst.zhihu.validator.ValidCategory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Validated
+@AllArgsConstructor
 public class QuestionController {
 
-    @Autowired
     private QuestionService questionService;
 
     @GetMapping("/questions/{id}")

@@ -5,14 +5,15 @@ import com.nofirst.zhihu.mbg.model.Category;
 import com.nofirst.zhihu.model.dto.QuestionDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 @Slf4j
 @Component
+@AllArgsConstructor
 public class ValidCategoryValidator implements ConstraintValidator<ValidCategory, QuestionDto> {
 
     private CategoryMapper categoryMapper;
@@ -31,10 +32,5 @@ public class ValidCategoryValidator implements ConstraintValidator<ValidCategory
         }
 
         return true;
-    }
-
-    @Autowired
-    public void setCategoryMapper(CategoryMapper categoryMapper) {
-        this.categoryMapper = categoryMapper;
     }
 }
