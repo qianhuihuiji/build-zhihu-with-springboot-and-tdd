@@ -2,10 +2,12 @@ package com.nofirst.zhihu.listener;
 
 import com.nofirst.zhihu.event.YouWereInvitedEvent;
 import com.nofirst.zhihu.mbg.model.User;
+import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class YouWereInvitedEventListener {
 
     @EventListener
