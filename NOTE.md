@@ -17,3 +17,5 @@
 ```
 
 - HandlerMethodArgumentResolver，来给 controller 注入一个当前登录的用户进来
+
+- [laravel的消息通知](https://blog.csdn.net/gengfu_php/article/details/77823339)
