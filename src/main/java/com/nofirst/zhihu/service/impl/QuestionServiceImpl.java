@@ -10,6 +10,7 @@ import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
+import com.nofirst.zhihu.mbg.model.QuestionExample;
 import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.dto.QuestionDto;
 import com.nofirst.zhihu.model.vo.QuestionVo;
@@ -19,6 +20,7 @@ import com.nofirst.zhihu.service.QuestionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -88,4 +90,25 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
 
+    @Override
+    public List<QuestionVo> drafts(AccountUser accountUser) {
+        List<QuestionVo> result = new ArrayList<>();
+        QuestionExample example = new QuestionExample();
+        QuestionExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(accountUser.getUserId());
+        criteria.andPublishedAtIsNull();
+        List<Question> questions = questionMapper.selectByExample(example);
+        for (Question question : questions) {
+            QuestionVo questionVo = new QuestionVo();
+            questionVo.setId(question.getId());
+            questionVo.setUserId(question.getUserId());
+            questionVo.setBestAnswerId(question.getBestAnswerId());
+            questionVo.setTitle(question.getTitle());
+            questionVo.setContent(question.getContent());
+            questionVo.setPublishedAt(question.getPublishedAt());
+            result.add(questionVo);
+        }
+
+        return result;
+    }
 }

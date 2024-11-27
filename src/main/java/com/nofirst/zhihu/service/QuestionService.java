@@ -7,6 +7,8 @@ import com.nofirst.zhihu.model.dto.QuestionDto;
 import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.security.AccountUser;
 
+import java.util.List;
+
 /**
  * QuestionService
  *
@@ -23,4 +25,6 @@ public interface QuestionService {
     void store(QuestionDto dto, AccountUser accountUser);
 
     void publish(Long questionId);
+
+    List<QuestionVo> drafts(AccountUser accountUser);
 }
