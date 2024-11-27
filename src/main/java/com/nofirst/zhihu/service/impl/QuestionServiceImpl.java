@@ -13,7 +13,7 @@ import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.dto.QuestionDto;
 import com.nofirst.zhihu.model.vo.QuestionVo;
-import com.nofirst.zhihu.publisher.YouWereInvitedEventPublisher;
+import com.nofirst.zhihu.publisher.CustomEventPublisher;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.QuestionService;
 import lombok.AllArgsConstructor;
@@ -22,8 +22,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @AllArgsConstructor
@@ -33,7 +31,7 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionMapper questionMapper;
     private QuestionDao questionDao;
     private AnswerMapper answerMapper;
-    private YouWereInvitedEventPublisher invitedEventPublisher;
+    private CustomEventPublisher invitedEventPublisher;
 
 
     @Override
@@ -83,15 +81,11 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void publish(Long questionId) {
         Question question = questionMapper.selectByPrimaryKey(questionId);
-        Pattern p = Pattern.compile("(?<=@)\\S+");
-        Matcher m = p.matcher(question.getContent());
-        while (m.find()) {
-            String username = m.group();
-            User user = userMapper.selectByUsername(username);
-            if (Objects.nonNull(user)) {
-                invitedEventPublisher.publishEvent(question, user);
-            }
-        }
+
         questionDao.publish(questionId, new Date());
+
+        invitedEventPublisher.addPublishQuestionEvent(question);
     }
+
+
 }

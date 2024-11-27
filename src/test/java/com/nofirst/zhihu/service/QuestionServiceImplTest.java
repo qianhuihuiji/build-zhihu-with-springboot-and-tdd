@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -145,5 +146,18 @@ class QuestionServiceImplTest {
         // then
         assertThat(result.getId()).isEqualTo(user.getId());
         assertThat(result.getName()).isEqualTo(user.getName());
+    }
+
+    @Test
+    void it_can_detect_all_invited_users() {
+        // given
+        Question question = QuestionFactory.createPublishedQuestion();
+        question.setContent("@Jane @Foo please help me");
+
+        // when
+        List<String> invitedUsers = question.invitedUsers();
+
+        // then
+        assertThat(Arrays.asList("Jane", "Foo")).isEqualTo(invitedUsers);
     }
 }

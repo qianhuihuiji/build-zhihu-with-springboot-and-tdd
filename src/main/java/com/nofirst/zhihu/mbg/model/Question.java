@@ -6,7 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Builder
 @Data
@@ -83,5 +87,16 @@ public class Question implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public List<String> invitedUsers() {
+        List<String> invitedUser = new ArrayList<>();
+        Pattern p = Pattern.compile("(?<=@)\\S+");
+        Matcher m = p.matcher(this.getContent());
+        while (m.find()) {
+            String username = m.group();
+            invitedUser.add(username);
+        }
+        return invitedUser;
     }
 }
