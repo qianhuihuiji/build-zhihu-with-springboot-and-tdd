@@ -56,6 +56,7 @@ class InviteUserTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+        notificationMapper.deleteByExample(null);
     }
 
 
@@ -118,6 +119,7 @@ class InviteUserTest {
         long beforeCountOfJane = notificationMapper.countByExample(notificationExample);
         assertThat(beforeCountOfJane).isEqualTo(0);
         // 查用户id为3的，也就是 Foo
+        notificationExample.clear();
         criteria.andNotifiableIdEqualTo(3);
         long beforeCountOfFoo = notificationMapper.countByExample(notificationExample);
         assertThat(beforeCountOfFoo).isEqualTo(0);
@@ -131,10 +133,14 @@ class InviteUserTest {
 
         // then
         // 查用户id为1的，也就是 Jane
+        notificationExample.clear();
+        criteria = notificationExample.createCriteria();
         criteria.andNotifiableIdEqualTo(1);
         long afterCountOfJane = notificationMapper.countByExample(notificationExample);
         assertThat(afterCountOfJane).isEqualTo(1);
         // 查用户id为3的，也就是 Foo
+        notificationExample.clear();
+        criteria = notificationExample.createCriteria();
         criteria.andNotifiableIdEqualTo(3);
         long afterCountOfFoo = notificationMapper.countByExample(notificationExample);
         assertThat(afterCountOfFoo).isEqualTo(1);

@@ -79,7 +79,11 @@ class CreateQuestionsTest {
 
     @Test
     void guests_may_not_create_questions() throws Exception {
-        this.mockMvc.perform(post("/questions"))
+        Question question = QuestionFactory.createUnpublishedQuestion();
+        this.mockMvc.perform(post("/questions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JSONUtil.toJsonStr(question)))
+
                 .andDo(print())
                 .andExpect(status().is(401));
     }

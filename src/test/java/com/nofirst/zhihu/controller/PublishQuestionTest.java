@@ -97,6 +97,7 @@ class PublishQuestionTest {
     void guests_may_not_publish_questions() throws Exception {
         // given
         Question question = QuestionFactory.createUnpublishedQuestion();
+        question.setId(1L);
         // when
         this.mockMvc.perform(post("/questions/{questionId}/published-questions", question.getId())
                         .contentType(MediaType.APPLICATION_JSON)

@@ -42,9 +42,12 @@ public class QuestionController {
         return CommonResult.success(null);
     }
 
-    @GetMapping("/questions/{slug}")
-    public CommonResult<PageInfo<QuestionVo>> index(@PathVariable(required = false) String slug, @RequestParam @NotNull Integer pageIndex, @NotNull @RequestParam Integer pageSize) {
-        PageInfo<QuestionVo> questionPage = questionService.index(slug, pageIndex, pageSize);
+    @GetMapping("/questions")
+    public CommonResult<PageInfo<QuestionVo>> index(@RequestParam @NotNull Integer pageIndex,
+                                                    @RequestParam @NotNull Integer pageSize,
+                                                    @RequestParam(required = false) String slug,
+                                                    @RequestParam(required = false) String by) {
+        PageInfo<QuestionVo> questionPage = questionService.index(pageIndex, pageSize, slug, by);
         return CommonResult.success(questionPage);
     }
 }

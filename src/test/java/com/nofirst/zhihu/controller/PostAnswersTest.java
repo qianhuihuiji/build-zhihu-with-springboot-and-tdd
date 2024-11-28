@@ -114,6 +114,7 @@ class PostAnswersTest {
     void guests_may_not_post_an_answer() throws Exception {
         // given
         Question question = QuestionFactory.createPublishedQuestion();
+        question.setId(1L);
 
         AnswerDto answer = AnswerFactory.createAnswerDto();
         this.mockMvc.perform(post("/questions/{id}/answers", question.getId())

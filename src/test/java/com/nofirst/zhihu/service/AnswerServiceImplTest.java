@@ -73,6 +73,7 @@ class AnswerServiceImplTest {
     void can_post_an_answer_to_a_published_question() {
         // given
         Question publishedQuestion = QuestionFactory.createPublishedQuestion();
+        publishedQuestion.setId(1L);
         given(questionMapper.selectByPrimaryKey(publishedQuestion.getId())).willReturn(publishedQuestion);
 
         // when

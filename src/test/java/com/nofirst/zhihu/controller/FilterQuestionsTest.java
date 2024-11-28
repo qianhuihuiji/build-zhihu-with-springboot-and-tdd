@@ -1,5 +1,6 @@
 package com.nofirst.zhihu.controller;
 
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
@@ -58,6 +59,8 @@ class FilterQuestionsTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+
+        questionMapper.deleteByExample(null);
     }
 
 
@@ -90,16 +93,17 @@ class FilterQuestionsTest {
         publishedQuestions2.forEach(t -> questionMapper.insert(t));
 
         // when
-        MvcResult result = this.mockMvc.perform(get("/questions?pageIndex=0&pageSize=20"))
+        MvcResult result = this.mockMvc.perform(get("/questions?pageIndex=1&pageSize=20"))
                 .andExpect(status().isOk()).andReturn();
 
+        // then
         String json = result.getResponse().getContentAsString();
-        CommonResult<PageInfo<QuestionVo>> commonResult = JSONUtil.toBean(json, CommonResult.class);
+        CommonResult commonResult = JSONUtil.toBean(json, CommonResult.class);
         long code = commonResult.getCode();
         assertThat(code).isEqualTo(ResultCode.SUCCESS.getCode());
-        PageInfo<QuestionVo> data = commonResult.getData();
 
-        // then
+        PageInfo<QuestionVo> data = JSONUtil.toBean((JSONObject) commonResult.getData(), PageInfo.class);
+
         assertThat(json).doesNotContain(unpublishedQuestion.getContent());
         assertThat(data.getTotal()).isEqualTo(40);
         assertThat(data.getList().size()).isEqualTo(20);
@@ -119,7 +123,7 @@ class FilterQuestionsTest {
         questionMapper.insert(notInSlug);
 
         // when
-        MvcResult result = this.mockMvc.perform(get("/questions/{slug}?pageIndex=0&pageSize=20", category.getSlug()))
+        MvcResult result = this.mockMvc.perform(get("/questions?slug={slug}&pageIndex=1&pageSize=20", category.getSlug()))
                 .andExpect(status().isOk()).andReturn();
 
         String json = result.getResponse().getContentAsString();
@@ -140,8 +144,9 @@ class FilterQuestionsTest {
         Question byOther = QuestionFactory.createPublishedQuestion();
         byOther.setTitle("question by other");
         byOther.setUserId(999);
+        questionMapper.insert(byOther);
         // when
-        MvcResult result = this.mockMvc.perform(get("/questions/{slug}?pageIndex=0&pageSize=20?by=John"))
+        MvcResult result = this.mockMvc.perform(get("/questions?pageIndex=1&pageSize=20&by=John"))
                 .andExpect(status().isOk()).andReturn();
 
         String json = result.getResponse().getContentAsString();

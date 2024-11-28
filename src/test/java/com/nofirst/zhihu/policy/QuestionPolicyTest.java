@@ -77,6 +77,7 @@ class QuestionPolicyTest {
 
         // given
         Question unpublishedQuestion = QuestionFactory.createUnpublishedQuestion();
+        unpublishedQuestion.setId(1L);
         given(questionMapper.selectByPrimaryKey(unpublishedQuestion.getId())).willReturn(unpublishedQuestion);
         Answer anotherAnswer = AnswerFactory.createAnswer(unpublishedQuestion.getId());
         given(answerMapper.selectByPrimaryKey(unpublishedQuestion.getId())).willReturn(anotherAnswer);

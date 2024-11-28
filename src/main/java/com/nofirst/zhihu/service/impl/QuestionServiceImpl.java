@@ -1,14 +1,18 @@
 package com.nofirst.zhihu.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
+import com.nofirst.zhihu.mbg.mapper.CategoryMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
+import com.nofirst.zhihu.mbg.model.Category;
+import com.nofirst.zhihu.mbg.model.CategoryExample;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.QuestionExample;
 import com.nofirst.zhihu.mbg.model.User;
@@ -17,6 +21,7 @@ import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.publisher.CustomEventPublisher;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.QuestionService;
+import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +35,7 @@ import java.util.Objects;
 public class QuestionServiceImpl implements QuestionService {
 
     private final UserMapper userMapper;
+    private final CategoryMapper categoryMapper;
     private QuestionMapper questionMapper;
     private QuestionDao questionDao;
     private AnswerMapper answerMapper;
@@ -97,7 +103,7 @@ public class QuestionServiceImpl implements QuestionService {
         QuestionExample.Criteria criteria = example.createCriteria();
         criteria.andUserIdEqualTo(accountUser.getUserId());
         criteria.andPublishedAtIsNull();
-        List<Question> questions = questionMapper.selectByExample(example);
+        List<Question> questions = questionMapper.selectByExampleWithBLOBs(example);
         for (Question question : questions) {
             QuestionVo questionVo = new QuestionVo();
             questionVo.setId(question.getId());
@@ -113,11 +119,28 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public PageInfo<QuestionVo> index(String slug, Integer pageIndex, Integer pageSize) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<QuestionVo> index(Integer pageIndex, Integer pageSize, String slug, String by) {
         QuestionExample example = new QuestionExample();
-        example.createCriteria().andPublishedAtIsNotNull();
+        QuestionExample.Criteria criteria = example.createCriteria();
+        criteria.andPublishedAtIsNotNull();
+        if (StringUtils.isNotBlank(by)) {
+            User user = userMapper.selectByUsername(by);
+            if (Objects.nonNull(user)) {
+                criteria.andUserIdEqualTo(user.getId());
+            }
+        }
+        if (StringUtils.isNotBlank(slug)) {
+            CategoryExample categoryExample = new CategoryExample();
+            categoryExample.createCriteria().andSlugLike(slug);
+            List<Category> categories = categoryMapper.selectByExample(categoryExample);
+            if (CollectionUtil.isNotEmpty(categories)) {
+                criteria.andCategoryIdEqualTo(categories.get(0).getId());
+            }
+        }
+        PageHelper.startPage(pageIndex, pageSize);
         List<Question> questions = questionMapper.selectByExample(example);
+        // 如果不使用 mapper 返回的对象直接构造分页对象，total会被错误赋值成当前页的数据的数量，而不是总数
+        PageInfo<Question> questionPageInfo = new PageInfo<>(questions);
         List<QuestionVo> result = new ArrayList<>();
         for (Question question : questions) {
             QuestionVo questionVo = new QuestionVo();
@@ -129,6 +152,11 @@ public class QuestionServiceImpl implements QuestionService {
             questionVo.setPublishedAt(question.getPublishedAt());
             result.add(questionVo);
         }
-        return new PageInfo<>(result);
+        PageInfo<QuestionVo> pageResult = new PageInfo<>();
+        pageResult.setTotal(questionPageInfo.getTotal());
+        pageResult.setPageNum(questionPageInfo.getPageNum());
+        pageResult.setPageSize(questionPageInfo.getPageSize());
+        pageResult.setList(result);
+        return pageResult;
     }
 }

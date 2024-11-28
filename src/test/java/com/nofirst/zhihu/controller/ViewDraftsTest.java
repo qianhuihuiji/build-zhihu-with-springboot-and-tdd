@@ -48,6 +48,7 @@ class ViewDraftsTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+        questionMapper.deleteByExample(null);
     }
 
 
@@ -79,10 +80,11 @@ class ViewDraftsTest {
     void user_can_view_drafts() throws Exception {
         // given
         Question question = QuestionFactory.createUnpublishedQuestion();
+        question.setUserId(2);
         questionMapper.insert(question);
 
         // when
-        MvcResult result = this.mockMvc.perform(get("/drafts", 1))
+        MvcResult result = this.mockMvc.perform(get("/drafts"))
                 .andExpect(status().isOk()).andReturn();
 
         String json = result.getResponse().getContentAsString();
