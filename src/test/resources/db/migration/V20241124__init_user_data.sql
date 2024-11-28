@@ -4,9 +4,3 @@ INSERT INTO `user` (`id`, `name`, `phone`, `email`, `password`)
 VALUES (2, 'John', '18812345678', 'john@qq.com', 'password');
 INSERT INTO `user` (`id`, `name`, `phone`, `email`, `password`)
 VALUES (3, 'Foo', '18912345678', 'foo@qq.com', 'password');
-
-INSERT INTO `category` (`id`, `name`, `slug`)
-VALUES (1, '经济', 'economy');
-
-INSERT INTO category (id, name, slug)
-VALUES (2, '科学', 'science');

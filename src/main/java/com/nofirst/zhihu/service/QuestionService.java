@@ -27,4 +27,6 @@ public interface QuestionService {
     void publish(Long questionId);
 
     List<QuestionVo> drafts(AccountUser accountUser);
+
+    PageInfo<QuestionVo> index(String slug, Integer pageIndex, Integer pageSize);
 }

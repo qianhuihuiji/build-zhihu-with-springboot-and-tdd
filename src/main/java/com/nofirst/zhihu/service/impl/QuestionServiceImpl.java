@@ -58,8 +58,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public PageInfo<Answer> answers(Long questionId, int pageNow, int pageSize) {
-        PageHelper.startPage(pageNow, pageSize);
+    public PageInfo<Answer> answers(Long questionId, int pageIndex, int pageSize) {
+        PageHelper.startPage(pageIndex, pageSize);
         List<Answer> answers = answerMapper.selectByQuestionId(questionId);
         return new PageInfo<>(answers);
     }
@@ -110,5 +110,25 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         return result;
+    }
+
+    @Override
+    public PageInfo<QuestionVo> index(String slug, Integer pageIndex, Integer pageSize) {
+        PageHelper.startPage(pageIndex, pageSize);
+        QuestionExample example = new QuestionExample();
+        example.createCriteria().andPublishedAtIsNotNull();
+        List<Question> questions = questionMapper.selectByExample(example);
+        List<QuestionVo> result = new ArrayList<>();
+        for (Question question : questions) {
+            QuestionVo questionVo = new QuestionVo();
+            questionVo.setId(question.getId());
+            questionVo.setUserId(question.getUserId());
+            questionVo.setBestAnswerId(question.getBestAnswerId());
+            questionVo.setTitle(question.getTitle());
+            questionVo.setContent(question.getContent());
+            questionVo.setPublishedAt(question.getPublishedAt());
+            result.add(questionVo);
+        }
+        return new PageInfo<>(result);
     }
 }
