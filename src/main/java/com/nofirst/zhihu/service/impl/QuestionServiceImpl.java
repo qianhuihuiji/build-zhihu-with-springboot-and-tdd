@@ -123,20 +123,8 @@ public class QuestionServiceImpl implements QuestionService {
         QuestionExample example = new QuestionExample();
         QuestionExample.Criteria criteria = example.createCriteria();
         criteria.andPublishedAtIsNotNull();
-        if (StringUtils.isNotBlank(by)) {
-            User user = userMapper.selectByUsername(by);
-            if (Objects.nonNull(user)) {
-                criteria.andUserIdEqualTo(user.getId());
-            }
-        }
-        if (StringUtils.isNotBlank(slug)) {
-            CategoryExample categoryExample = new CategoryExample();
-            categoryExample.createCriteria().andSlugLike(slug);
-            List<Category> categories = categoryMapper.selectByExample(categoryExample);
-            if (CollectionUtil.isNotEmpty(categories)) {
-                criteria.andCategoryIdEqualTo(categories.get(0).getId());
-            }
-        }
+        appendQueryCondition(slug, by, criteria);
+        
         PageHelper.startPage(pageIndex, pageSize);
         List<Question> questions = questionMapper.selectByExample(example);
         // 如果不使用 mapper 返回的对象直接构造分页对象，total会被错误赋值成当前页的数据的数量，而不是总数
@@ -158,5 +146,22 @@ public class QuestionServiceImpl implements QuestionService {
         pageResult.setPageSize(questionPageInfo.getPageSize());
         pageResult.setList(result);
         return pageResult;
+    }
+
+    private void appendQueryCondition(String slug, String by, QuestionExample.Criteria criteria) {
+        if (StringUtils.isNotBlank(by)) {
+            User user = userMapper.selectByUsername(by);
+            if (Objects.nonNull(user)) {
+                criteria.andUserIdEqualTo(user.getId());
+            }
+        }
+        if (StringUtils.isNotBlank(slug)) {
+            CategoryExample categoryExample = new CategoryExample();
+            categoryExample.createCriteria().andSlugLike(slug);
+            List<Category> categories = categoryMapper.selectByExample(categoryExample);
+            if (CollectionUtil.isNotEmpty(categories)) {
+                criteria.andCategoryIdEqualTo(categories.get(0).getId());
+            }
+        }
     }
 }
