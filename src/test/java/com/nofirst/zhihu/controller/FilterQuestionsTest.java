@@ -6,9 +6,11 @@ import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.CommonResult;
 import com.nofirst.zhihu.common.ResultCode;
+import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.CategoryMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
+import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Category;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.vo.QuestionVo;
@@ -17,7 +19,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,7 +27,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.MySQLContainer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -134,7 +138,6 @@ class FilterQuestionsTest {
     }
 
     @Test
-    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void user_can_filter_questions_by_username() throws Exception {
         // given
         Question byJohn = QuestionFactory.createPublishedQuestion();
@@ -154,6 +157,36 @@ class FilterQuestionsTest {
         // then
         assertThat(json).contains(byJohn.getTitle());
         assertThat(json).doesNotContain(byOther.getTitle());
+    }
+
+    @Test
+    void user_can_filter_questions_by_popularity() throws Exception {
+        // given
+        List<Answer> answerBatch = new ArrayList<>();
+        Question oneAnswerQuestion = QuestionFactory.createPublishedQuestion();
+        questionMapper.insert(oneAnswerQuestion);
+        answerBatch.addAll(AnswerFactory.createAnswerBatch(1, oneAnswerQuestion.getId()));
+        Question twoAnswerQuestion = QuestionFactory.createPublishedQuestion();
+        questionMapper.insert(twoAnswerQuestion);
+        answerBatch.addAll(AnswerFactory.createAnswerBatch(2, twoAnswerQuestion.getId()));
+        Question threeAnswerQuestion = QuestionFactory.createPublishedQuestion();
+        questionMapper.insert(threeAnswerQuestion);
+        answerBatch.addAll(AnswerFactory.createAnswerBatch(3, threeAnswerQuestion.getId()));
+        // when
+        MvcResult result = this.mockMvc.perform(get("/questions?pageIndex=1&pageSize=20&popularity=1"))
+                .andExpect(status().isOk()).andReturn();
+
+        // then
+        String json = result.getResponse().getContentAsString();
+        CommonResult commonResult = JSONUtil.toBean(json, CommonResult.class);
+        long code = commonResult.getCode();
+        assertThat(code).isEqualTo(ResultCode.SUCCESS.getCode());
+
+        PageInfo<QuestionVo> data = JSONUtil.toBean((JSONObject) commonResult.getData(), PageInfo.class);
+        List<QuestionVo> questionVos = data.getList();
+        List<Integer> answersCountList = questionVos.stream().map(QuestionVo::getAnswersCount).collect(Collectors.toList());
+
+        assertThat(Arrays.asList(3, 2, 1)).isEqualTo(answersCountList);
     }
 
 }

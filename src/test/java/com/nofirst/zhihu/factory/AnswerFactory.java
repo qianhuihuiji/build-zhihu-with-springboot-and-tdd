@@ -3,7 +3,9 @@ package com.nofirst.zhihu.factory;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.model.dto.AnswerDto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AnswerFactory {
 
@@ -18,6 +20,15 @@ public class AnswerFactory {
         answer.setContent("this is a answer");
 
         return answer;
+    }
+
+    public static List<Answer> createAnswerBatch(Integer times, Long questionId) {
+        List<Answer> answers = new ArrayList<Answer>();
+        for (int i = 0; i < times; i++) {
+            answers.add(createAnswer(questionId));
+        }
+
+        return answers;
     }
 
     public static AnswerDto createAnswerDto() {

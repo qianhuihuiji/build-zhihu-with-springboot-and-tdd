@@ -21,5 +21,7 @@ public class QuestionVo {
 
     private Date publishedAt;
 
+    private Integer answersCount;
+
     PageInfo<Answer> answers;
 }
