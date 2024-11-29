@@ -24,7 +24,9 @@ import com.nofirst.zhihu.service.QuestionService;
 import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -119,12 +121,13 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public PageInfo<QuestionVo> index(Integer pageIndex, Integer pageSize, String slug, String by) {
+    public PageInfo<QuestionVo> index(Integer pageIndex, Integer pageSize, String slug, String by, Integer popularity) {
         QuestionExample example = new QuestionExample();
         QuestionExample.Criteria criteria = example.createCriteria();
         criteria.andPublishedAtIsNotNull();
-        appendQueryCondition(slug, by, criteria);
-        
+        appendQueryCondition(slug, by, example);
+        appendOrderCondition(popularity, example);
+
         PageHelper.startPage(pageIndex, pageSize);
         List<Question> questions = questionMapper.selectByExample(example);
         // 如果不使用 mapper 返回的对象直接构造分页对象，total会被错误赋值成当前页的数据的数量，而不是总数
@@ -148,7 +151,18 @@ public class QuestionServiceImpl implements QuestionService {
         return pageResult;
     }
 
-    private void appendQueryCondition(String slug, String by, QuestionExample.Criteria criteria) {
+    private void appendOrderCondition(Integer popularity, QuestionExample example) {
+        if (Objects.nonNull(popularity) && popularity == 1) {
+            example.setOrderByClause("answers_count desc");
+        }
+    }
+
+    private void appendQueryCondition(String slug, String by, QuestionExample example) {
+        Method method = ReflectionUtils.findMethod(this.getClass(), "by");
+        if (Objects.nonNull(method)) {
+            method.invoke(this, example);
+        }
+
         if (StringUtils.isNotBlank(by)) {
             User user = userMapper.selectByUsername(by);
             if (Objects.nonNull(user)) {

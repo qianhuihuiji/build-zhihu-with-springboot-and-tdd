@@ -63,7 +63,9 @@ class PostAnswersTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-//        mySQLContainer.start();
+
+        questionMapper.deleteByExample(null);
+        answerMapper.deleteByExample(null);
     }
 
     // 这里的 mysql:8.0 镜像最好先本地下载，不然启动测试会先尝试下载，测试时间会变得非常长
@@ -108,6 +110,9 @@ class PostAnswersTest {
 
         List<Answer> answers = answerMapper.selectByUserId(2L);
         assertThat(answers.size()).isEqualTo(1);
+
+        Question result = questionMapper.selectByPrimaryKey(question.getId());
+        assertThat(result.getAnswersCount()).isEqualTo(1);
     }
 
     @Test

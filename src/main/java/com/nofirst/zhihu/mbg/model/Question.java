@@ -55,6 +55,13 @@ public class Question implements Serializable {
     private Short categoryId;
 
     /**
+     * 回答数量
+     *
+     * @mbg.generated
+     */
+    private Integer answersCount;
+
+    /**
      * 内容
      *
      * @mbg.generated

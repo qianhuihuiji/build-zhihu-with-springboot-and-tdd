@@ -46,8 +46,9 @@ public class QuestionController {
     public CommonResult<PageInfo<QuestionVo>> index(@RequestParam @NotNull Integer pageIndex,
                                                     @RequestParam @NotNull Integer pageSize,
                                                     @RequestParam(required = false) String slug,
-                                                    @RequestParam(required = false) String by) {
-        PageInfo<QuestionVo> questionPage = questionService.index(pageIndex, pageSize, slug, by);
+                                                    @RequestParam(required = false) String by,
+                                                    @RequestParam(required = false) Integer popularity) {
+        PageInfo<QuestionVo> questionPage = questionService.index(pageIndex, pageSize, slug, by, popularity);
         return CommonResult.success(questionPage);
     }
 }

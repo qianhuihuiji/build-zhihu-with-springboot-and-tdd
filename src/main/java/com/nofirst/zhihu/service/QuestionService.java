@@ -28,5 +28,5 @@ public interface QuestionService {
 
     List<QuestionVo> drafts(AccountUser accountUser);
 
-    PageInfo<QuestionVo> index(Integer pageIndex, Integer pageSize, String slug, String by);
+    PageInfo<QuestionVo> index(Integer pageIndex, Integer pageSize, String slug, String by, Integer popularity);
 }
