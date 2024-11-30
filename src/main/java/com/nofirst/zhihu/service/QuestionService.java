@@ -13,9 +13,9 @@ import java.util.List;
  * QuestionService
  *
  * @author nofirst
- * @date 2020-08-24 22:34
  */
 public interface QuestionService {
+    
     QuestionVo show(Long id);
 
     PageInfo<Answer> answers(Long questionId, int pageNow, int pageSize);
@@ -28,5 +28,5 @@ public interface QuestionService {
 
     List<QuestionVo> drafts(AccountUser accountUser);
 
-    PageInfo<QuestionVo> index(Integer pageIndex, Integer pageSize, String slug, String by, Integer popularity);
+    PageInfo<QuestionVo> index(Integer pageIndex, Integer pageSize, String slug, String by, Integer popularity, Integer unanswered);
 }

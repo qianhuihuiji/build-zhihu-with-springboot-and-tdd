@@ -185,4 +185,30 @@ class FilterQuestionsTest {
         assertThat(Arrays.asList(3, 2, 1)).isEqualTo(answersCountList);
     }
 
+    @Test
+    void a_user_can_filter_unanswered_questions() throws Exception {
+        // given
+        Question oneAnswerQuestion = QuestionFactory.createPublishedQuestion();
+        oneAnswerQuestion.setAnswersCount(1);
+        questionMapper.insert(oneAnswerQuestion);
+        Question noAnswerQuestion = QuestionFactory.createPublishedQuestion();
+        noAnswerQuestion.setAnswersCount(0);
+        questionMapper.insert(noAnswerQuestion);
+        // when
+        MvcResult result = this.mockMvc.perform(get("/questions?pageIndex=1&pageSize=20&unanswered=1"))
+                .andExpect(status().isOk()).andReturn();
+
+        // then
+        String json = result.getResponse().getContentAsString();
+        CommonResult commonResult = JSONUtil.toBean(json, CommonResult.class);
+        long code = commonResult.getCode();
+        assertThat(code).isEqualTo(ResultCode.SUCCESS.getCode());
+
+        PageInfo<QuestionVo> data = JSONUtil.toBean((JSONObject) commonResult.getData(), PageInfo.class);
+        List<QuestionVo> questionVos = data.getList();
+
+        assertThat(questionVos.size()).isEqualTo(1);
+        assertThat(questionVos.get(0).getId()).isEqualTo(oneAnswerQuestion.getId());
+    }
+
 }

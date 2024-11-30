@@ -1,8 +1,8 @@
 package com.nofirst.zhihu.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.nofirst.zhihu.QuestionFilter;
 import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
@@ -11,8 +11,6 @@ import com.nofirst.zhihu.mbg.mapper.CategoryMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
-import com.nofirst.zhihu.mbg.model.Category;
-import com.nofirst.zhihu.mbg.model.CategoryExample;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.QuestionExample;
 import com.nofirst.zhihu.mbg.model.User;
@@ -21,15 +19,14 @@ import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.publisher.CustomEventPublisher;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.QuestionService;
-import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -42,6 +39,7 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionDao questionDao;
     private AnswerMapper answerMapper;
     private CustomEventPublisher invitedEventPublisher;
+    private QuestionFilter questionFilter;
 
 
     @Override
@@ -121,12 +119,16 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public PageInfo<QuestionVo> index(Integer pageIndex, Integer pageSize, String slug, String by, Integer popularity) {
+    public PageInfo<QuestionVo> index(Integer pageIndex, Integer pageSize, String slug, String by, Integer popularity, Integer unanswered) {
         QuestionExample example = new QuestionExample();
         QuestionExample.Criteria criteria = example.createCriteria();
         criteria.andPublishedAtIsNotNull();
-        appendQueryCondition(slug, by, example);
-        appendOrderCondition(popularity, example);
+        Map<String, Object> condition = new HashMap<>();
+        condition.put("slug", slug);
+        condition.put("by", by);
+        condition.put("popularity", popularity);
+        condition.put("unanswered", unanswered);
+        questionFilter.apply(condition, example);
 
         PageHelper.startPage(pageIndex, pageSize);
         List<Question> questions = questionMapper.selectByExample(example);
@@ -149,33 +151,5 @@ public class QuestionServiceImpl implements QuestionService {
         pageResult.setPageSize(questionPageInfo.getPageSize());
         pageResult.setList(result);
         return pageResult;
-    }
-
-    private void appendOrderCondition(Integer popularity, QuestionExample example) {
-        if (Objects.nonNull(popularity) && popularity == 1) {
-            example.setOrderByClause("answers_count desc");
-        }
-    }
-
-    private void appendQueryCondition(String slug, String by, QuestionExample example) {
-        Method method = ReflectionUtils.findMethod(this.getClass(), "by");
-        if (Objects.nonNull(method)) {
-            method.invoke(this, example);
-        }
-
-        if (StringUtils.isNotBlank(by)) {
-            User user = userMapper.selectByUsername(by);
-            if (Objects.nonNull(user)) {
-                criteria.andUserIdEqualTo(user.getId());
-            }
-        }
-        if (StringUtils.isNotBlank(slug)) {
-            CategoryExample categoryExample = new CategoryExample();
-            categoryExample.createCriteria().andSlugLike(slug);
-            List<Category> categories = categoryMapper.selectByExample(categoryExample);
-            if (CollectionUtil.isNotEmpty(categories)) {
-                criteria.andCategoryIdEqualTo(categories.get(0).getId());
-            }
-        }
     }
 }
