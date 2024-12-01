@@ -62,7 +62,7 @@ public class AnswerMapperTest {
     public void can_select_by_user_id() {
         // given
         Answer answer = new Answer();
-        answer.setId(2L);
+        answer.setId(2);
         answer.setQuestionId(1);
         answer.setUserId(1);
         Date now = new Date();
@@ -80,7 +80,7 @@ public class AnswerMapperTest {
     public void can_select_by_question_id() {
         // given
         Answer answer = new Answer();
-        answer.setId(2L);
+        answer.setId(2);
         answer.setQuestionId(1);
         answer.setUserId(1);
         Date now = new Date();

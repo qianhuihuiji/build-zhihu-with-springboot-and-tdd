@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -67,13 +67,13 @@ class BestAnswerTest {
     @WithMockUser
         // 这里我们只验证 markAsBest() 方法被调用了一次即可，Service 的逻辑放到service里面进行测试
     void can_mark_one_answer_as_the_best() throws Exception {
-        when(this.questionPolicy.canMarkAnswerAsBest(anyLong(), any())).thenReturn(true);
+        when(this.questionPolicy.canMarkAnswerAsBest(anyInt(), any())).thenReturn(true);
         this.mockMvc.perform(post("/answers/{answerId}/best", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
-        verify(answerService, times(1)).markAsBest(anyLong(), any());
+        verify(answerService, times(1)).markAsBest(anyInt(), any());
     }
 
     @Test
@@ -82,7 +82,7 @@ class BestAnswerTest {
         // given
         User user = UserFactory.createUser();
         when(this.userMapper.selectByUsername(anyString())).thenReturn(user);
-        when(this.questionPolicy.canMarkAnswerAsBest(anyLong(), any())).thenReturn(false);
+        when(this.questionPolicy.canMarkAnswerAsBest(anyInt(), any())).thenReturn(false);
         this.mockMvc.perform(post("/answers/{id}/best", 1))
                 .andExpect(status().is(403));
     }

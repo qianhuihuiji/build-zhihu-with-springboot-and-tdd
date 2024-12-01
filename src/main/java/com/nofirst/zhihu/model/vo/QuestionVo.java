@@ -13,7 +13,7 @@ public class QuestionVo {
 
     private Integer userId;
 
-    private Long bestAnswerId;
+    private Integer bestAnswerId;
 
     private String title;
 

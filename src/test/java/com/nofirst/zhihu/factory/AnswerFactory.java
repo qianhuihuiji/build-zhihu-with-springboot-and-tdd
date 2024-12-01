@@ -12,7 +12,7 @@ public class AnswerFactory {
     public static Answer createAnswer(Integer questionId) {
         Date now = new Date();
         Answer answer = new Answer();
-        answer.setId(1L);
+        answer.setId(1);
         answer.setQuestionId(questionId);
         answer.setUserId(1);
         answer.setCreatedAt(now);

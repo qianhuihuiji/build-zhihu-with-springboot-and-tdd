@@ -3,12 +3,13 @@ package com.nofirst.zhihu.controller;
 import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.dao.VoteDao;
+import com.nofirst.zhihu.factory.QuestionFactory;
+import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.mapper.VoteMapper;
-import com.nofirst.zhihu.mbg.model.Answer;
+import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.Vote;
 import com.nofirst.zhihu.model.enums.VoteActionType;
-import com.nofirst.zhihu.service.AnswerService;
-import org.assertj.core.api.Assertions;
+import com.nofirst.zhihu.service.QuestionService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.MySQLContainer;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.fail;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // 会启动完整的Spring容器，因此会非常耗时
 @SpringBootTest(classes = BuildZhihuWithSpringbootAndTddApplication.class)
-class AnswersDownVotesTest {
+class SubscribeQuestionsTest {
 
     private MockMvc mockMvc;
 
@@ -42,12 +42,13 @@ class AnswersDownVotesTest {
 
     @Autowired
     private VoteMapper voteMapper;
-
     @Autowired
     private VoteDao voteDao;
 
     @Autowired
-    private AnswerService answerService;
+    private QuestionService questionService;
+    @Autowired
+    private QuestionMapper questionMapper;
 
     @BeforeAll
     public static void start() {
@@ -60,11 +61,8 @@ class AnswersDownVotesTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-
-//        mySQLContainer.start();
     }
 
-    // 我本地的镜像版本是 mysql:8.0
     // 这里的 mysql:8.0 镜像最好先本地下载，不然启动测试会先尝试下载，测试时间会变得非常长
     public static MySQLContainer<?> mySQLContainer = new MySQLContainer<>("mysql:8.0")
             .withDatabaseName("zhihu")
@@ -74,7 +72,6 @@ class AnswersDownVotesTest {
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.driverClassName", mySQLContainer::getDriverClassName);
         registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
         registry.add("spring.datasource.password", mySQLContainer::getPassword);
         registry.add("spring.datasource.username", mySQLContainer::getUsername);
@@ -82,8 +79,12 @@ class AnswersDownVotesTest {
 
 
     @Test
-    void guest_can_not_vote_down() throws Exception {
-        this.mockMvc.perform(post("/answers/1/down-votes"))
+    void guests_may_not_subscribe_to_or_unsubscribe_from_questions() throws Exception {
+        this.mockMvc.perform(post("/questions/subscriptions"))
+                .andDo(print())
+                .andExpect(status().is(401));
+
+        this.mockMvc.perform(delete("/questions/subscriptions"))
                 .andDo(print())
                 .andExpect(status().is(401));
     }
@@ -92,63 +93,18 @@ class AnswersDownVotesTest {
     // 这个注解会尝试在SpringSecurity上下文中注入一个username为 John 的用户
     // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
     @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
-    void authenticated_user_can_vote_down() throws Exception {
+    void a_user_can_subscribe_to_questions() throws Exception {
+        Question question = QuestionFactory.createPublishedQuestion();
+        questionMapper.insert(question);
+
         // given
-        this.mockMvc.perform(post("/answers/1/down-votes"))
+        this.mockMvc.perform(post("/questions/{questionId}/subscriptions", question.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
-        Vote vote = voteDao.selectByVotedId(1, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
+        Vote vote = voteDao.selectByVotedId(1, Question.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
         assertThat(vote).isNotNull();
     }
 
-    @Test
-    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 John 的用户
-    // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
-    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
-    void an_authenticated_user_can_cancel_vote_down() throws Exception {
-        // given
-        this.mockMvc.perform(post("/answers/1/down-votes"));
-        Vote vote = voteDao.selectByVotedId(1, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
-        assertThat(vote).isNotNull();
-        // when
-        this.mockMvc.perform(delete("/answers/1/down-votes"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
-
-        // then
-        vote = voteDao.selectByVotedId(1, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
-        assertThat(vote).isNull();
-    }
-
-    @Test
-    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 John 的用户
-    // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
-    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
-    void can_vote_down_only_once() {
-        // given
-        try {
-            this.mockMvc.perform(post("/answers/1/down-votes"));
-            this.mockMvc.perform(post("/answers/1/down-votes"));
-        } catch (Exception e) {
-            fail("Can not vote up twice", e);
-        }
-    }
-
-    @Test
-    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 John 的用户
-    // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
-    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
-    void answer_can_know_it_is_voted_down() throws Exception {
-        // given
-        this.mockMvc.perform(post("/answers/1/down-votes"));
-
-        // when
-        Boolean votedUp = answerService.isVotedDown(1);
-
-        // then
-        Assertions.assertThat(votedUp).isTrue();
-    }
 }

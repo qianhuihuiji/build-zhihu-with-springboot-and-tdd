@@ -10,7 +10,7 @@ import com.nofirst.zhihu.security.AccountUser;
  */
 public interface AnswerVoteUpService {
 
-    void store(Long answerId, AccountUser accountUser);
+    void store(Integer answerId, AccountUser accountUser);
 
-    void destroy(Long answerId, AccountUser accountUser);
+    void destroy(Integer answerId, AccountUser accountUser);
 }

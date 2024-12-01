@@ -21,7 +21,7 @@ public class Question implements Serializable {
      *
      * @mbg.generated
      */
-    private Long bestAnswerId;
+    private Integer bestAnswerId;
 
     /**
      * 分类编号
@@ -73,11 +73,11 @@ public class Question implements Serializable {
         this.publishedAt = publishedAt;
     }
 
-    public Long getBestAnswerId() {
+    public Integer getBestAnswerId() {
         return bestAnswerId;
     }
 
-    public void setBestAnswerId(Long bestAnswerId) {
+    public void setBestAnswerId(Integer bestAnswerId) {
         this.bestAnswerId = bestAnswerId;
     }
 

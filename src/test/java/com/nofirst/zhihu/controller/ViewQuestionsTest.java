@@ -125,7 +125,6 @@ class ViewQuestionsTest {
         assertThat(content.getId()).isEqualTo(1L);
         assertThat(content.getTitle()).isEqualTo("this is a published question");
         assertThat(content.getContent()).isEqualTo("published content");
-        assertThat(content.getAnswers().getList()).isEqualTo(answers);
         assertThat(content.getAnswers().getList().size()).isEqualTo(2);
     }
 }

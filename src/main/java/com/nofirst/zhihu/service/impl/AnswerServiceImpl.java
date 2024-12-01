@@ -1,6 +1,7 @@
 package com.nofirst.zhihu.service.impl;
 
 import com.nofirst.zhihu.dao.QuestionDao;
+import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.exception.AnswerNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
@@ -27,9 +28,10 @@ public class AnswerServiceImpl implements AnswerService {
     private final QuestionMapper questionMapper;
     private final QuestionDao questionDao;
     private final VoteMapper voteMapper;
+    private final VoteDao voteDao;
 
     @Override
-    public Answer show(Long id) {
+    public Answer show(Integer id) {
         return answerMapper.selectByPrimaryKey(id);
     }
 
@@ -57,7 +59,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void markAsBest(Long answerId, AccountUser accountUser) {
+    public void markAsBest(Integer answerId, AccountUser accountUser) {
         Answer answer = answerMapper.selectByPrimaryKey(answerId);
         if (Objects.isNull(answer)) {
             throw new AnswerNotExistedException();
@@ -73,28 +75,28 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void destroy(Long answerId, AccountUser accountUser) {
+    public void destroy(Integer answerId, AccountUser accountUser) {
         answerMapper.deleteByPrimaryKey(answerId);
     }
 
     @Override
-    public Boolean isVotedUp(Long answerId) {
-        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_UP.getCode()) > 0;
+    public Boolean isVotedUp(Integer answerId) {
+        return voteDao.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_UP.getCode()) > 0;
     }
 
     @Override
-    public Integer upVotesCount(Long answerId) {
-        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_UP.getCode());
+    public Integer upVotesCount(Integer answerId) {
+        return voteDao.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_UP.getCode());
     }
 
     @Override
-    public Boolean isVotedDown(Long answerId) {
-        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_DOWN.getCode()) > 0;
+    public Boolean isVotedDown(Integer answerId) {
+        return voteDao.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_DOWN.getCode()) > 0;
     }
 
     @Override
-    public Integer downVotesCount(Long answerId) {
-        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_DOWN.getCode());
+    public Integer downVotesCount(Integer answerId) {
+        return voteDao.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_DOWN.getCode());
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.nofirst.zhihu.controller;
 
 import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.ResultCode;
+import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Vote;
@@ -41,6 +42,9 @@ class AnswersUpVotesTest {
 
     @Autowired
     private VoteMapper voteMapper;
+
+    @Autowired
+    private VoteDao voteDao;
 
     @Autowired
     private AnswerService answerService;
@@ -93,7 +97,7 @@ class AnswersUpVotesTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
-        Vote vote = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
+        Vote vote = voteDao.selectByVotedId(1, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
         assertThat(vote).isNotNull();
     }
 
@@ -104,7 +108,7 @@ class AnswersUpVotesTest {
     void an_authenticated_user_can_cancel_vote_up() throws Exception {
         // given
         this.mockMvc.perform(post("/answers/1/up-votes"));
-        Vote vote = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
+        Vote vote = voteDao.selectByVotedId(1, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
         assertThat(vote).isNotNull();
         // when
         this.mockMvc.perform(delete("/answers/1/up-votes"))
@@ -113,7 +117,7 @@ class AnswersUpVotesTest {
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
         // then
-        vote = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
+        vote = voteDao.selectByVotedId(1, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
         assertThat(vote).isNull();
     }
 
@@ -140,7 +144,7 @@ class AnswersUpVotesTest {
         this.mockMvc.perform(post("/answers/1/up-votes"));
 
         // when
-        Boolean votedUp = answerService.isVotedUp(1L);
+        Boolean votedUp = answerService.isVotedUp(1);
 
         // then
         Assertions.assertThat(votedUp).isTrue();

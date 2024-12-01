@@ -24,13 +24,13 @@ public class AnswerDownVoteController {
     private final AnswerVoteDownService answerVoteDownService;
 
     @PostMapping("/answers/{answerId}/down-votes")
-    public CommonResult store(@PathVariable Long answerId, @AuthenticationPrincipal AccountUser accountUser) {
+    public CommonResult store(@PathVariable Integer answerId, @AuthenticationPrincipal AccountUser accountUser) {
         answerVoteDownService.store(answerId, accountUser);
         return CommonResult.success(null);
     }
 
     @DeleteMapping("/answers/{answerId}/down-votes")
-    public CommonResult destroy(@PathVariable Long answerId, @AuthenticationPrincipal AccountUser accountUser) {
+    public CommonResult destroy(@PathVariable Integer answerId, @AuthenticationPrincipal AccountUser accountUser) {
         answerVoteDownService.destroy(answerId, accountUser);
         return CommonResult.success(null);
     }

@@ -10,7 +10,7 @@ public class VoteFactory {
         Date now = new Date();
         Vote vote = new Vote();
         vote.setUserId(1);
-        vote.setVotedId(1L);
+        vote.setVotedId(1);
         vote.setResourceType(resourceType.getSimpleName());
         vote.setActionType(actionType);
         vote.setCreatedAt(now);

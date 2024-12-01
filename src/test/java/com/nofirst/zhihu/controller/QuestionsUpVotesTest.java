@@ -2,6 +2,7 @@ package com.nofirst.zhihu.controller;
 
 import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.ResultCode;
+import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.Vote;
@@ -41,6 +42,9 @@ class QuestionsUpVotesTest {
 
     @Autowired
     private VoteMapper voteMapper;
+
+    @Autowired
+    private VoteDao voteDao;
 
     @Autowired
     private QuestionService questionService;
@@ -91,7 +95,7 @@ class QuestionsUpVotesTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
-        Vote vote = voteMapper.selectByVotedId(1L, Question.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
+        Vote vote = voteDao.selectByVotedId(1, Question.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
         assertThat(vote).isNotNull();
     }
 
@@ -102,7 +106,7 @@ class QuestionsUpVotesTest {
     void an_authenticated_user_can_cancel_vote_up() throws Exception {
         // given
         this.mockMvc.perform(post("/questions/1/up-votes"));
-        Vote vote = voteMapper.selectByVotedId(1L, Question.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
+        Vote vote = voteDao.selectByVotedId(1, Question.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
         assertThat(vote).isNotNull();
         // when
         this.mockMvc.perform(delete("/questions/1/up-votes"))
@@ -111,7 +115,7 @@ class QuestionsUpVotesTest {
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
         // then
-        vote = voteMapper.selectByVotedId(1L, Question.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
+        vote = voteDao.selectByVotedId(1, Question.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
         assertThat(vote).isNull();
     }
 
@@ -138,7 +142,7 @@ class QuestionsUpVotesTest {
         this.mockMvc.perform(post("/questions/1/up-votes"));
 
         // when
-        Boolean votedUp = questionService.isVotedUp(1L);
+        Boolean votedUp = questionService.isVotedUp(1);
 
         // then
         Assertions.assertThat(votedUp).isTrue();

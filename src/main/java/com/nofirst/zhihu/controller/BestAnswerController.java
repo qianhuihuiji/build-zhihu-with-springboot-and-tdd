@@ -20,7 +20,7 @@ public class BestAnswerController {
 
     @PostMapping("/answers/{answerId}/best")
     @PreAuthorize("@questionPolicy.canMarkAnswerAsBest(#answerId, #accountUser)")
-    public CommonResult store(@PathVariable Long answerId, @AuthenticationPrincipal AccountUser accountUser) {
+    public CommonResult store(@PathVariable Integer answerId, @AuthenticationPrincipal AccountUser accountUser) {
         answerService.markAsBest(answerId, accountUser);
 
         return CommonResult.success(null);

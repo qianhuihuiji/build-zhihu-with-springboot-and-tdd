@@ -30,13 +30,13 @@ public interface QuestionService {
 
     PageInfo<QuestionVo> index(Integer pageIndex, Integer pageSize, String slug, String by, Integer popularity, Integer unanswered);
 
-    Boolean isVotedUp(Long answerId);
+    Boolean isVotedUp(Integer questionId);
 
-    Integer upVotesCount(Long answerId);
+    Integer upVotesCount(Integer questionId);
 
-    Boolean isVotedDown(Long answerId);
+    Boolean isVotedDown(Integer questionId);
 
-    Integer downVotesCount(Long answerId);
+    Integer downVotesCount(Integer questionId);
 
     String getResourceType();
 }

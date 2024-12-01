@@ -1,6 +1,6 @@
 
 CREATE TABLE `user` (
-                        `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                        `id` int unsigned NOT NULL AUTO_INCREMENT,
                         `name` VARCHAR(100)  NOT NULL,
                         `phone` VARCHAR(100)  NOT NULL,
                         `email` VARCHAR(100)  NOT NULL,

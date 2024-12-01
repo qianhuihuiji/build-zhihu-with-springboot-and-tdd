@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,7 +35,7 @@ class AnswerPolicyTest {
         // when
         AccountUser accountUser = UserFactory.createAccountUser();
         // 这个时候 answer 的 userId 为 1
-        boolean canDelete1 = answerPolicy.canDelete(1L, accountUser);
+        boolean canDelete1 = answerPolicy.canDelete(1, accountUser);
 
         // then
         assertThat(canDelete1).isTrue();
@@ -45,7 +45,7 @@ class AnswerPolicyTest {
         given(answerMapper.selectByPrimaryKey(answer.getId())).willReturn(answer);
 
         // when
-        boolean canDelete2 = answerPolicy.canDelete(1L, accountUser);
+        boolean canDelete2 = answerPolicy.canDelete(1, accountUser);
 
         // then
         assertThat(canDelete2).isFalse();
@@ -55,12 +55,12 @@ class AnswerPolicyTest {
     void answer_is_valid_when_judge() {
         // given
         AccountUser accountUser = UserFactory.createAccountUser();
-        given(answerMapper.selectByPrimaryKey(anyLong())).willReturn(null);
+        given(answerMapper.selectByPrimaryKey(anyInt())).willReturn(null);
 
         // then
         assertThatThrownBy(() -> {
             // when
-            answerPolicy.canDelete(1L, accountUser);
+            answerPolicy.canDelete(1, accountUser);
         }).isInstanceOf(AnswerNotExistedException.class)
                 .hasMessageContaining("answer not exist");
     }

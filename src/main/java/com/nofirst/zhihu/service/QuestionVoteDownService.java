@@ -10,7 +10,7 @@ import com.nofirst.zhihu.security.AccountUser;
  */
 public interface QuestionVoteDownService {
 
-    void store(Long questionId, AccountUser accountUser);
+    void store(Integer questionId, AccountUser accountUser);
 
-    void destroy(Long questionId, AccountUser accountUser);
+    void destroy(Integer questionId, AccountUser accountUser);
 }

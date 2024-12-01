@@ -36,8 +36,8 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.nofirst.zhihu.mbg.mapper"
                              targetProject="src\main\java"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="question">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        <table tableName="answer">
+            <generatedKey column="answer" sqlStatement="MySql" identity="true"/>
         </table>
     </context>
 </generatorConfiguration>

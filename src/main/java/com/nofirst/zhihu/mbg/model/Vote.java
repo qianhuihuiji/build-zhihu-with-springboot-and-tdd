@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Vote implements Serializable {
-    private Long id;
+    private Integer id;
 
     private Integer userId;
 
-    private Long votedId;
+    private Integer votedId;
 
     private String resourceType;
 
@@ -20,11 +20,11 @@ public class Vote implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -36,11 +36,11 @@ public class Vote implements Serializable {
         this.userId = userId;
     }
 
-    public Long getVotedId() {
+    public Integer getVotedId() {
         return votedId;
     }
 
-    public void setVotedId(Long votedId) {
+    public void setVotedId(Integer votedId) {
         this.votedId = votedId;
     }
 

@@ -78,7 +78,7 @@ public class QuestionMapperTest {
         Question result = questionMapper.selectByPrimaryKey(question.getId());
         assertThat(result.getBestAnswerId()).isNull();
         // when
-        questionDao.markAsBestAnswer(question.getId(), 1L);
+        questionDao.markAsBestAnswer(question.getId(), 1);
         // then
         result = questionMapper.selectByPrimaryKey(question.getId());
         assertThat(result.getBestAnswerId()).isNotNull();

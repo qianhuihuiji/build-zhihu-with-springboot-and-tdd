@@ -1,9 +1,9 @@
 
 
 CREATE TABLE `vote` (
-                        `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                        `user_id` int(4) NOT NULL,
-                        `voted_id` int(10) NOT NULL,
+                        `id` int unsigned NOT NULL AUTO_INCREMENT,
+                        `user_id` int NOT NULL,
+                        `voted_id` int NOT NULL,
                         `resource_type` VARCHAR(10) NOT NULL,
                         `action_type` VARCHAR(10) NOT NULL,
                         `created_at` timestamp NOT NULL  ,

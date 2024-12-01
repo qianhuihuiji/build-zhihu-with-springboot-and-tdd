@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.QuestionFilter;
 import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.dao.QuestionDao;
+import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
@@ -43,6 +44,7 @@ public class QuestionServiceImpl implements QuestionService {
     private AnswerMapper answerMapper;
     private AnswerDao answerDao;
     private VoteMapper voteMapper;
+    private VoteDao voteDao;
     private CustomEventPublisher invitedEventPublisher;
     private QuestionFilter questionFilter;
 
@@ -161,23 +163,23 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Boolean isVotedUp(Long answerId) {
-        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_UP.getCode()) > 0;
+    public Boolean isVotedUp(Integer questionId) {
+        return voteDao.countByVotedId(questionId, getResourceType(), VoteActionType.VOTE_UP.getCode()) > 0;
     }
 
     @Override
-    public Integer upVotesCount(Long answerId) {
-        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_UP.getCode());
+    public Integer upVotesCount(Integer questionId) {
+        return voteDao.countByVotedId(questionId, getResourceType(), VoteActionType.VOTE_UP.getCode());
     }
 
     @Override
-    public Boolean isVotedDown(Long answerId) {
-        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_DOWN.getCode()) > 0;
+    public Boolean isVotedDown(Integer questionId) {
+        return voteDao.countByVotedId(questionId, getResourceType(), VoteActionType.VOTE_DOWN.getCode()) > 0;
     }
 
     @Override
-    public Integer downVotesCount(Long answerId) {
-        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_DOWN.getCode());
+    public Integer downVotesCount(Integer questionId) {
+        return voteDao.countByVotedId(questionId, getResourceType(), VoteActionType.VOTE_DOWN.getCode());
     }
 
     @Override

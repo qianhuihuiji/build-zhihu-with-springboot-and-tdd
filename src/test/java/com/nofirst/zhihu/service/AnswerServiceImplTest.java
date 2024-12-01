@@ -1,6 +1,7 @@
 package com.nofirst.zhihu.service;
 
 import com.nofirst.zhihu.dao.QuestionDao;
+import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
@@ -43,6 +44,8 @@ class AnswerServiceImplTest {
     private QuestionDao questionDao;
     @Mock
     private VoteMapper voteMapper;
+    @Mock
+    private VoteDao voteDao;
 
     private Answer defaultAnswer;
     private AnswerDto defaultAnswerDto;
@@ -56,10 +59,10 @@ class AnswerServiceImplTest {
     @Test
     void get_existed_answer_by_show_method() {
         // given
-        given(answerMapper.selectByPrimaryKey(1L)).willReturn(this.defaultAnswer);
+        given(answerMapper.selectByPrimaryKey(1)).willReturn(this.defaultAnswer);
 
         // when
-        Answer result = answerService.show(1L);
+        Answer result = answerService.show(1);
 
         // then
         assertThat(result).isNotNull();
@@ -110,7 +113,7 @@ class AnswerServiceImplTest {
 
         // when
         AccountUser accountUser = UserFactory.createAccountUser();
-        answerService.markAsBest(1L, accountUser);
+        answerService.markAsBest(1, accountUser);
 
         // then
         verify(questionDao, times(1)).markAsBestAnswer(publishedQuestion.getId(), answer.getId());
@@ -123,17 +126,17 @@ class AnswerServiceImplTest {
 
         // when
         AccountUser accountUser = UserFactory.createAccountUser();
-        answerService.destroy(1L, accountUser);
+        answerService.destroy(1, accountUser);
 
         // then
-        verify(answerMapper, times(1)).deleteByPrimaryKey(1L);
+        verify(answerMapper, times(1)).deleteByPrimaryKey(1);
     }
 
     @Test
     void answer_can_know_it_is_voted_up() {
         // given
-        Long answerId = 1L;
-        given(voteMapper.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
+        Integer answerId = 1;
+        given(voteDao.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
 
         // when
         Boolean votedUp = answerService.isVotedUp(answerId);
@@ -145,8 +148,8 @@ class AnswerServiceImplTest {
     @Test
     void answer_can_know_up_votes_count() {
         // given
-        Long answerId = 1L;
-        given(voteMapper.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
+        Integer answerId = 1;
+        given(voteDao.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
 
         // when
         Integer votedUpCount = answerService.upVotesCount(answerId);
@@ -159,8 +162,8 @@ class AnswerServiceImplTest {
     @Test
     void answer_can_know_it_is_voted_down() {
         // given
-        Long answerId = 1L;
-        given(voteMapper.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
+        Integer answerId = 1;
+        given(voteDao.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
 
         // when
         Boolean votedUp = answerService.isVotedDown(answerId);
@@ -172,8 +175,8 @@ class AnswerServiceImplTest {
     @Test
     void answer_can_know_down_votes_count() {
         // given
-        Long answerId = 1L;
-        given(voteMapper.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
+        Integer answerId = 1;
+        given(voteDao.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
 
         // when
         Integer votedUpCount = answerService.downVotesCount(answerId);

@@ -1,5 +1,6 @@
 package com.nofirst.zhihu.service.impl;
 
+import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Vote;
 import com.nofirst.zhihu.model.enums.VoteActionType;
@@ -16,11 +17,12 @@ import java.util.Date;
 public class QuestionVoteDownServiceImpl implements QuestionVoteDownService {
 
     private VoteMapper voteMapper;
+    private VoteDao voteDao;
     private QuestionService questionService;
 
     @Override
-    public void store(Long questionId, AccountUser accountUser) {
-        int count = voteMapper.countByVotedId(questionId, questionService.getResourceType(), VoteActionType.VOTE_DOWN.getCode());
+    public void store(Integer questionId, AccountUser accountUser) {
+        int count = voteDao.countByVotedId(questionId, questionService.getResourceType(), VoteActionType.VOTE_DOWN.getCode());
         if (count == 0) {
             Vote vote = new Vote();
             vote.setUserId(accountUser.getUserId());
@@ -36,7 +38,7 @@ public class QuestionVoteDownServiceImpl implements QuestionVoteDownService {
     }
 
     @Override
-    public void destroy(Long questionId, AccountUser accountUser) {
-        voteMapper.deleteByVotedId(questionId, questionService.getResourceType(), VoteActionType.VOTE_DOWN.getCode());
+    public void destroy(Integer questionId, AccountUser accountUser) {
+        voteDao.deleteByVotedId(questionId, questionService.getResourceType(), VoteActionType.VOTE_DOWN.getCode());
     }
 }

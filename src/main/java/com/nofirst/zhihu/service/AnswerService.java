@@ -11,21 +11,21 @@ import com.nofirst.zhihu.security.AccountUser;
  * @date 2020-08-24 22:34
  */
 public interface AnswerService {
-    Answer show(Long id);
+    Answer show(Integer id);
 
     void store(Integer questionId, AnswerDto answerDto, AccountUser accountUser);
 
-    void markAsBest(Long answerId, AccountUser accountUser);
+    void markAsBest(Integer answerId, AccountUser accountUser);
 
-    void destroy(Long answerId, AccountUser accountUser);
+    void destroy(Integer answerId, AccountUser accountUser);
 
-    Boolean isVotedUp(Long answerId);
+    Boolean isVotedUp(Integer answerId);
 
-    Integer upVotesCount(Long answerId);
+    Integer upVotesCount(Integer answerId);
 
-    Boolean isVotedDown(Long answerId);
+    Boolean isVotedDown(Integer answerId);
 
-    Integer downVotesCount(Long answerId);
+    Integer downVotesCount(Integer answerId);
 
     String getResourceType();
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nofirst.zhihu.dao.VoteDao">
+    <delete id="deleteByVotedId">
+        delete
+        from vote
+        where voted_id = #{votedId,jdbcType=INTEGER}
+          and resource_type = #{resourceType,jdbcType=VARCHAR}
+          and action_type = #{actionType,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="selectByVotedId" resultType="com.nofirst.zhihu.mbg.model.Vote">
+        select
+        <include refid="com.nofirst.zhihu.mbg.mapper.VoteMapper.Base_Column_List"/>
+        from vote
+        where voted_id = #{voteId,jdbcType=INTEGER}
+        and resource_type = #{resourceType,jdbcType=VARCHAR}
+        and action_type = #{actionType,jdbcType=VARCHAR}
+    </select>
+    <select id="countByVotedId" resultType="java.lang.Integer">
+        select count(*)
+        from vote
+        where voted_id = #{voteId,jdbcType=INTEGER}
+          and resource_type = #{resourceType,jdbcType=VARCHAR}
+          and action_type = #{actionType,jdbcType=VARCHAR}
+    </select>
+</mapper>

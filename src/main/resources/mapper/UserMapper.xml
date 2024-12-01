@@ -172,7 +172,7 @@
         select
         <include refid="Base_Column_List"/>
         from user
-        where name = #{id,jdbcType=VARCHAR}
+        where name = #{username,jdbcType=VARCHAR}
     </select>
     <update id="updateByExampleSelective" parameterType="map">
         update user

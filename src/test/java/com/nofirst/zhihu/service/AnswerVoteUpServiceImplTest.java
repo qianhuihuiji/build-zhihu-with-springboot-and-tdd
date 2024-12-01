@@ -1,5 +1,6 @@
 package com.nofirst.zhihu.service;
 
+import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.factory.UserFactory;
 import com.nofirst.zhihu.factory.VoteFactory;
 import com.nofirst.zhihu.matcher.VoteMatcher;
@@ -29,6 +30,8 @@ class AnswerVoteUpServiceImplTest {
     @Mock
     private VoteMapper voteMapper;
     @Mock
+    private VoteDao voteDao;
+    @Mock
     private AnswerService answerService;
 
     @Test
@@ -38,7 +41,7 @@ class AnswerVoteUpServiceImplTest {
         when(answerService.getResourceType()).thenReturn(Answer.class.getSimpleName());
         // when
         AccountUser accountUser = UserFactory.createAccountUser();
-        answerVoteUpService.store(1L, accountUser);
+        answerVoteUpService.store(1, accountUser);
 
         // then
         verify(voteMapper, times(1)).insert(argThat(new VoteMatcher(vote)));

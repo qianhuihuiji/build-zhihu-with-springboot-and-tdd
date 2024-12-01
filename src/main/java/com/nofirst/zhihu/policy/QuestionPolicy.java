@@ -20,7 +20,7 @@ public class QuestionPolicy {
     private final QuestionMapper questionMapper;
     private final AnswerMapper answerMapper;
 
-    public boolean canMarkAnswerAsBest(Long answerId, AccountUser accountUser) {
+    public boolean canMarkAnswerAsBest(Integer answerId, AccountUser accountUser) {
         Answer answer = answerMapper.selectByPrimaryKey(answerId);
         if (Objects.isNull(answer)) {
             throw new AnswerNotExistedException();

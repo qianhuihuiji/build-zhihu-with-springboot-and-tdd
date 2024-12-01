@@ -15,7 +15,7 @@ public class AnswerPolicy {
 
     private final AnswerMapper answerMapper;
 
-    public boolean canDelete(Long answerId, AccountUser accountUser) {
+    public boolean canDelete(Integer answerId, AccountUser accountUser) {
         Answer answer = answerMapper.selectByPrimaryKey(answerId);
         if (Objects.isNull(answer)) {
             throw new AnswerNotExistedException();

@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -66,12 +66,12 @@ class DeleteAnswerTest {
     @WithMockUser
         // 这里我们只验证 destroy() 方法被调用了一次即可，Service 的逻辑放到service里面进行测试
     void can_delete_answer() throws Exception {
-        when(this.answerPolicy.canDelete(anyLong(), any())).thenReturn(true);
+        when(this.answerPolicy.canDelete(anyInt(), any())).thenReturn(true);
         this.mockMvc.perform(delete("/answers/{id}", 1))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
-        verify(answerService, times(1)).destroy(anyLong(), any());
+        verify(answerService, times(1)).destroy(anyInt(), any());
     }
 
     @Test
@@ -80,7 +80,7 @@ class DeleteAnswerTest {
         // given
         User user = UserFactory.createUser();
         when(this.userMapper.selectByUsername(anyString())).thenReturn(user);
-        when(this.answerPolicy.canDelete(anyLong(), any())).thenReturn(false);
+        when(this.answerPolicy.canDelete(anyInt(), any())).thenReturn(false);
         this.mockMvc.perform(delete("/answers/{id}", 1))
                 .andExpect(status().is(403));
     }

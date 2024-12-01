@@ -1,20 +1,11 @@
 package com.nofirst.zhihu.mbg.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-@Builder
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Answer implements Serializable {
-    private Long id;
+    private Integer id;
 
     private Integer questionId;
 
@@ -28,9 +19,52 @@ public class Answer implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Answer(long id, Integer userId) {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override
@@ -53,10 +87,4 @@ public class Answer implements Serializable {
     public boolean isBest(Question question) {
         return Objects.nonNull(question.getBestAnswerId()) && question.getBestAnswerId().equals(this.getId());
     }
-
-//    @Override
-//    public boolean equals(Object obj) {
-//        Answer obj1 = (Answer) obj;
-//        return obj1.getId().equals(this.getId());
-//    }
 }

@@ -2,6 +2,7 @@ package com.nofirst.zhihu.controller;
 
 import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.ResultCode;
+import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.Vote;
@@ -41,6 +42,9 @@ class QuestionsDownVotesTest {
 
     @Autowired
     private VoteMapper voteMapper;
+
+    @Autowired
+    private VoteDao voteDao;
 
     @Autowired
     private QuestionService questionService;
@@ -93,7 +97,7 @@ class QuestionsDownVotesTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
-        Vote vote = voteMapper.selectByVotedId(1L, Question.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
+        Vote vote = voteDao.selectByVotedId(1, Question.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
         assertThat(vote).isNotNull();
     }
 
@@ -104,7 +108,7 @@ class QuestionsDownVotesTest {
     void an_authenticated_user_can_cancel_vote_down() throws Exception {
         // given
         this.mockMvc.perform(post("/questions/1/down-votes"));
-        Vote vote = voteMapper.selectByVotedId(1L, Question.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
+        Vote vote = voteDao.selectByVotedId(1, Question.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
         assertThat(vote).isNotNull();
         // when
         this.mockMvc.perform(delete("/questions/1/down-votes"))
@@ -113,7 +117,7 @@ class QuestionsDownVotesTest {
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
         // then
-        vote = voteMapper.selectByVotedId(1L, Question.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
+        vote = voteDao.selectByVotedId(1, Question.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
         assertThat(vote).isNull();
     }
 
@@ -140,7 +144,7 @@ class QuestionsDownVotesTest {
         this.mockMvc.perform(post("/questions/1/down-votes"));
 
         // when
-        Boolean votedUp = questionService.isVotedDown(1L);
+        Boolean votedUp = questionService.isVotedDown(1);
 
         // then
         Assertions.assertThat(votedUp).isTrue();

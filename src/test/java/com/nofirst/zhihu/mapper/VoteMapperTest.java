@@ -1,6 +1,7 @@
 package com.nofirst.zhihu.mapper;
 
 
+import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.factory.VoteFactory;
 import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
@@ -25,6 +26,9 @@ public class VoteMapperTest {
 
     @Autowired
     private VoteMapper voteMapper;
+
+    @Autowired
+    private VoteDao voteDao;
 
     @BeforeAll
     public static void start() {
@@ -69,7 +73,7 @@ public class VoteMapperTest {
     public void can_select_by_voted_id() {
         Vote vote = VoteFactory.createVote(Answer.class, VoteActionType.VOTE_UP.getCode());
         voteMapper.insert(vote);
-        Vote result = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
+        Vote result = voteDao.selectByVotedId(1, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
         assertThat(result).isNotNull();
     }
 
@@ -77,10 +81,10 @@ public class VoteMapperTest {
     public void can_delete_by_voted_id() {
         Vote vote = VoteFactory.createVote(Answer.class, VoteActionType.VOTE_UP.getCode());
         voteMapper.insert(vote);
-        Vote result = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
+        Vote result = voteDao.selectByVotedId(1, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
         assertThat(result).isNotNull();
-        voteMapper.deleteByVotedId(vote.getVotedId(), vote.getResourceType(), vote.getActionType());
-        result = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
+        voteDao.deleteByVotedId(vote.getVotedId(), vote.getResourceType(), vote.getActionType());
+        result = voteDao.selectByVotedId(1, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
         assertThat(result).isNull();
     }
 
@@ -88,7 +92,7 @@ public class VoteMapperTest {
     public void can_count_by_voted_id() {
         Vote vote = VoteFactory.createVote(Answer.class, VoteActionType.VOTE_UP.getCode());
         voteMapper.insert(vote);
-        int count = voteMapper.countByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
+        int count = voteDao.countByVotedId(1, Answer.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
         assertThat(count).isEqualTo(1);
     }
 }

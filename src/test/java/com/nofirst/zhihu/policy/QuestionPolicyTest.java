@@ -20,7 +20,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,7 +43,7 @@ class QuestionPolicyTest {
 
         // when
         AccountUser accountUser = UserFactory.createAccountUser();
-        boolean questionOwner = questionPolicy.canMarkAnswerAsBest(1L, accountUser);
+        boolean questionOwner = questionPolicy.canMarkAnswerAsBest(1, accountUser);
 
         // then
         assertThat(questionOwner).isTrue();
@@ -54,25 +53,25 @@ class QuestionPolicyTest {
     void answer_and_question_are_both_valid() {
         // given
         AccountUser accountUser = UserFactory.createAccountUser();
-        given(answerMapper.selectByPrimaryKey(anyLong())).willReturn(null);
+        given(answerMapper.selectByPrimaryKey(anyInt())).willReturn(null);
 
         // then
         assertThatThrownBy(() -> {
             // when
-            questionPolicy.canMarkAnswerAsBest(1L, accountUser);
+            questionPolicy.canMarkAnswerAsBest(1, accountUser);
         }).isInstanceOf(AnswerNotExistedException.class)
                 .hasMessageContaining("answer not exist");
 
 
         // given
         Answer answer = AnswerFactory.createAnswer(1);
-        given(answerMapper.selectByPrimaryKey(1L)).willReturn(answer);
+        given(answerMapper.selectByPrimaryKey(1)).willReturn(answer);
         given(questionMapper.selectByPrimaryKey(anyInt())).willReturn(null);
 
         // then
         assertThatThrownBy(() -> {
             // when
-            questionPolicy.canMarkAnswerAsBest(1L, accountUser);
+            questionPolicy.canMarkAnswerAsBest(1, accountUser);
         }).isInstanceOf(QuestionNotExistedException.class)
                 .hasMessageContaining("question not exist");
 
@@ -86,7 +85,7 @@ class QuestionPolicyTest {
         // then
         assertThatThrownBy(() -> {
             // when
-            questionPolicy.canMarkAnswerAsBest(1L, accountUser);
+            questionPolicy.canMarkAnswerAsBest(1, accountUser);
         }).isInstanceOf(QuestionNotPublishedException.class)
                 .hasMessageContaining("question not publish");
     }
