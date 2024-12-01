@@ -29,4 +29,14 @@ public interface QuestionService {
     List<QuestionVo> drafts(AccountUser accountUser);
 
     PageInfo<QuestionVo> index(Integer pageIndex, Integer pageSize, String slug, String by, Integer popularity, Integer unanswered);
+
+    Boolean isVotedUp(Long answerId);
+
+    Integer upVotesCount(Long answerId);
+
+    Boolean isVotedDown(Long answerId);
+
+    Integer downVotesCount(Long answerId);
+
+    String getResourceType();
 }

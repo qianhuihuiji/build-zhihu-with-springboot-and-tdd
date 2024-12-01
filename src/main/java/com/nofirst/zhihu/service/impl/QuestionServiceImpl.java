@@ -11,11 +11,13 @@ import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.CategoryMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
+import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.QuestionExample;
 import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.dto.QuestionDto;
+import com.nofirst.zhihu.model.enums.VoteActionType;
 import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.publisher.CustomEventPublisher;
 import com.nofirst.zhihu.security.AccountUser;
@@ -40,6 +42,7 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionDao questionDao;
     private AnswerMapper answerMapper;
     private AnswerDao answerDao;
+    private VoteMapper voteMapper;
     private CustomEventPublisher invitedEventPublisher;
     private QuestionFilter questionFilter;
 
@@ -155,5 +158,30 @@ public class QuestionServiceImpl implements QuestionService {
         pageResult.setPageSize(questionPageInfo.getPageSize());
         pageResult.setList(result);
         return pageResult;
+    }
+
+    @Override
+    public Boolean isVotedUp(Long answerId) {
+        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_UP.getCode()) > 0;
+    }
+
+    @Override
+    public Integer upVotesCount(Long answerId) {
+        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_UP.getCode());
+    }
+
+    @Override
+    public Boolean isVotedDown(Long answerId) {
+        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_DOWN.getCode()) > 0;
+    }
+
+    @Override
+    public Integer downVotesCount(Long answerId) {
+        return voteMapper.countByVotedId(answerId, getResourceType(), VoteActionType.VOTE_DOWN.getCode());
+    }
+
+    @Override
+    public String getResourceType() {
+        return Question.class.getSimpleName();
     }
 }

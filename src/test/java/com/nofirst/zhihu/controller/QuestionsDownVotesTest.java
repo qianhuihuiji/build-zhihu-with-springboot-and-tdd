@@ -3,10 +3,10 @@ package com.nofirst.zhihu.controller;
 import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.mbg.mapper.VoteMapper;
-import com.nofirst.zhihu.mbg.model.Answer;
+import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.Vote;
 import com.nofirst.zhihu.model.enums.VoteActionType;
-import com.nofirst.zhihu.service.AnswerService;
+import com.nofirst.zhihu.service.QuestionService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // 会启动完整的Spring容器，因此会非常耗时
 @SpringBootTest(classes = BuildZhihuWithSpringbootAndTddApplication.class)
-class DownVotesTest {
+class QuestionsDownVotesTest {
 
     private MockMvc mockMvc;
 
@@ -43,7 +43,7 @@ class DownVotesTest {
     private VoteMapper voteMapper;
 
     @Autowired
-    private AnswerService answerService;
+    private QuestionService questionService;
 
     @BeforeAll
     public static void start() {
@@ -56,8 +56,6 @@ class DownVotesTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-
-//        mySQLContainer.start();
     }
 
     // 我本地的镜像版本是 mysql:8.0
@@ -79,7 +77,7 @@ class DownVotesTest {
 
     @Test
     void guest_can_not_vote_down() throws Exception {
-        this.mockMvc.perform(post("/answers/1/down-votes"))
+        this.mockMvc.perform(post("/questions/1/down-votes"))
                 .andDo(print())
                 .andExpect(status().is(401));
     }
@@ -90,12 +88,12 @@ class DownVotesTest {
     @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void authenticated_user_can_vote_down() throws Exception {
         // given
-        this.mockMvc.perform(post("/answers/1/down-votes"))
+        this.mockMvc.perform(post("/questions/1/down-votes"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
-        Vote vote = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
+        Vote vote = voteMapper.selectByVotedId(1L, Question.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
         assertThat(vote).isNotNull();
     }
 
@@ -105,17 +103,17 @@ class DownVotesTest {
     @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void an_authenticated_user_can_cancel_vote_down() throws Exception {
         // given
-        this.mockMvc.perform(post("/answers/1/down-votes"));
-        Vote vote = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
+        this.mockMvc.perform(post("/questions/1/down-votes"));
+        Vote vote = voteMapper.selectByVotedId(1L, Question.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
         assertThat(vote).isNotNull();
         // when
-        this.mockMvc.perform(delete("/answers/1/down-votes"))
+        this.mockMvc.perform(delete("/questions/1/down-votes"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
         // then
-        vote = voteMapper.selectByVotedId(1L, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
+        vote = voteMapper.selectByVotedId(1L, Question.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode());
         assertThat(vote).isNull();
     }
 
@@ -126,8 +124,8 @@ class DownVotesTest {
     void can_vote_down_only_once() {
         // given
         try {
-            this.mockMvc.perform(post("/answers/1/down-votes"));
-            this.mockMvc.perform(post("/answers/1/down-votes"));
+            this.mockMvc.perform(post("/questions/1/down-votes"));
+            this.mockMvc.perform(post("/questions/1/down-votes"));
         } catch (Exception e) {
             fail("Can not vote up twice", e);
         }
@@ -139,10 +137,10 @@ class DownVotesTest {
     @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void answer_can_know_it_is_voted_down() throws Exception {
         // given
-        this.mockMvc.perform(post("/answers/1/down-votes"));
+        this.mockMvc.perform(post("/questions/1/down-votes"));
 
         // when
-        Boolean votedUp = answerService.isVotedDown(1L);
+        Boolean votedUp = questionService.isVotedDown(1L);
 
         // then
         Assertions.assertThat(votedUp).isTrue();
