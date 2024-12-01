@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.ResultCode;
+import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
@@ -48,6 +49,9 @@ class PostAnswersTest {
 
     @Autowired
     private AnswerMapper answerMapper;
+
+    @Autowired
+    private AnswerDao answerDao;
 
     @Autowired
     private QuestionMapper questionMapper;
@@ -108,7 +112,7 @@ class PostAnswersTest {
         // 注3：还可以通过自定义 matcher 的方式来进行测试，特别注意，有多个参数时，每个参数都需要mock，如eq(1L)
 //        verify(answerService, times(1)).store(eq(1L), argThat(new AnswerMatcher(answer)));
 
-        List<Answer> answers = answerMapper.selectByUserId(2L);
+        List<Answer> answers = answerDao.selectByUserId(2L);
         assertThat(answers.size()).isEqualTo(1);
 
         Question result = questionMapper.selectByPrimaryKey(question.getId());
@@ -119,7 +123,7 @@ class PostAnswersTest {
     void guests_may_not_post_an_answer() throws Exception {
         // given
         Question question = QuestionFactory.createPublishedQuestion();
-        question.setId(1L);
+        question.setId(1);
 
         AnswerDto answer = AnswerFactory.createAnswerDto();
         this.mockMvc.perform(post("/questions/{id}/answers", question.getId())

@@ -49,7 +49,7 @@ class AnswerServiceImplTest {
 
     @BeforeEach
     public void setup() {
-        this.defaultAnswer = AnswerFactory.createAnswer(1L);
+        this.defaultAnswer = AnswerFactory.createAnswer(1);
         this.defaultAnswerDto = AnswerFactory.createAnswerDto();
     }
 
@@ -73,12 +73,12 @@ class AnswerServiceImplTest {
     void can_post_an_answer_to_a_published_question() {
         // given
         Question publishedQuestion = QuestionFactory.createPublishedQuestion();
-        publishedQuestion.setId(1L);
+        publishedQuestion.setId(1);
         given(questionMapper.selectByPrimaryKey(publishedQuestion.getId())).willReturn(publishedQuestion);
 
         // when
         AccountUser accountUser = UserFactory.createAccountUser();
-        answerService.store(1L, this.defaultAnswerDto, accountUser);
+        answerService.store(1, this.defaultAnswerDto, accountUser);
 
         // then
         verify(answerMapper, times(1)).insert(argThat(new AnswerMatcher(defaultAnswer)));

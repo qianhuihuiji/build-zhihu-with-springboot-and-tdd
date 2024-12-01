@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 public class QuestionVo {
 
-    private Long id;
+    private Integer id;
 
     private Integer userId;
 

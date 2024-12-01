@@ -1,5 +1,6 @@
 package com.nofirst.zhihu.mapper;
 
+import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
@@ -28,6 +29,8 @@ public class AnswerMapperTest {
 
     @Autowired
     private AnswerMapper answerMapper;
+    @Autowired
+    private AnswerDao answerDao;
 
     @BeforeAll
     public static void start() {
@@ -60,7 +63,7 @@ public class AnswerMapperTest {
         // given
         Answer answer = new Answer();
         answer.setId(2L);
-        answer.setQuestionId(1L);
+        answer.setQuestionId(1);
         answer.setUserId(1);
         Date now = new Date();
         answer.setCreatedAt(now);
@@ -68,7 +71,7 @@ public class AnswerMapperTest {
         answer.setContent("just test");
         answerMapper.insert(answer);
         // when
-        List<Answer> answers = answerMapper.selectByUserId(1L);
+        List<Answer> answers = answerDao.selectByUserId(1L);
         // then
         assertThat(!answers.isEmpty()).isTrue();
     }
@@ -78,7 +81,7 @@ public class AnswerMapperTest {
         // given
         Answer answer = new Answer();
         answer.setId(2L);
-        answer.setQuestionId(1L);
+        answer.setQuestionId(1);
         answer.setUserId(1);
         Date now = new Date();
         answer.setCreatedAt(now);
@@ -89,7 +92,7 @@ public class AnswerMapperTest {
         int insert = answerMapper.insert(answer);
 
         // then
-        List<Answer> answers = answerMapper.selectByQuestionId(1L);
+        List<Answer> answers = answerDao.selectByQuestionId(1);
         assertThat(insert).isEqualTo(1);
         assertThat(answers.size()).isEqualTo(1);
     }

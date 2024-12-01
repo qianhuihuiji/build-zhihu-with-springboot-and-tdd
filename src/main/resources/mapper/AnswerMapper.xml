@@ -272,17 +272,5 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
-    <select id="selectByQuestionId" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from answer
-        where question_id = #{questionId,jdbcType=INTEGER}
-    </select>
-    <select id="selectByUserId" resultType="com.nofirst.zhihu.mbg.model.Answer">
-        select
-        <include refid="Base_Column_List"/>
-        from answer
-        where user_id = #{userId,jdbcType=INTEGER}
-    </select>
 
 </mapper>

@@ -15,16 +15,16 @@ import java.util.List;
  * @author nofirst
  */
 public interface QuestionService {
-    
-    QuestionVo show(Long id);
 
-    PageInfo<Answer> answers(Long questionId, int pageNow, int pageSize);
+    QuestionVo show(Integer id);
+
+    PageInfo<Answer> answers(Integer questionId, int pageNow, int pageSize);
 
     User owner(Integer userId);
 
     void store(QuestionDto dto, AccountUser accountUser);
 
-    void publish(Long questionId);
+    void publish(Integer questionId);
 
     List<QuestionVo> drafts(AccountUser accountUser);
 

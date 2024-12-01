@@ -9,9 +9,7 @@ import com.nofirst.zhihu.mbg.model.User;
 import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -24,51 +22,43 @@ public class QuestionFilter {
     private final UserMapper userMapper;
     private final CategoryDao categoryDao;
 
-    private Set<String> filters;
+    private final Set<String> filters = new HashSet<>() {{
+        add("by");
+        add("popularity");
+        add("slug");
+    }};
 
-    static {
-        new HashSet<String>() {{
-            add("by");
-            add("popularity");
-            add("slug");
-        }};
-    }
-
-    public void apply(Map<String, Object> queryConditions, QuestionExample example) {
-        for (Map.Entry<String, Object> entry : queryConditions.entrySet()) {
-            String k = entry.getKey();
-            if (!filters.contains(k)) {
-                // not supported
-                continue;
-            }
-            Object v = entry.getValue();
-            try {
-                Method method = ReflectionUtils.findMethod(this.getClass(), k);
-                if (Objects.nonNull(method)) {
-                    method.invoke(this, example, v);
-                }
-            } catch (Exception e) {
-                // do something
-            }
+    public void apply(Map<String, Object> queryConditions, QuestionExample example, QuestionExample.Criteria criteria) {
+        if (queryConditions.containsKey("by")) {
+            by(criteria, String.valueOf(queryConditions.get("by")));
+        }
+        if (queryConditions.containsKey("popularity")) {
+            popularity(example, (Integer) queryConditions.get("popularity"));
+        }
+        if (queryConditions.containsKey("unanswered")) {
+            unanswered(criteria, (Integer) queryConditions.get("unanswered"));
+        }
+        if (queryConditions.containsKey("slug")) {
+            slug(criteria, String.valueOf(queryConditions.get("slug")));
         }
     }
 
-    private void by(QuestionExample example, String username) {
+    private void by(QuestionExample.Criteria criteria, String username) {
         if (StringUtils.isNotBlank(username)) {
             User user = userMapper.selectByUsername(username);
             if (Objects.nonNull(user)) {
-                example.createCriteria().andUserIdEqualTo(user.getId());
+                criteria.andUserIdEqualTo(user.getId());
             }
         }
     }
 
-    private void slug(QuestionExample example, String slug) {
+    private void slug(QuestionExample.Criteria criteria, String slug) {
         if (StringUtils.isNotBlank(slug)) {
             CategoryExample categoryExample = new CategoryExample();
             categoryExample.createCriteria().andSlugLike(slug);
             Category category = categoryDao.selectBySlug(slug);
             if (Objects.nonNull(category)) {
-                example.createCriteria().andCategoryIdEqualTo(category.getId());
+                criteria.andCategoryIdEqualTo(category.getId());
             }
         }
     }
@@ -79,9 +69,9 @@ public class QuestionFilter {
         }
     }
 
-    private void unanswered(QuestionExample example, Integer unanswered) {
+    private void unanswered(QuestionExample.Criteria criteria, Integer unanswered) {
         if (Objects.nonNull(unanswered) && unanswered == 1) {
-            example.createCriteria().andAnswersCountEquals(0);
+            criteria.andAnswersCountEqualTo(0);
         }
     }
 

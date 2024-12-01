@@ -94,7 +94,7 @@ class CreateQuestionsTest {
     void an_authenticated_user_can_create_new_questions() throws Exception {
         // given
         Question question = QuestionFactory.createUnpublishedQuestion();
-        int beforeCount = questionMapper.countByExample(null);
+        long beforeCount = questionMapper.countByExample(null);
 
         // when
         this.mockMvc.perform(post("/questions")
@@ -105,7 +105,7 @@ class CreateQuestionsTest {
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
         // then
-        int afterCount = questionMapper.countByExample(null);
+        long afterCount = questionMapper.countByExample(null);
         // 调用之后 question 增加了 1 条
         assertThat(afterCount - beforeCount).isEqualTo(1);
     }

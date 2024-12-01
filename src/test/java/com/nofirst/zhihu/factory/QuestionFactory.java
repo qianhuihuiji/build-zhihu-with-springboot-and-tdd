@@ -13,13 +13,15 @@ public class QuestionFactory {
     public static Question createPublishedQuestion() {
         Date lastWeek = DateUtils.addWeeks(new Date(), -1);
 
-        return Question.builder()
-                .userId(1)
-                .title("this is a published question")
-                .content("published content")
-                .publishedAt(lastWeek)
-                .categoryId((short) 1)
-                .build();
+        Question question = new Question();
+        question.setUserId(1);
+        question.setTitle("this is a published question");
+        question.setPublishedAt(lastWeek);
+        question.setCategoryId((short) 1);
+        question.setAnswersCount(0);
+        question.setContent("published content");
+
+        return question;
     }
 
     public static List<Question> createPublishedQuestionBatch(Integer times) {
@@ -32,14 +34,15 @@ public class QuestionFactory {
     }
 
     public static Question createUnpublishedQuestion() {
+        Question question = new Question();
+        question.setUserId(1);
+        question.setTitle("this is a unpublished question");
+        question.setPublishedAt(null);
+        question.setCategoryId((short) 1);
+        question.setContent("unpublished content");
+        question.setAnswersCount(0);
 
-        return Question.builder()
-                .userId(1)
-                .title("this is a unpublished question")
-                .content("unpublished content")
-                .publishedAt(null)
-                .categoryId((short) 1)
-                .build();
+        return question;
     }
 
     public static List<Question> createUnpublishedQuestionBatch(Integer times) {

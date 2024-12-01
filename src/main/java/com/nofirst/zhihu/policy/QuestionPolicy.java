@@ -35,7 +35,7 @@ public class QuestionPolicy {
         return accountUser.getUserId().equals(question.getUserId());
     }
 
-    public boolean isQuestionOwner(Long questionId, AccountUser accountUser) {
+    public boolean isQuestionOwner(Integer questionId, AccountUser accountUser) {
         Question question = questionMapper.selectByPrimaryKey(questionId);
         if (Objects.isNull(question)) {
             throw new QuestionNotExistedException();

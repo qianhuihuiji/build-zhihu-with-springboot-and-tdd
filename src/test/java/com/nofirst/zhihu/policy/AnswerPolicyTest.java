@@ -29,7 +29,7 @@ class AnswerPolicyTest {
     @Test
     void judge_can_delete_answer() {
         // given
-        Answer answer = AnswerFactory.createAnswer(1L);
+        Answer answer = AnswerFactory.createAnswer(1);
         given(answerMapper.selectByPrimaryKey(answer.getId())).willReturn(answer);
 
         // when

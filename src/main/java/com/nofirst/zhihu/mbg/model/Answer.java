@@ -16,7 +16,7 @@ import java.util.Objects;
 public class Answer implements Serializable {
     private Long id;
 
-    private Long questionId;
+    private Integer questionId;
 
     private Integer userId;
 

@@ -1,6 +1,7 @@
 package com.nofirst.zhihu.service;
 
 import com.github.pagehelper.PageInfo;
+import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.factory.AnswerFactory;
@@ -41,6 +42,8 @@ class QuestionServiceImplTest {
 
     @Mock
     private AnswerMapper answerMapper;
+    @Mock
+    private AnswerDao answerDao;
 
     @Mock
     private UserMapper userMapper;
@@ -64,10 +67,10 @@ class QuestionServiceImplTest {
     @Test
     void get_existed_question_by_show_method() {
         // given
-        given(questionMapper.selectByPrimaryKey(1L)).willReturn(this.question);
+        given(questionMapper.selectByPrimaryKey(1)).willReturn(this.question);
 
         // when
-        QuestionVo existedQuestion = questionService.show(1L);
+        QuestionVo existedQuestion = questionService.show(1);
 
         // then
         assertThat(existedQuestion).isNotNull();
@@ -80,12 +83,12 @@ class QuestionServiceImplTest {
     @Test
     void get_not_existed_question_by_show_method() {
         // given
-        given(questionMapper.selectByPrimaryKey(1L)).willReturn(null);
+        given(questionMapper.selectByPrimaryKey(1)).willReturn(null);
 
         // then
         assertThatThrownBy(() -> {
             // when
-            questionService.show(1L);
+            questionService.show(1);
         }).isInstanceOf(QuestionNotExistedException.class)
                 .hasMessageStartingWith("question not exist");
     }
@@ -94,10 +97,10 @@ class QuestionServiceImplTest {
     @Test
     void a_question_has_many_answers() {
         // given
-        given(answerMapper.selectByQuestionId(1L)).willReturn(this.answers);
+        given(answerDao.selectByQuestionId(1)).willReturn(this.answers);
 
         // when
-        PageInfo<Answer> answersPage = questionService.answers(1L, 1, 10);
+        PageInfo<Answer> answersPage = questionService.answers(1, 1, 10);
         List<Answer> results = answersPage.getList();
 
         // then
@@ -108,10 +111,10 @@ class QuestionServiceImplTest {
     @Test
     void can_get_published_question_by_show_method() {
         Question pushlishedQuestion = QuestionFactory.createPublishedQuestion();
-        when(this.questionMapper.selectByPrimaryKey(1L)).thenReturn(pushlishedQuestion);
+        when(this.questionMapper.selectByPrimaryKey(1)).thenReturn(pushlishedQuestion);
 
         // when
-        QuestionVo existedQuestion = questionService.show(1L);
+        QuestionVo existedQuestion = questionService.show(1);
 
         // then
         assertThat(existedQuestion).isNotNull();
@@ -124,12 +127,12 @@ class QuestionServiceImplTest {
     @Test
     void get_exception_if_try_get_not_published_question_by_show_method() {
         Question unpushlishedQuestion = QuestionFactory.createUnpublishedQuestion();
-        when(this.questionMapper.selectByPrimaryKey(1L)).thenReturn(unpushlishedQuestion);
+        when(this.questionMapper.selectByPrimaryKey(1)).thenReturn(unpushlishedQuestion);
 
         // then
         assertThatThrownBy(() -> {
             // when
-            questionService.show(1L);
+            questionService.show(1);
         }).isInstanceOf(QuestionNotPublishedException.class)
                 .hasMessageStartingWith("question not publish");
     }

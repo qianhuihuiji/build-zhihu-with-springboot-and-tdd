@@ -1,10 +1,5 @@
 package com.nofirst.zhihu.mbg.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,32 +7,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Builder
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Question implements Serializable {
-    private Long id;
+    private Integer id;
 
-    /**
-     * 创建用户id
-     *
-     * @mbg.generated
-     */
     private Integer userId;
 
-    /**
-     * 标题
-     *
-     * @mbg.generated
-     */
     private String title;
 
-    /**
-     * 发布时间
-     *
-     * @mbg.generated
-     */
     private Date publishedAt;
 
     /**
@@ -61,20 +37,71 @@ public class Question implements Serializable {
      */
     private Integer answersCount;
 
-    /**
-     * 内容
-     *
-     * @mbg.generated
-     */
     private String content;
 
     private static final long serialVersionUID = 1L;
 
+    public Integer getId() {
+        return id;
+    }
 
-    public Question(Long id, Integer userId, String title, String content) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Date getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(Date publishedAt) {
+        this.publishedAt = publishedAt;
+    }
+
+    public Long getBestAnswerId() {
+        return bestAnswerId;
+    }
+
+    public void setBestAnswerId(Long bestAnswerId) {
+        this.bestAnswerId = bestAnswerId;
+    }
+
+    public Short getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Short categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Integer getAnswersCount() {
+        return answersCount;
+    }
+
+    public void setAnswersCount(Integer answersCount) {
+        this.answersCount = answersCount;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
         this.content = content;
     }
 
@@ -90,6 +117,7 @@ public class Question implements Serializable {
         sb.append(", publishedAt=").append(publishedAt);
         sb.append(", bestAnswerId=").append(bestAnswerId);
         sb.append(", categoryId=").append(categoryId);
+        sb.append(", answersCount=").append(answersCount);
         sb.append(", content=").append(content);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

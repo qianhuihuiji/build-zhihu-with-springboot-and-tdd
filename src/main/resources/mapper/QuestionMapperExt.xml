@@ -3,12 +3,12 @@
 <mapper namespace="com.nofirst.zhihu.dao.QuestionDao">
     <update id="markAsBestAnswer">
         update question
-        set best_answer_id = #{answerId,jdbcType=BIGINT}
-        where id = #{questionId,jdbcType=BIGINT}
+        set best_answer_id = #{answerId,jdbcType=INTEGER}
+        where id = #{questionId,jdbcType=INTEGER}
     </update>
     <update id="publish">
         update question
         set published_at = #{publishedAt,jdbcType=TIMESTAMP}
-        where id = #{questionId,jdbcType=BIGINT}
+        where id = #{questionId,jdbcType=INTEGER}
     </update>
 </mapper>

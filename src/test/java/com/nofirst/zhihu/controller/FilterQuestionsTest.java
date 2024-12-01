@@ -178,9 +178,9 @@ class FilterQuestionsTest {
         long code = commonResult.getCode();
         assertThat(code).isEqualTo(ResultCode.SUCCESS.getCode());
 
-        PageInfo<QuestionVo> data = JSONUtil.toBean((JSONObject) commonResult.getData(), PageInfo.class);
-        List<QuestionVo> questionVos = data.getList();
-        List<Integer> answersCountList = questionVos.stream().map(QuestionVo::getAnswersCount).collect(Collectors.toList());
+        PageInfo data = JSONUtil.toBean((JSONObject) commonResult.getData(), PageInfo.class);
+        List<JSONObject> questionVos = data.getList();
+        List<Integer> answersCountList = questionVos.stream().map(t -> t.get("answersCount")).map(t -> (Integer) t).collect(Collectors.toList());
 
         assertThat(Arrays.asList(3, 2, 1)).isEqualTo(answersCountList);
     }
@@ -204,11 +204,11 @@ class FilterQuestionsTest {
         long code = commonResult.getCode();
         assertThat(code).isEqualTo(ResultCode.SUCCESS.getCode());
 
-        PageInfo<QuestionVo> data = JSONUtil.toBean((JSONObject) commonResult.getData(), PageInfo.class);
-        List<QuestionVo> questionVos = data.getList();
+        PageInfo data = JSONUtil.toBean((JSONObject) commonResult.getData(), PageInfo.class);
+        List<JSONObject> questionVos = data.getList();
 
         assertThat(questionVos.size()).isEqualTo(1);
-        assertThat(questionVos.get(0).getId()).isEqualTo(oneAnswerQuestion.getId());
+        assertThat(questionVos.get(0).get("id")).isEqualTo(noAnswerQuestion.getId());
     }
 
 }

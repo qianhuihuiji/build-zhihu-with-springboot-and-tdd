@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 
@@ -64,9 +65,9 @@ class QuestionPolicyTest {
 
 
         // given
-        Answer answer = AnswerFactory.createAnswer(1L);
+        Answer answer = AnswerFactory.createAnswer(1);
         given(answerMapper.selectByPrimaryKey(1L)).willReturn(answer);
-        given(questionMapper.selectByPrimaryKey(anyLong())).willReturn(null);
+        given(questionMapper.selectByPrimaryKey(anyInt())).willReturn(null);
 
         // then
         assertThatThrownBy(() -> {
@@ -77,10 +78,10 @@ class QuestionPolicyTest {
 
         // given
         Question unpublishedQuestion = QuestionFactory.createUnpublishedQuestion();
-        unpublishedQuestion.setId(1L);
+        unpublishedQuestion.setId(1);
         given(questionMapper.selectByPrimaryKey(unpublishedQuestion.getId())).willReturn(unpublishedQuestion);
         Answer anotherAnswer = AnswerFactory.createAnswer(unpublishedQuestion.getId());
-        given(answerMapper.selectByPrimaryKey(unpublishedQuestion.getId())).willReturn(anotherAnswer);
+        given(answerMapper.selectByPrimaryKey(anotherAnswer.getId())).willReturn(anotherAnswer);
 
         // then
         assertThatThrownBy(() -> {

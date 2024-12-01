@@ -9,7 +9,7 @@ import java.util.List;
 
 public class AnswerFactory {
 
-    public static Answer createAnswer(Long questionId) {
+    public static Answer createAnswer(Integer questionId) {
         Date now = new Date();
         Answer answer = new Answer();
         answer.setId(1L);
@@ -22,7 +22,7 @@ public class AnswerFactory {
         return answer;
     }
 
-    public static List<Answer> createAnswerBatch(Integer times, Long questionId) {
+    public static List<Answer> createAnswerBatch(Integer times, Integer questionId) {
         List<Answer> answers = new ArrayList<Answer>();
         for (int i = 0; i < times; i++) {
             answers.add(createAnswer(questionId));

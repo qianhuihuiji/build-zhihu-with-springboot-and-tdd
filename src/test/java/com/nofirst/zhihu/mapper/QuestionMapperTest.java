@@ -58,13 +58,13 @@ public class QuestionMapperTest {
     public void can_insert_question() {
         // given
         Question question = QuestionFactory.createUnpublishedQuestion();
-        int totalBefore = questionMapper.countByExample(null);
+        long totalBefore = questionMapper.countByExample(null);
 
         // when:成功返回1
         questionMapper.insert(question);
 
         // then
-        int totalAfter = questionMapper.countByExample(null);
+        long totalAfter = questionMapper.countByExample(null);
         // 新增了一条数据
         assertThat(totalAfter - totalBefore).isEqualTo(1);
     }

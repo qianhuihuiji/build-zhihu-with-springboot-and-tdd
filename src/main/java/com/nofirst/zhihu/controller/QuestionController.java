@@ -32,7 +32,7 @@ public class QuestionController {
     private QuestionService questionService;
 
     @GetMapping("/questions/{id}")
-    public QuestionVo show(@PathVariable Long id) {
+    public QuestionVo show(@PathVariable Integer id) {
         return questionService.show(id);
     }
 

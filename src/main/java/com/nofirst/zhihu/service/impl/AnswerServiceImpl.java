@@ -34,7 +34,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void store(Long questionId, AnswerDto answerDto, AccountUser accountUser) {
+    public void store(Integer questionId, AnswerDto answerDto, AccountUser accountUser) {
         Question question = questionMapper.selectByPrimaryKey(questionId);
         if (Objects.isNull(question)) {
             throw new QuestionNotExistedException();
@@ -51,6 +51,9 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setContent(answerDto.getContent());
 
         answerMapper.insert(answer);
+
+        question.setAnswersCount(question.getAnswersCount() + 1);
+        questionMapper.updateByPrimaryKeySelective(question);
     }
 
     @Override

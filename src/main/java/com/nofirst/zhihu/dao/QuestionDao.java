@@ -4,7 +4,7 @@ import java.util.Date;
 
 public interface QuestionDao {
 
-    void markAsBestAnswer(Long questionId, Long answerId);
+    void markAsBestAnswer(Integer questionId, Long answerId);
 
-    void publish(Long questionId, Date publishedAt);
+    void publish(Integer questionId, Date publishedAt);
 }

@@ -25,7 +25,7 @@ public class PublishedQuestionController {
 
     @PostMapping("/questions/{questionId}/published-questions")
     @PreAuthorize("@questionPolicy.isQuestionOwner(#questionId, #accountUser)")
-    public CommonResult store(@PathVariable Long questionId, @AuthenticationPrincipal AccountUser accountUser) {
+    public CommonResult store(@PathVariable Integer questionId, @AuthenticationPrincipal AccountUser accountUser) {
         questionService.publish(questionId);
         return CommonResult.success(null);
     }

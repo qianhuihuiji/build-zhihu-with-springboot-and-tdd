@@ -60,12 +60,12 @@ class ViewQuestionsTest {
     @Test
     void user_can_view_a_single_question() throws Exception {
         QuestionVo questionVo = new QuestionVo();
-        questionVo.setId(1L);
+        questionVo.setId(1);
         questionVo.setUserId(1);
         questionVo.setTitle("title");
         questionVo.setContent("content");
 
-        when(this.questionService.show(1L)).thenReturn(questionVo);
+        when(this.questionService.show(1)).thenReturn(questionVo);
         this.mockMvc.perform(get("/questions/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(1L))
@@ -75,17 +75,18 @@ class ViewQuestionsTest {
 
     @Test
     void user_can_view_a_published_question() throws Exception {
-        Question question = new Question(1L, 1, "title", "content");
+        Question question = QuestionFactory.createPublishedQuestion();
+        question.setId(1);
         Date lastWeek = DateUtils.addWeeks(new Date(), -1);
         question.setPublishedAt(lastWeek);
         QuestionVo questionVo = QuestionFactory.createVO(question);
-        when(this.questionService.show(1L)).thenReturn(questionVo);
+        when(this.questionService.show(1)).thenReturn(questionVo);
 
         this.mockMvc.perform(get("/questions/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(1L))
-                .andExpect(jsonPath("title").value("title"))
-                .andExpect(jsonPath("content").value("content"));
+                .andExpect(jsonPath("title").value("this is a published question"))
+                .andExpect(jsonPath("content").value("published content"));
     }
 
     @Test
@@ -100,7 +101,8 @@ class ViewQuestionsTest {
 
     @Test
     void can_see_answers_when_view_a_published_question() throws Exception {
-        Question question = new Question(1L, 1, "title", "content");
+        Question question = QuestionFactory.createPublishedQuestion();
+        question.setId(1);
         Date lastWeek = DateUtils.addWeeks(new Date(), -1);
         question.setPublishedAt(lastWeek);
         QuestionVo questionVo = QuestionFactory.createVO(question);
@@ -112,7 +114,7 @@ class ViewQuestionsTest {
         answers.add(answer2);
         PageInfo<Answer> answerPageInfo = new PageInfo<>(answers);
         questionVo.setAnswers(answerPageInfo);
-        when(this.questionService.show(1L)).thenReturn(questionVo);
+        when(this.questionService.show(1)).thenReturn(questionVo);
 
         MvcResult result = this.mockMvc.perform(get("/questions/{id}", 1))
                 .andExpect(status().isOk()).andReturn();
@@ -121,8 +123,8 @@ class ViewQuestionsTest {
         QuestionVo content = JSONUtil.toBean(json, QuestionVo.class);
         assertThat(content).isNotNull();
         assertThat(content.getId()).isEqualTo(1L);
-        assertThat(content.getTitle()).isEqualTo("title");
-        assertThat(content.getContent()).isEqualTo("content");
+        assertThat(content.getTitle()).isEqualTo("this is a published question");
+        assertThat(content.getContent()).isEqualTo("published content");
         assertThat(content.getAnswers().getList()).isEqualTo(answers);
         assertThat(content.getAnswers().getList().size()).isEqualTo(2);
     }

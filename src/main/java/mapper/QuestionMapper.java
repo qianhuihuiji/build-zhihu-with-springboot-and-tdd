@@ -1,4 +1,4 @@
-package com.nofirst.zhihu.mbg.mapper;
+package mapper;
 
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.QuestionExample;

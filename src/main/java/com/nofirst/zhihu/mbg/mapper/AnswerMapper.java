@@ -34,8 +34,4 @@ public interface AnswerMapper {
     int updateByPrimaryKeyWithBLOBs(Answer record);
 
     int updateByPrimaryKey(Answer record);
-
-    List<Answer> selectByQuestionId(Long questionId);
-
-    List<Answer> selectByUserId(Long userId);
 }

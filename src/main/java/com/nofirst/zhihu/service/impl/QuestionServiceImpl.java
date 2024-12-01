@@ -3,6 +3,7 @@ package com.nofirst.zhihu.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.QuestionFilter;
+import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
@@ -38,12 +39,13 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionMapper questionMapper;
     private QuestionDao questionDao;
     private AnswerMapper answerMapper;
+    private AnswerDao answerDao;
     private CustomEventPublisher invitedEventPublisher;
     private QuestionFilter questionFilter;
 
 
     @Override
-    public QuestionVo show(Long id) {
+    public QuestionVo show(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
         if (Objects.isNull(question)) {
             throw new QuestionNotExistedException();
@@ -64,9 +66,9 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public PageInfo<Answer> answers(Long questionId, int pageIndex, int pageSize) {
+    public PageInfo<Answer> answers(Integer questionId, int pageIndex, int pageSize) {
         PageHelper.startPage(pageIndex, pageSize);
-        List<Answer> answers = answerMapper.selectByQuestionId(questionId);
+        List<Answer> answers = answerDao.selectByQuestionId(questionId);
         return new PageInfo<>(answers);
     }
 
@@ -82,12 +84,13 @@ public class QuestionServiceImpl implements QuestionService {
         question.setTitle(dto.getTitle());
         question.setContent(dto.getContent());
         question.setCategoryId(dto.getCategoryId());
+        question.setAnswersCount(0);
 
         questionMapper.insert(question);
     }
 
     @Override
-    public void publish(Long questionId) {
+    public void publish(Integer questionId) {
         Question question = questionMapper.selectByPrimaryKey(questionId);
 
         questionDao.publish(questionId, new Date());
@@ -128,7 +131,7 @@ public class QuestionServiceImpl implements QuestionService {
         condition.put("by", by);
         condition.put("popularity", popularity);
         condition.put("unanswered", unanswered);
-        questionFilter.apply(condition, example);
+        questionFilter.apply(condition, example, criteria);
 
         PageHelper.startPage(pageIndex, pageSize);
         List<Question> questions = questionMapper.selectByExample(example);
@@ -143,6 +146,7 @@ public class QuestionServiceImpl implements QuestionService {
             questionVo.setTitle(question.getTitle());
             questionVo.setContent(question.getContent());
             questionVo.setPublishedAt(question.getPublishedAt());
+            questionVo.setAnswersCount(question.getAnswersCount());
             result.add(questionVo);
         }
         PageInfo<QuestionVo> pageResult = new PageInfo<>();

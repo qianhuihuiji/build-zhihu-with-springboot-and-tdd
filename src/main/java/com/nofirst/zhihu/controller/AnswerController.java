@@ -28,7 +28,7 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping("/questions/{questionId}/answers")
-    public CommonResult store(@PathVariable Long questionId, @RequestBody @Validated AnswerDto answerDto, @AuthenticationPrincipal AccountUser accountUser) {
+    public CommonResult store(@PathVariable Integer questionId, @RequestBody @Validated AnswerDto answerDto, @AuthenticationPrincipal AccountUser accountUser) {
 
         answerService.store(questionId, answerDto, accountUser);
 
