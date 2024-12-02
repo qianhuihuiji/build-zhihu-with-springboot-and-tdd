@@ -43,7 +43,6 @@ class NotificationsTest {
     @Autowired
     private WebApplicationContext context;
 
-
     @Autowired
     private QuestionMapper questionMapper;
 
@@ -87,7 +86,7 @@ class NotificationsTest {
     @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void a_notification_is_prepared_when_a_subscribed_question_receives_a_new_answer_by_other_people() throws Exception {
         // given
-        Question question = QuestionFactory.createUnpublishedQuestion();
+        Question question = QuestionFactory.createPublishedQuestion();
         question.setUserId(1);
         questionMapper.insert(question);
 
@@ -110,7 +109,6 @@ class NotificationsTest {
         // then
         long afterCount = notificationMapper.countByExample(notificationExample);
         assertThat(afterCount).isEqualTo(1);
-
     }
 
     @Test

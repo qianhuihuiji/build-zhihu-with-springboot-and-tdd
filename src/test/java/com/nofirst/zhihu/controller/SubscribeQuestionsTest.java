@@ -96,7 +96,7 @@ class SubscribeQuestionsTest {
 
         SubscriptionExample example = new SubscriptionExample();
         SubscriptionExample.Criteria criteria = example.createCriteria();
-        criteria.andIdEqualTo(2);
+        criteria.andUserIdEqualTo(2);
         criteria.andQuestionIdEqualTo(question.getId());
         long beforeCount = subscriptionMapper.countByExample(example);
         assertThat(beforeCount).isEqualTo(0);

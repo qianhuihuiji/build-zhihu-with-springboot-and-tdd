@@ -14,6 +14,7 @@ import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.dto.AnswerDto;
 import com.nofirst.zhihu.model.enums.VoteActionType;
+import com.nofirst.zhihu.publisher.CustomEventPublisher;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.impl.AnswerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +26,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -46,6 +49,8 @@ class AnswerServiceImplTest {
     private VoteMapper voteMapper;
     @Mock
     private VoteDao voteDao;
+    @Mock
+    private CustomEventPublisher customEventPublisher;
 
     private Answer defaultAnswer;
     private AnswerDto defaultAnswerDto;
@@ -85,6 +90,7 @@ class AnswerServiceImplTest {
 
         // then
         verify(answerMapper, times(1)).insert(argThat(new AnswerMatcher(defaultAnswer)));
+        verify(customEventPublisher, times(1)).firePostAnswerEvent(any(), anyInt());
     }
 
     @Test
