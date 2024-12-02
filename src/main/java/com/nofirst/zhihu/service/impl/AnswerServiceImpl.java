@@ -12,6 +12,7 @@ import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.dto.AnswerDto;
 import com.nofirst.zhihu.model.enums.VoteActionType;
+import com.nofirst.zhihu.publisher.CustomEventPublisher;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.AnswerService;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class AnswerServiceImpl implements AnswerService {
     private final QuestionDao questionDao;
     private final VoteMapper voteMapper;
     private final VoteDao voteDao;
+    private final CustomEventPublisher customEventPublisher;
 
     @Override
     public Answer show(Integer id) {
@@ -56,6 +58,9 @@ public class AnswerServiceImpl implements AnswerService {
 
         question.setAnswersCount(question.getAnswersCount() + 1);
         questionMapper.updateByPrimaryKeySelective(question);
+
+        // 给关注者发通知
+        customEventPublisher.firePostAnswerEvent(answer, accountUser.getUserId());
     }
 
     @Override

@@ -45,7 +45,7 @@ public class QuestionServiceImpl implements QuestionService {
     private AnswerDao answerDao;
     private VoteMapper voteMapper;
     private VoteDao voteDao;
-    private CustomEventPublisher invitedEventPublisher;
+    private CustomEventPublisher customEventPublisher;
     private QuestionFilter questionFilter;
 
 
@@ -100,7 +100,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         questionDao.publish(questionId, new Date());
 
-        invitedEventPublisher.addPublishQuestionEvent(question);
+        customEventPublisher.firePublishQuestionEvent(question);
     }
 
 

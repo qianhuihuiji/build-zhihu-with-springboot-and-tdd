@@ -1,6 +1,8 @@
 package com.nofirst.zhihu.publisher;
 
+import com.nofirst.zhihu.event.PostAnswerEvent;
 import com.nofirst.zhihu.event.PublishQuestionEvent;
+import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,13 @@ public class CustomEventPublisher {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    public void addPublishQuestionEvent(Question question) {
+    public void firePublishQuestionEvent(Question question) {
         PublishQuestionEvent publishQuestionEvent = new PublishQuestionEvent(question);
         applicationEventPublisher.publishEvent(publishQuestionEvent);
+    }
+
+    public void firePostAnswerEvent(Answer answer, Integer userId) {
+        PostAnswerEvent postAnswerEvent = new PostAnswerEvent(answer, userId);
+        applicationEventPublisher.publishEvent(postAnswerEvent);
     }
 }

@@ -17,7 +17,7 @@ import java.util.Objects;
 
 @Component
 @AllArgsConstructor
-public class CustomEventListener {
+public class PublishQuestionEventListener {
 
     private final NotificationMapper notificationMapper;
     private final UserMapper userMapper;

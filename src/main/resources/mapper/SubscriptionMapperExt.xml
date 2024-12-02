@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nofirst.zhihu.dao.SubscriptionDao">
+
+    <select id="selectByQuestionId" resultType="com.nofirst.zhihu.mbg.model.Subscription">
+        select
+        <include refid="com.nofirst.zhihu.mbg.mapper.SubscriptionMapper.Base_Column_List"/>
+        from subscription
+        where question_id = #{questionId,jdbcType=INTEGER}
+    </select>
+</mapper>
