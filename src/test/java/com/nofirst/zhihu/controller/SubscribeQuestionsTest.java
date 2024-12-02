@@ -2,13 +2,11 @@ package com.nofirst.zhihu.controller;
 
 import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
 import com.nofirst.zhihu.common.ResultCode;
-import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
-import com.nofirst.zhihu.mbg.mapper.VoteMapper;
+import com.nofirst.zhihu.mbg.mapper.SubscriptionMapper;
 import com.nofirst.zhihu.mbg.model.Question;
-import com.nofirst.zhihu.mbg.model.Vote;
-import com.nofirst.zhihu.model.enums.VoteActionType;
+import com.nofirst.zhihu.mbg.model.SubscriptionExample;
 import com.nofirst.zhihu.service.QuestionService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,9 +39,8 @@ class SubscribeQuestionsTest {
     private WebApplicationContext context;
 
     @Autowired
-    private VoteMapper voteMapper;
-    @Autowired
-    private VoteDao voteDao;
+    private SubscriptionMapper subscriptionMapper;
+
 
     @Autowired
     private QuestionService questionService;
@@ -61,6 +58,8 @@ class SubscribeQuestionsTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+
+        subscriptionMapper.deleteByExample(null);
     }
 
     // 这里的 mysql:8.0 镜像最好先本地下载，不然启动测试会先尝试下载，测试时间会变得非常长
@@ -90,21 +89,48 @@ class SubscribeQuestionsTest {
     }
 
     @Test
-    // 这个注解会尝试在SpringSecurity上下文中注入一个username为 John 的用户
-    // 而这个用户是初始化脚本插入的，所以 accountUserDetailsService 会根据名字找到id为2的User出来
     @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void a_user_can_subscribe_to_questions() throws Exception {
         Question question = QuestionFactory.createPublishedQuestion();
         questionMapper.insert(question);
 
+        SubscriptionExample example = new SubscriptionExample();
+        SubscriptionExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(2);
+        criteria.andQuestionIdEqualTo(question.getId());
+        long beforeCount = subscriptionMapper.countByExample(example);
+        assertThat(beforeCount).isEqualTo(0);
         // given
         this.mockMvc.perform(post("/questions/{questionId}/subscriptions", question.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
-        Vote vote = voteDao.selectByVotedId(1, Question.class.getSimpleName(), VoteActionType.VOTE_UP.getCode());
-        assertThat(vote).isNotNull();
+        long afterCount = subscriptionMapper.countByExample(example);
+        assertThat(afterCount).isEqualTo(1);
+    }
+
+    @Test
+    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
+    void a_user_can_unsubscribe_from_questions() throws Exception {
+        Question question = QuestionFactory.createPublishedQuestion();
+        questionMapper.insert(question);
+
+
+        // given
+        // 下面的逻辑在上一个测试中已经验证过了
+        this.mockMvc.perform(post("/questions/{questionId}/subscriptions", question.getId()));
+        this.mockMvc.perform(delete("/questions/{questionId}/subscriptions", question.getId()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
+
+        SubscriptionExample example = new SubscriptionExample();
+        SubscriptionExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(2);
+        criteria.andQuestionIdEqualTo(question.getId());
+        long count = subscriptionMapper.countByExample(example);
+        assertThat(count).isEqualTo(0);
     }
 
 }
