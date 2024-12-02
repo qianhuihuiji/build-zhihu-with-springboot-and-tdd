@@ -2,17 +2,18 @@ package com.nofirst.zhihu.service;
 
 import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.dao.AnswerDao;
+import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.factory.UserFactory;
-import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.User;
+import com.nofirst.zhihu.model.enums.VoteActionType;
 import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.service.impl.QuestionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,9 +42,10 @@ class QuestionServiceImplTest {
     private QuestionMapper questionMapper;
 
     @Mock
-    private AnswerMapper answerMapper;
-    @Mock
     private AnswerDao answerDao;
+
+    @Mock
+    private VoteDao voteDao;
 
     @Mock
     private UserMapper userMapper;
@@ -162,5 +164,58 @@ class QuestionServiceImplTest {
 
         // then
         assertThat(Arrays.asList("Jane", "Foo")).isEqualTo(invitedUsers);
+    }
+
+    @Test
+    void question_can_know_it_is_voted_up() {
+        // given
+        Integer questionId = 1;
+        given(voteDao.countByVotedId(questionId, Question.class.getSimpleName(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
+
+        // when
+        Boolean votedUp = questionService.isVotedUp(questionId);
+
+        // then
+        assertThat(votedUp).isTrue();
+    }
+
+    @Test
+    void question_can_know_up_votes_count() {
+        // given
+        Integer questionId = 1;
+        given(voteDao.countByVotedId(questionId, Question.class.getSimpleName(), VoteActionType.VOTE_UP.getCode())).willReturn(1);
+
+        // when
+        Integer votedUpCount = questionService.upVotesCount(questionId);
+
+        // then
+        assertThat(votedUpCount).isEqualTo(1);
+    }
+
+
+    @Test
+    void question_can_know_it_is_voted_down() {
+        // given
+        Integer questionId = 1;
+        given(voteDao.countByVotedId(questionId, Question.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
+
+        // when
+        Boolean votedUp = questionService.isVotedDown(questionId);
+
+        // then
+        assertThat(votedUp).isTrue();
+    }
+
+    @Test
+    void question_can_know_down_votes_count() {
+        // given
+        Integer questionId = 1;
+        given(voteDao.countByVotedId(questionId, Question.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
+
+        // when
+        Integer votedUpCount = questionService.downVotesCount(questionId);
+
+        // then
+        assertThat(votedUpCount).isEqualTo(1);
     }
 }
