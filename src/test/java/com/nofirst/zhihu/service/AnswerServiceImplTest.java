@@ -18,6 +18,7 @@ import com.nofirst.zhihu.publisher.CustomEventPublisher;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.impl.AnswerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,7 +35,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class AnswerServiceImplTest {
+@Tag("unit")
+public class AnswerServiceImplTest {
 
     @InjectMocks
     private AnswerServiceImpl answerService;
