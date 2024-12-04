@@ -23,6 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.MySQLContainer;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -177,5 +179,30 @@ class CreateQuestionsTest {
                 .andDo(print())
                 .andExpect(jsonPath("$.code").value(ResultCode.VALIDATE_FAILED.getCode()))
                 .andExpect(jsonPath("$.message").value("问题分类不存在"));
+    }
+
+    @Test
+    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
+    void get_slug_when_create_a_question() throws Exception {
+        // given
+        Question question = QuestionFactory.createUnpublishedQuestion();
+        question.setTitle("英语 英语");
+        long beforeCount = questionMapper.countByExample(null);
+
+        // when
+        this.mockMvc.perform(post("/questions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JSONUtil.toJsonStr(question)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
+
+        // then
+        long afterCount = questionMapper.countByExample(null);
+        // 调用之后 question 增加了 1 条
+        assertThat(afterCount - beforeCount).isEqualTo(1);
+        List<Question> questions = questionMapper.selectByExample(null);
+        Question result = questions.get(0);
+        assertThat(result.getSlug()).isEqualTo("english-english");
     }
 }

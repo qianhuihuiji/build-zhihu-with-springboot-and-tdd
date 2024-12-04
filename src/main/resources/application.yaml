@@ -19,3 +19,8 @@ mybatis:
   mapper-locations: classpath*:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+translate:
+  baidu:
+    app-id: 20171222000107417
+    app-key:
