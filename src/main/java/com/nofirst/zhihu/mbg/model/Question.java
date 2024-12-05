@@ -39,6 +39,16 @@ public class Question implements Serializable {
 
     private String content;
 
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    private String slug;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {

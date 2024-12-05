@@ -18,22 +18,35 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
+import java.time.Duration;
 import java.util.List;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
 // 会启动完整的Spring容器，因此会非常耗时
 @SpringBootTest(classes = BuildZhihuWithSpringbootAndTddApplication.class)
+@TestPropertySource(
+        properties = {
+                "spring.kafka.consumer.auto-offset-reset=earliest"
+        }
+)
+@Testcontainers
 class CreateQuestionsTest {
 
     private MockMvc mockMvc;
@@ -53,6 +66,7 @@ class CreateQuestionsTest {
     @BeforeAll
     public static void start() {
         mySQLContainer.start();
+        kafka.start();
     }
 
     @BeforeEach
@@ -70,6 +84,15 @@ class CreateQuestionsTest {
             .withUsername("root")
             .withPassword("root")
             .withReuse(true);
+
+    public static final KafkaContainer kafka = new KafkaContainer(
+            DockerImageName.parse("confluentinc/cp-kafka:7.6.1")
+    );
+
+    @DynamicPropertySource
+    static void overrideProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers);
+    }
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry registry) {
@@ -197,12 +220,17 @@ class CreateQuestionsTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 
-        // then
-        long afterCount = questionMapper.countByExample(null);
-        // 调用之后 question 增加了 1 条
-        assertThat(afterCount - beforeCount).isEqualTo(1);
-        List<Question> questions = questionMapper.selectByExample(null);
-        Question result = questions.get(0);
-        assertThat(result.getSlug()).isEqualTo("english-english");
+        await()
+                .pollInterval(Duration.ofSeconds(3))
+                .atMost(10, SECONDS)
+                .untilAsserted(() -> {
+                    // then
+                    long afterCount = questionMapper.countByExample(null);
+                    // 调用之后 question 增加了 1 条
+                    assertThat(afterCount - beforeCount).isEqualTo(1);
+                    List<Question> questions = questionMapper.selectByExample(null);
+                    Question result = questions.get(0);
+                    assertThat(result.getSlug()).isEqualTo("english-english");
+                });
     }
 }

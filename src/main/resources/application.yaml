@@ -6,6 +6,7 @@ spring:
     url: jdbc:mysql://localhost:33060/zhihu?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
   flyway:
     enabled: true
     encoding: UTF-8
@@ -15,6 +16,21 @@ spring:
     sql-migration-suffixes: .sql
     validate-on-migrate: true
     baseline-on-migrate: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-offset-reset: latest
+      group-id: demo
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.nofirst.zhihu
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
   configuration:

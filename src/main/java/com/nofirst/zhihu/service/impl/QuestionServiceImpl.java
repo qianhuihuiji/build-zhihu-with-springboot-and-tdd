@@ -20,6 +20,7 @@ import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.dto.QuestionDto;
 import com.nofirst.zhihu.model.enums.VoteActionType;
 import com.nofirst.zhihu.model.vo.QuestionVo;
+import com.nofirst.zhihu.producer.KafkaProducer;
 import com.nofirst.zhihu.publisher.CustomEventPublisher;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.QuestionService;
@@ -47,6 +48,7 @@ public class QuestionServiceImpl implements QuestionService {
     private VoteDao voteDao;
     private CustomEventPublisher customEventPublisher;
     private QuestionFilter questionFilter;
+    private KafkaProducer kafkaProducer;
 
 
     @Override
@@ -92,6 +94,8 @@ public class QuestionServiceImpl implements QuestionService {
         question.setAnswersCount(0);
 
         questionMapper.insert(question);
+
+        kafkaProducer.send("", question);
     }
 
     @Override

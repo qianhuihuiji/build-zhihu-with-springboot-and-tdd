@@ -81,6 +81,10 @@ docker，通过命令行创建不用的容器（如redis、mysql、rabbitMq 等�
 
 - [标签(Tag)和自定义注解](https://zhuanlan.zhihu.com/p/353017791)
   tag 支持用"非"、"与"、"或"这三种操作符将更多的标签连接起来，实现更复杂的过滤逻辑
+- [在 Spring Boot 中测试 Kafka](https://springdoc.cn/spring-boot-kafka-testing/)
+  利用内嵌的kafka测试套件和 TestContainer 测试kafka
+- [Spring Boot与kafka终极整合指南](https://blog.csdn.net/weixin_44700323/article/details/143485063)
+- [Testing Spring Boot Kafka Listener using Testcontainers](https://testcontainers.com/guides/testing-spring-boot-kafka-listener-using-testcontainers/)
 
 - 没有仔细看的
 - https://stackabuse.com/test-driven-development-for-spring-boot-apis/
