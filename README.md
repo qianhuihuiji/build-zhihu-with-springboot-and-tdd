@@ -85,6 +85,15 @@ docker，通过命令行创建不用的容器（如redis、mysql、rabbitMq 等�
   利用内嵌的kafka测试套件和 TestContainer 测试kafka
 - [Spring Boot与kafka终极整合指南](https://blog.csdn.net/weixin_44700323/article/details/143485063)
 - [Testing Spring Boot Kafka Listener using Testcontainers](https://testcontainers.com/guides/testing-spring-boot-kafka-listener-using-testcontainers/)
+- [Testcontainers: 让码头工人去执行单测吧](https://zhuanlan.zhihu.com/p/581862955)
+  写的挺棒，有一些使用技巧非常有用，例如：
+
+ ```
+ // 允许开启复用
+ TestcontainersConfiguration.getInstance().updateUserConfig("testcontainers.reuse.enable", "true");
+ // 启动容器打上标签
+ .withLabel("projectName-test", "true")
+```
 
 - 没有仔细看的
 - https://stackabuse.com/test-driven-development-for-spring-boot-apis/
