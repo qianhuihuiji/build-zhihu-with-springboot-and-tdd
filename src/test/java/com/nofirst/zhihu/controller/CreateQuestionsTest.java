@@ -87,18 +87,15 @@ class CreateQuestionsTest {
 
     public static final KafkaContainer kafka = new KafkaContainer(
             DockerImageName.parse("confluentinc/cp-kafka:7.6.1")
-    );
-
-    @DynamicPropertySource
-    static void overrideProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers);
-    }
+    ).withReuse(true);
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
         registry.add("spring.datasource.password", mySQLContainer::getPassword);
         registry.add("spring.datasource.username", mySQLContainer::getUsername);
+        
+        registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers);
     }
 
 
