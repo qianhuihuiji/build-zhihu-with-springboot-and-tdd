@@ -2,6 +2,7 @@ package com.nofirst.zhihu.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nofirst.zhihu.BaseContainerTest;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.factory.AnswerFactory;
@@ -12,7 +13,6 @@ import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.dto.AnswerDto;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Tag("just")
 public class PostAnswersTest extends BaseContainerTest {
 
     private MockMvc mockMvc;

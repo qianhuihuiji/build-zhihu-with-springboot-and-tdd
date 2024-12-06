@@ -3,16 +3,14 @@ package com.nofirst.zhihu.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.QuestionFilter;
+import com.nofirst.zhihu.config.TranslatorConfig;
 import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
-import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
-import com.nofirst.zhihu.mbg.mapper.CategoryMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
-import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.QuestionExample;
@@ -39,17 +37,15 @@ import java.util.Objects;
 public class QuestionServiceImpl implements QuestionService {
 
     private final UserMapper userMapper;
-    private final CategoryMapper categoryMapper;
     private QuestionMapper questionMapper;
     private QuestionDao questionDao;
-    private AnswerMapper answerMapper;
     private AnswerDao answerDao;
-    private VoteMapper voteMapper;
     private VoteDao voteDao;
     private CustomEventPublisher customEventPublisher;
     private QuestionFilter questionFilter;
     private KafkaProducer kafkaProducer;
 
+    private TranslatorConfig translatorConfig;
 
     @Override
     public QuestionVo show(Integer id) {
@@ -95,7 +91,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         questionMapper.insert(question);
 
-        kafkaProducer.send("", question);
+        kafkaProducer.send(translatorConfig.getTopic(), question);
     }
 
     @Override

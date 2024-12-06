@@ -1,31 +1,21 @@
 package com.nofirst.zhihu.controller;
 
 import cn.hutool.json.JSONUtil;
-import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
+import com.nofirst.zhihu.BaseContainerTest;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
-import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Question;
-import com.nofirst.zhihu.service.AnswerService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.testcontainers.containers.KafkaContainer;
-import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 import java.time.Duration;
 import java.util.List;
@@ -39,15 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
-// 会启动完整的Spring容器，因此会非常耗时
-@SpringBootTest(classes = BuildZhihuWithSpringbootAndTddApplication.class)
-@TestPropertySource(
-        properties = {
-                "spring.kafka.consumer.auto-offset-reset=earliest"
-        }
-)
+
 @Testcontainers
-class CreateQuestionsTest {
+class CreateQuestionsTest extends BaseContainerTest {
 
     private MockMvc mockMvc;
 
@@ -55,19 +39,8 @@ class CreateQuestionsTest {
     private WebApplicationContext context;
 
     @Autowired
-    private VoteMapper voteMapper;
-
-    @Autowired
-    private AnswerService answerService;
-
-    @Autowired
     private QuestionMapper questionMapper;
 
-    @BeforeAll
-    public static void start() {
-        mySQLContainer.start();
-        kafka.start();
-    }
 
     @BeforeEach
     public void setup() {
@@ -75,27 +48,6 @@ class CreateQuestionsTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-    }
-
-
-    // 这里的 mysql:8.0 镜像最好先本地下载，不然启动测试会先尝试下载，测试时间会变得非常长
-    public static MySQLContainer<?> mySQLContainer = new MySQLContainer<>("mysql:8.0")
-            .withDatabaseName("zhihu")
-            .withUsername("root")
-            .withPassword("root")
-            .withReuse(true);
-
-    public static final KafkaContainer kafka = new KafkaContainer(
-            DockerImageName.parse("confluentinc/cp-kafka:7.6.1")
-    ).withReuse(true);
-
-    @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.password", mySQLContainer::getPassword);
-        registry.add("spring.datasource.username", mySQLContainer::getUsername);
-        
-        registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers);
     }
 
 

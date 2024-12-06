@@ -37,6 +37,7 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 translate:
+  topic: translate-slug
   baidu:
     app-id: 20171222000107417
-    app-key:
+    app-key: fake

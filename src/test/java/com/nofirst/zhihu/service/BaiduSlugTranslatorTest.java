@@ -1,5 +1,7 @@
 package com.nofirst.zhihu.service;
 
+import com.nofirst.zhihu.config.BaiduTranslatorConfig;
+import com.nofirst.zhihu.config.TranslatorConfig;
 import com.nofirst.zhihu.service.impl.BaiduTranslatorServiceImpl;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,13 @@ class BaiduSlugTranslatorTest {
     @Tag("online")
     void can_translate_chinese_to_english() {
         // given
-        BaiduTranslatorServiceImpl translatorService = new BaiduTranslatorServiceImpl("20171222000107417", "");
+        TranslatorConfig translatorConfig = new TranslatorConfig();
+        BaiduTranslatorConfig baiduTranslatorConfig = new BaiduTranslatorConfig();
+        baiduTranslatorConfig.setAppId("20171222000107417");
+        baiduTranslatorConfig.setAppKey("fake");
+        translatorConfig.setBaiduConfig(baiduTranslatorConfig);
+
+        BaiduTranslatorServiceImpl translatorService = new BaiduTranslatorServiceImpl(translatorConfig);
         String text = "英语 英语";
         // when
         String translate = translatorService.translate(text);

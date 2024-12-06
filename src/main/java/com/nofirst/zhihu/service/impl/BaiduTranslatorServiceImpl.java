@@ -3,8 +3,9 @@ package com.nofirst.zhihu.service.impl;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.nofirst.zhihu.config.TranslatorConfig;
 import com.nofirst.zhihu.service.TranslatorService;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -14,19 +15,12 @@ import java.util.Objects;
 
 @Service
 @Primary
+@AllArgsConstructor
 public class BaiduTranslatorServiceImpl implements TranslatorService {
 
     private static final String TRANS_API_HOST = "http://api.fanyi.baidu.com/api/trans/vip/translate";
 
-    @Value("${translate.baidu.app-id}")
-    private String appid;
-    @Value("${translate.baidu.app-key}")
-    private String securityKey;
-
-    public BaiduTranslatorServiceImpl(String appid, String securityKey) {
-        this.appid = appid;
-        this.securityKey = securityKey;
-    }
+    private TranslatorConfig translatorConfig;
 
     public String getTransResult(String query, String from, String to) {
         Map<String, String> params = this.buildParams(query, from, to);
@@ -38,10 +32,12 @@ public class BaiduTranslatorServiceImpl implements TranslatorService {
         params.put("q", query);
         params.put("from", from);
         params.put("to", to);
-        params.put("appid", this.appid);
+        String appId = this.translatorConfig.getBaiduConfig().getAppId();
+        String appKey = this.translatorConfig.getBaiduConfig().getAppKey();
+        params.put("appid", appId);
         String salt = String.valueOf(System.currentTimeMillis());
         params.put("salt", salt);
-        String src = this.appid + query + salt + this.securityKey;
+        String src = appId + query + salt + appKey;
         params.put("sign", MD5.md5(src));
         return params;
     }

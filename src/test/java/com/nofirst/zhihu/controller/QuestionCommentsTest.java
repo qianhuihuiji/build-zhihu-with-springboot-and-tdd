@@ -1,11 +1,11 @@
 package com.nofirst.zhihu.controller;
 
+import com.nofirst.zhihu.BaseContainerTest;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Question;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
@@ -19,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Tag("just")
 class QuestionCommentsTest extends BaseContainerTest {
 
     private MockMvc mockMvc;

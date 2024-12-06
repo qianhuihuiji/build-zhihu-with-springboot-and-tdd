@@ -3,7 +3,7 @@ package com.nofirst.zhihu.controller;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.PageInfo;
-import com.nofirst.zhihu.BuildZhihuWithSpringbootAndTddApplication;
+import com.nofirst.zhihu.BaseContainerTest;
 import com.nofirst.zhihu.common.CommonResult;
 import com.nofirst.zhihu.common.ResultCode;
 import com.nofirst.zhihu.factory.QuestionFactory;
@@ -12,18 +12,13 @@ import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Category;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.vo.QuestionVo;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.testcontainers.containers.MySQLContainer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,9 +29,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// 会启动完整的Spring容器，因此会非常耗时
-@SpringBootTest(classes = BuildZhihuWithSpringbootAndTddApplication.class)
-class FilterQuestionsTest {
+class FilterQuestionsTest extends BaseContainerTest {
 
     private MockMvc mockMvc;
 
@@ -49,10 +42,6 @@ class FilterQuestionsTest {
     @Autowired
     private CategoryMapper categoryMapper;
 
-    @BeforeAll
-    public static void start() {
-        mySQLContainer.start();
-    }
 
     @BeforeEach
     public void setup() {
@@ -63,22 +52,6 @@ class FilterQuestionsTest {
 
         questionMapper.deleteByExample(null);
     }
-
-
-    // 这里的 mysql:8.0 镜像最好先本地下载，不然启动测试会先尝试下载，测试时间会变得非常长
-    public static MySQLContainer<?> mySQLContainer = new MySQLContainer<>("mysql:8.0")
-            .withDatabaseName("zhihu")
-            .withUsername("root")
-            .withPassword("root")
-            .withReuse(true);
-
-    @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.password", mySQLContainer::getPassword);
-        registry.add("spring.datasource.username", mySQLContainer::getUsername);
-    }
-
 
     @Test
     void user_can_see_published_questions_without_any_filter() throws Exception {
