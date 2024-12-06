@@ -45,6 +45,7 @@ public class BaiduTranslatorServiceImpl implements TranslatorService {
     @Override
     public String translate(String text) {
         String transResult = getTransResult(text, "auto", "en");
+        System.out.println("translate result: " + transResult);
         JSONObject parse = JSONUtil.parseObj(transResult);
         JSONArray results = parse.getJSONArray("trans_result");
         if (Objects.nonNull(results)) {

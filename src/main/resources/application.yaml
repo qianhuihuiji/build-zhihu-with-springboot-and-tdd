@@ -42,7 +42,7 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 translate:
-  group: translate-slug
+  group: translate
   topic: translate-slug
   baidu:
     appId: 20171222000107417
