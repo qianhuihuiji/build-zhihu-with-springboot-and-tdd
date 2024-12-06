@@ -7,6 +7,7 @@ import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Question;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -64,6 +65,7 @@ class CreateQuestionsTest extends BaseContainerTest {
 
 
     @Test
+    @Tag("online")
     @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void an_authenticated_user_can_create_new_questions() throws Exception {
         // given
@@ -154,6 +156,7 @@ class CreateQuestionsTest extends BaseContainerTest {
     }
 
     @Test
+    @Tag("online")
     @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
     void get_slug_when_create_a_question() throws Exception {
         // given

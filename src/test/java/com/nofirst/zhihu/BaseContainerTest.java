@@ -8,6 +8,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
+import org.testcontainers.utility.TestcontainersConfiguration;
 
 @TestPropertySource(
         properties = {
@@ -19,6 +20,8 @@ public abstract class BaseContainerTest {
 
     @BeforeAll
     public static void start() {
+        TestcontainersConfiguration.getInstance().updateUserConfig("testcontainers.reuse.enable", "true");
+
         mysqlContainer.start();
         kafkaContainer.start();
     }
@@ -36,6 +39,7 @@ public abstract class BaseContainerTest {
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry registry) {
+        // 手动启动
         registry.add("spring.datasource.url", mysqlContainer::getJdbcUrl);
         registry.add("spring.datasource.password", mysqlContainer::getPassword);
         registry.add("spring.datasource.username", mysqlContainer::getUsername);
