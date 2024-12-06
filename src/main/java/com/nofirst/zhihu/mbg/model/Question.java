@@ -28,7 +28,7 @@ public class Question implements Serializable {
      *
      * @mbg.generated
      */
-    private Short categoryId;
+    private Integer categoryId;
 
     /**
      * 回答数量
@@ -37,17 +37,9 @@ public class Question implements Serializable {
      */
     private Integer answersCount;
 
-    private String content;
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
     private String slug;
+
+    private String content;
 
     private static final long serialVersionUID = 1L;
 
@@ -91,11 +83,11 @@ public class Question implements Serializable {
         this.bestAnswerId = bestAnswerId;
     }
 
-    public Short getCategoryId() {
+    public Integer getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Short categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -105,6 +97,14 @@ public class Question implements Serializable {
 
     public void setAnswersCount(Integer answersCount) {
         this.answersCount = answersCount;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getContent() {
@@ -128,6 +128,7 @@ public class Question implements Serializable {
         sb.append(", bestAnswerId=").append(bestAnswerId);
         sb.append(", categoryId=").append(categoryId);
         sb.append(", answersCount=").append(answersCount);
+        sb.append(", slug=").append(slug);
         sb.append(", content=").append(content);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

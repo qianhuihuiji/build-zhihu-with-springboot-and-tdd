@@ -8,6 +8,7 @@ CREATE TABLE `question`
     best_answer_id int           null comment '最佳答案',
     category_id    int         not null comment '分类编号',
     answers_count  int          not null default 0 comment '回答数量',
+    `slug`        varchar(100)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1;

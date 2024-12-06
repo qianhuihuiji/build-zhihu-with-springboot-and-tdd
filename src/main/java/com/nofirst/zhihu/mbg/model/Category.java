@@ -8,7 +8,7 @@ public class Category implements Serializable {
      *
      * @mbg.generated
      */
-    private Short id;
+    private Integer id;
 
     /**
      * 分类命
@@ -26,11 +26,11 @@ public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

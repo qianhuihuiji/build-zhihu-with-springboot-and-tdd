@@ -140,7 +140,7 @@ class CreateQuestionsTest extends BaseContainerTest {
     void category_id_is_valid() throws Exception {
         // given
         Question question = QuestionFactory.createUnpublishedQuestion();
-        question.setCategoryId((short) 999);
+        question.setCategoryId(999);
 
         // when
         this.mockMvc.perform(post("/questions")

@@ -365,52 +365,52 @@ public class QuestionExample {
             return (Criteria) this;
         }
 
-        public Criteria andBestAnswerIdEqualTo(Long value) {
+        public Criteria andBestAnswerIdEqualTo(Integer value) {
             addCriterion("best_answer_id =", value, "bestAnswerId");
             return (Criteria) this;
         }
 
-        public Criteria andBestAnswerIdNotEqualTo(Long value) {
+        public Criteria andBestAnswerIdNotEqualTo(Integer value) {
             addCriterion("best_answer_id <>", value, "bestAnswerId");
             return (Criteria) this;
         }
 
-        public Criteria andBestAnswerIdGreaterThan(Long value) {
+        public Criteria andBestAnswerIdGreaterThan(Integer value) {
             addCriterion("best_answer_id >", value, "bestAnswerId");
             return (Criteria) this;
         }
 
-        public Criteria andBestAnswerIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andBestAnswerIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("best_answer_id >=", value, "bestAnswerId");
             return (Criteria) this;
         }
 
-        public Criteria andBestAnswerIdLessThan(Long value) {
+        public Criteria andBestAnswerIdLessThan(Integer value) {
             addCriterion("best_answer_id <", value, "bestAnswerId");
             return (Criteria) this;
         }
 
-        public Criteria andBestAnswerIdLessThanOrEqualTo(Long value) {
+        public Criteria andBestAnswerIdLessThanOrEqualTo(Integer value) {
             addCriterion("best_answer_id <=", value, "bestAnswerId");
             return (Criteria) this;
         }
 
-        public Criteria andBestAnswerIdIn(List<Long> values) {
+        public Criteria andBestAnswerIdIn(List<Integer> values) {
             addCriterion("best_answer_id in", values, "bestAnswerId");
             return (Criteria) this;
         }
 
-        public Criteria andBestAnswerIdNotIn(List<Long> values) {
+        public Criteria andBestAnswerIdNotIn(List<Integer> values) {
             addCriterion("best_answer_id not in", values, "bestAnswerId");
             return (Criteria) this;
         }
 
-        public Criteria andBestAnswerIdBetween(Long value1, Long value2) {
+        public Criteria andBestAnswerIdBetween(Integer value1, Integer value2) {
             addCriterion("best_answer_id between", value1, value2, "bestAnswerId");
             return (Criteria) this;
         }
 
-        public Criteria andBestAnswerIdNotBetween(Long value1, Long value2) {
+        public Criteria andBestAnswerIdNotBetween(Integer value1, Integer value2) {
             addCriterion("best_answer_id not between", value1, value2, "bestAnswerId");
             return (Criteria) this;
         }
@@ -425,52 +425,52 @@ public class QuestionExample {
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdEqualTo(Short value) {
+        public Criteria andCategoryIdEqualTo(Integer value) {
             addCriterion("category_id =", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdNotEqualTo(Short value) {
+        public Criteria andCategoryIdNotEqualTo(Integer value) {
             addCriterion("category_id <>", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdGreaterThan(Short value) {
+        public Criteria andCategoryIdGreaterThan(Integer value) {
             addCriterion("category_id >", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdGreaterThanOrEqualTo(Short value) {
+        public Criteria andCategoryIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("category_id >=", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdLessThan(Short value) {
+        public Criteria andCategoryIdLessThan(Integer value) {
             addCriterion("category_id <", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdLessThanOrEqualTo(Short value) {
+        public Criteria andCategoryIdLessThanOrEqualTo(Integer value) {
             addCriterion("category_id <=", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdIn(List<Short> values) {
+        public Criteria andCategoryIdIn(List<Integer> values) {
             addCriterion("category_id in", values, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdNotIn(List<Short> values) {
+        public Criteria andCategoryIdNotIn(List<Integer> values) {
             addCriterion("category_id not in", values, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdBetween(Short value1, Short value2) {
+        public Criteria andCategoryIdBetween(Integer value1, Integer value2) {
             addCriterion("category_id between", value1, value2, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdNotBetween(Short value1, Short value2) {
+        public Criteria andCategoryIdNotBetween(Integer value1, Integer value2) {
             addCriterion("category_id not between", value1, value2, "categoryId");
             return (Criteria) this;
         }
@@ -532,6 +532,76 @@ public class QuestionExample {
 
         public Criteria andAnswersCountNotBetween(Integer value1, Integer value2) {
             addCriterion("answers_count not between", value1, value2, "answersCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugIsNull() {
+            addCriterion("slug is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugIsNotNull() {
+            addCriterion("slug is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugEqualTo(String value) {
+            addCriterion("slug =", value, "slug");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugNotEqualTo(String value) {
+            addCriterion("slug <>", value, "slug");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugGreaterThan(String value) {
+            addCriterion("slug >", value, "slug");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugGreaterThanOrEqualTo(String value) {
+            addCriterion("slug >=", value, "slug");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugLessThan(String value) {
+            addCriterion("slug <", value, "slug");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugLessThanOrEqualTo(String value) {
+            addCriterion("slug <=", value, "slug");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugLike(String value) {
+            addCriterion("slug like", value, "slug");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugNotLike(String value) {
+            addCriterion("slug not like", value, "slug");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugIn(List<String> values) {
+            addCriterion("slug in", values, "slug");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugNotIn(List<String> values) {
+            addCriterion("slug not in", values, "slug");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugBetween(String value1, String value2) {
+            addCriterion("slug between", value1, value2, "slug");
+            return (Criteria) this;
+        }
+
+        public Criteria andSlugNotBetween(String value1, String value2) {
+            addCriterion("slug not between", value1, value2, "slug");
             return (Criteria) this;
         }
     }

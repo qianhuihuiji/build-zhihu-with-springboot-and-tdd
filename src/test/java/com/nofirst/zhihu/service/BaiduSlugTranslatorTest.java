@@ -20,7 +20,7 @@ class BaiduSlugTranslatorTest {
         TranslatorConfig translatorConfig = new TranslatorConfig();
         BaiduTranslatorConfig baiduTranslatorConfig = new BaiduTranslatorConfig();
         baiduTranslatorConfig.setAppId("20171222000107417");
-        baiduTranslatorConfig.setAppKey("dn7mqnw9gTvq_Q8h6qZo");
+        baiduTranslatorConfig.setAppKey("xxxxxx");
         translatorConfig.setBaidu(baiduTranslatorConfig);
 
         BaiduTranslatorServiceImpl translatorService = new BaiduTranslatorServiceImpl(translatorConfig);

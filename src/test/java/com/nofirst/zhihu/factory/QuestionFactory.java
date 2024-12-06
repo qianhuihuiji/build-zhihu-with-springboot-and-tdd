@@ -17,7 +17,7 @@ public class QuestionFactory {
         question.setUserId(1);
         question.setTitle("this is a published question");
         question.setPublishedAt(lastWeek);
-        question.setCategoryId((short) 1);
+        question.setCategoryId(1);
         question.setAnswersCount(0);
         question.setContent("published content");
 
@@ -38,7 +38,7 @@ public class QuestionFactory {
         question.setUserId(1);
         question.setTitle("this is a unpublished question");
         question.setPublishedAt(null);
-        question.setCategoryId((short) 1);
+        question.setCategoryId(1);
         question.setContent("unpublished content");
         question.setAnswersCount(0);
 

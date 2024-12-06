@@ -20,5 +20,5 @@ public class QuestionDto {
     private String content;
 
     @NotNull(message = "问题分类不能为空")
-    private Short categoryId;
+    private Integer categoryId;
 }

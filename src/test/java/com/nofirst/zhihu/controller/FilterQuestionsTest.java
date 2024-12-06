@@ -86,13 +86,13 @@ class FilterQuestionsTest extends BaseContainerTest {
     @Test
     void user_can_filter_questions_by_category() throws Exception {
         // given
-        Category category = categoryMapper.selectByPrimaryKey((short) 1);
+        Category category = categoryMapper.selectByPrimaryKey(1);
         Question inSlug = QuestionFactory.createPublishedQuestion();
         inSlug.setCategoryId(category.getId());
         inSlug.setTitle("i am in slug");
         questionMapper.insert(inSlug);
         Question notInSlug = QuestionFactory.createPublishedQuestion();
-        notInSlug.setCategoryId((short) 999);
+        notInSlug.setCategoryId(999);
         notInSlug.setTitle("i am not in slug");
         questionMapper.insert(notInSlug);
 
