@@ -20,7 +20,7 @@ spring:
     bootstrap-servers: localhost:9092
     consumer:
       auto-offset-reset: latest
-      group-id: demo
+      group-id: ${translate.group}
       key-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
@@ -42,7 +42,8 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 translate:
+  group: translate-slug
   topic: translate-slug
   baidu:
     appId: 20171222000107417
-    appKey: dn7mqnw9gTvq_Q8h6qZo
+    appKey: XXXXXXXXXX
