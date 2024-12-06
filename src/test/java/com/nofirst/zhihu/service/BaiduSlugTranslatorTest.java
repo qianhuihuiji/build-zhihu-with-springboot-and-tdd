@@ -20,8 +20,8 @@ class BaiduSlugTranslatorTest {
         TranslatorConfig translatorConfig = new TranslatorConfig();
         BaiduTranslatorConfig baiduTranslatorConfig = new BaiduTranslatorConfig();
         baiduTranslatorConfig.setAppId("20171222000107417");
-        baiduTranslatorConfig.setAppKey("fake");
-        translatorConfig.setBaiduConfig(baiduTranslatorConfig);
+        baiduTranslatorConfig.setAppKey("dn7mqnw9gTvq_Q8h6qZo");
+        translatorConfig.setBaidu(baiduTranslatorConfig);
 
         BaiduTranslatorServiceImpl translatorService = new BaiduTranslatorServiceImpl(translatorConfig);
         String text = "英语 英语";

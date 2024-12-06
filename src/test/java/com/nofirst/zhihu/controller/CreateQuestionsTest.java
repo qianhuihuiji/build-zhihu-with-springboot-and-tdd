@@ -171,7 +171,7 @@ class CreateQuestionsTest extends BaseContainerTest {
 
         await()
                 .pollInterval(Duration.ofSeconds(3))
-                .atMost(10, SECONDS)
+                .atMost(5, SECONDS)
                 .untilAsserted(() -> {
                     // then
                     long afterCount = questionMapper.countByExample(null);

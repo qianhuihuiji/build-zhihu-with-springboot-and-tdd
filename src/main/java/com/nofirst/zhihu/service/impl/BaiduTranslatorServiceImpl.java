@@ -32,8 +32,8 @@ public class BaiduTranslatorServiceImpl implements TranslatorService {
         params.put("q", query);
         params.put("from", from);
         params.put("to", to);
-        String appId = this.translatorConfig.getBaiduConfig().getAppId();
-        String appKey = this.translatorConfig.getBaiduConfig().getAppKey();
+        String appId = this.translatorConfig.getBaidu().getAppId();
+        String appKey = this.translatorConfig.getBaidu().getAppKey();
         params.put("appid", appId);
         String salt = String.valueOf(System.currentTimeMillis());
         params.put("salt", salt);

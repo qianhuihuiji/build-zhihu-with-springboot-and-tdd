@@ -108,7 +108,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -129,11 +129,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into question (user_id, title, published_at, 
-      best_answer_id, category_id, answers_count, 
+    insert into question (user_id, title, published_at,
+      best_answer_id, category_id, answers_count,
       content)
-    values (#{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{publishedAt,jdbcType=TIMESTAMP}, 
-      #{bestAnswerId,jdbcType=BIGINT}, #{categoryId,jdbcType=SMALLINT}, #{answersCount,jdbcType=INTEGER}, 
+    values (#{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{publishedAt,jdbcType=TIMESTAMP},
+      #{bestAnswerId,jdbcType=BIGINT}, #{categoryId,jdbcType=SMALLINT}, #{answersCount,jdbcType=INTEGER},
       #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.nofirst.zhihu.mbg.model.Question">

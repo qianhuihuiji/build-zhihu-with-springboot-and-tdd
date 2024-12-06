@@ -15,8 +15,9 @@ public class TranslateSlugEventConsumer {
     private TranslatorService translatorService;
     private QuestionMapper questionMapper;
 
-    @KafkaListener(topics = "${translate.topic}")
+    @KafkaListener(topics = "${translate.topic}", groupId = "demo")
     public void listen(TranslateSlugEvent translateSlugEvent) {
+        System.out.println("Received: " + translateSlugEvent);
         Question question = translateSlugEvent.getQuestion();
         String translate = translatorService.translate(question.getTitle());
         question.setSlug(translate);

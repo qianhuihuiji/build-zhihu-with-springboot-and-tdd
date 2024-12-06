@@ -1,13 +1,15 @@
 package com.nofirst.zhihu.event;
 
 import com.nofirst.zhihu.mbg.model.Question;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class TranslateSlugEvent {
 
-    @Getter
-    private final Question question;
-    
+    private Question question;
+
     public TranslateSlugEvent(Question question) {
         this.question = question;
     }

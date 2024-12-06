@@ -12,7 +12,7 @@ public class TranslatorConfig {
 
     private String topic;
 
-    private BaiduTranslatorConfig baiduConfig;
+    private BaiduTranslatorConfig baidu;
 }
 
 

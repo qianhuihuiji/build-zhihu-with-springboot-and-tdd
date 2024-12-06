@@ -21,16 +21,21 @@ spring:
     consumer:
       auto-offset-reset: latest
       group-id: demo
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring:
           json:
             trusted:
-              packages: com.nofirst.zhihu
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+              packages: "*"
     producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
   configuration:
@@ -39,5 +44,5 @@ mybatis:
 translate:
   topic: translate-slug
   baidu:
-    app-id: 20171222000107417
-    app-key: fake
+    appId: 20171222000107417
+    appKey: dn7mqnw9gTvq_Q8h6qZo
