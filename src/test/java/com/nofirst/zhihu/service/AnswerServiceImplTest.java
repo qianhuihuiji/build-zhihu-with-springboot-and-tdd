@@ -174,10 +174,10 @@ public class AnswerServiceImplTest {
         given(voteDao.countByVotedId(answerId, Answer.class.getSimpleName(), VoteActionType.VOTE_DOWN.getCode())).willReturn(1);
 
         // when
-        Boolean votedUp = answerService.isVotedDown(answerId);
+        Boolean votedDown = answerService.isVotedDown(answerId);
 
         // then
-        assertThat(votedUp).isTrue();
+        assertThat(votedDown).isTrue();
     }
 
     @Test

@@ -113,9 +113,9 @@ class AnswersDownVotesTest extends BaseContainerTest {
         this.mockMvc.perform(post("/answers/1/down-votes"));
 
         // when
-        Boolean votedUp = answerService.isVotedDown(1);
+        Boolean votedDown = answerService.isVotedDown(1);
 
         // then
-        Assertions.assertThat(votedUp).isTrue();
+        Assertions.assertThat(votedDown).isTrue();
     }
 }
