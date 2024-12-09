@@ -1,6 +1,6 @@
 package com.nofirst.zhihu.controller;
 
-import cn.hutool.json.JSONObject;
+import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.BaseContainerTest;
@@ -72,11 +72,12 @@ class FilterQuestionsTest extends BaseContainerTest {
 
         // then
         String json = result.getResponse().getContentAsString();
-        CommonResult commonResult = JSONUtil.toBean(json, CommonResult.class);
+        CommonResult<PageInfo<QuestionVo>> commonResult = JSONUtil.toBean(json, new TypeReference<>() {
+        }, false);
         long code = commonResult.getCode();
         assertThat(code).isEqualTo(ResultCode.SUCCESS.getCode());
 
-        PageInfo<QuestionVo> data = JSONUtil.toBean((JSONObject) commonResult.getData(), PageInfo.class);
+        PageInfo<QuestionVo> data = commonResult.getData();
 
         assertThat(json).doesNotContain(unpublishedQuestion.getContent());
         assertThat(data.getTotal()).isEqualTo(40);
@@ -147,13 +148,13 @@ class FilterQuestionsTest extends BaseContainerTest {
 
         // then
         String json = result.getResponse().getContentAsString();
-        CommonResult commonResult = JSONUtil.toBean(json, CommonResult.class);
+        CommonResult<PageInfo<QuestionVo>> commonResult = JSONUtil.toBean(json, new TypeReference<>() {
+        }, false);
         long code = commonResult.getCode();
         assertThat(code).isEqualTo(ResultCode.SUCCESS.getCode());
 
-        PageInfo data = JSONUtil.toBean((JSONObject) commonResult.getData(), PageInfo.class);
-        List<JSONObject> questionVos = data.getList();
-        List<Integer> answersCountList = questionVos.stream().map(t -> t.get("answersCount")).map(t -> (Integer) t).collect(Collectors.toList());
+        PageInfo<QuestionVo> data = commonResult.getData();
+        List<Integer> answersCountList = data.getList().stream().map(QuestionVo::getAnswersCount).map(t -> (Integer) t).collect(Collectors.toList());
 
         assertThat(Arrays.asList(3, 2, 1)).isEqualTo(answersCountList);
     }
@@ -173,15 +174,15 @@ class FilterQuestionsTest extends BaseContainerTest {
 
         // then
         String json = result.getResponse().getContentAsString();
-        CommonResult commonResult = JSONUtil.toBean(json, CommonResult.class);
+        CommonResult<PageInfo<QuestionVo>> commonResult = JSONUtil.toBean(json, new TypeReference<>() {
+        }, false);
         long code = commonResult.getCode();
         assertThat(code).isEqualTo(ResultCode.SUCCESS.getCode());
 
-        PageInfo data = JSONUtil.toBean((JSONObject) commonResult.getData(), PageInfo.class);
-        List<JSONObject> questionVos = data.getList();
-
+        PageInfo<QuestionVo> data = commonResult.getData();
+        List<QuestionVo> questionVos = data.getList();
         assertThat(questionVos.size()).isEqualTo(1);
-        assertThat(questionVos.get(0).get("id")).isEqualTo(noAnswerQuestion.getId());
+        assertThat(questionVos.get(0).getId()).isEqualTo(noAnswerQuestion.getId());
     }
 
 }
