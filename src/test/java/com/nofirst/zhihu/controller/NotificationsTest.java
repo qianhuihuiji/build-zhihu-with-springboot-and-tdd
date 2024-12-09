@@ -13,6 +13,7 @@ import com.nofirst.zhihu.mbg.model.NotificationExample;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.Subscription;
 import com.nofirst.zhihu.model.dto.AnswerDto;
+import com.nofirst.zhihu.model.dto.CommentDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,7 @@ class NotificationsTest extends BaseContainerTest {
 
     @Test
     @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
-    void all_invited_users_are_notified() throws Exception {
+    void all_invited_users_are_notified_when_publish_question() throws Exception {
         // given
         Question question = QuestionFactory.createUnpublishedQuestion();
         question.setUserId(2);
@@ -108,6 +109,49 @@ class NotificationsTest extends BaseContainerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JSONUtil.toJsonStr(question)))
                 .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
+
+        // then
+        // 查用户id为1的，也就是 Jane
+        notificationExample.clear();
+        criteria = notificationExample.createCriteria();
+        criteria.andNotifiableIdEqualTo(1);
+        long afterCountOfJane = notificationMapper.countByExample(notificationExample);
+        assertThat(afterCountOfJane).isEqualTo(1);
+        // 查用户id为3的，也就是 Foo
+        notificationExample.clear();
+        criteria = notificationExample.createCriteria();
+        criteria.andNotifiableIdEqualTo(3);
+        long afterCountOfFoo = notificationMapper.countByExample(notificationExample);
+        assertThat(afterCountOfFoo).isEqualTo(1);
+    }
+
+    @Test
+    @WithUserDetails(value = "John", userDetailsServiceBeanName = "accountUserDetailsService")
+    void mentioned_users_are_notified_when_comment_a_question() throws Exception {
+        // given
+        Question question = QuestionFactory.createPublishedQuestion();
+        questionMapper.insert(question);
+
+        NotificationExample notificationExample = new NotificationExample();
+        NotificationExample.Criteria criteria = notificationExample.createCriteria();
+        // 查用户id为1的，也就是 Jane
+        criteria.andNotifiableIdEqualTo(1);
+        long beforeCountOfJane = notificationMapper.countByExample(notificationExample);
+        assertThat(beforeCountOfJane).isEqualTo(0);
+        // 查用户id为3的，也就是 Foo
+        notificationExample.clear();
+        criteria.andNotifiableIdEqualTo(3);
+        long beforeCountOfFoo = notificationMapper.countByExample(notificationExample);
+        assertThat(beforeCountOfFoo).isEqualTo(0);
+        // when
+        CommentDto commentDto = new CommentDto();
+        commentDto.setContent("this is a comment");
+        this.mockMvc.perform(post("/questions/{questionId}/comments", question.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JSONUtil.toJsonStr(commentDto))
+                ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResultCode.SUCCESS.getCode()));
 

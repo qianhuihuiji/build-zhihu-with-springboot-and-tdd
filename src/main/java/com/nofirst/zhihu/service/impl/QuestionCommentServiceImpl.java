@@ -11,6 +11,7 @@ import com.nofirst.zhihu.mbg.model.CommentExample;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.dto.CommentDto;
 import com.nofirst.zhihu.model.vo.CommentVo;
+import com.nofirst.zhihu.publisher.CustomEventPublisher;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.QuestionCommentService;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,8 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
     private final QuestionMapper questionMapper;
     private final CommentMapper commentMapper;
 
+    private CustomEventPublisher customEventPublisher;
+
     @Override
     public void comment(Integer questionId, CommentDto commentDto, AccountUser accountUser) {
         Question question = questionMapper.selectByPrimaryKey(questionId);
@@ -50,6 +53,8 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
         comment.setCreatedAt(date);
         comment.setUpdatedAt(date);
         commentMapper.insert(comment);
+
+        customEventPublisher.firePostCommentEvent(comment);
     }
 
     @Override

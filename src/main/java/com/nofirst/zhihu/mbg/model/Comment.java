@@ -1,7 +1,11 @@
 package com.nofirst.zhihu.mbg.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Comment implements Serializable {
     private Integer id;
@@ -92,5 +96,16 @@ public class Comment implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public List<String> mentionedUsers() {
+        List<String> invitedUser = new ArrayList<>();
+        Pattern p = Pattern.compile("(?<=@)\\S+");
+        Matcher m = p.matcher(this.getContent());
+        while (m.find()) {
+            String username = m.group();
+            invitedUser.add(username);
+        }
+        return invitedUser;
     }
 }
