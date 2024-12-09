@@ -1,18 +1,24 @@
 package com.nofirst.zhihu.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.exception.AnswerNotExistedException;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.CommentMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Comment;
+import com.nofirst.zhihu.mbg.model.CommentExample;
 import com.nofirst.zhihu.model.dto.CommentDto;
+import com.nofirst.zhihu.model.vo.CommentVo;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.AnswerCommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -42,5 +48,32 @@ public class AnswerCommentServiceImpl implements AnswerCommentService {
         comment.setCreatedAt(date);
         comment.setUpdatedAt(date);
         commentMapper.insert(comment);
+    }
+
+    @Override
+    public PageInfo<CommentVo> index(Integer answerId, Integer pageIndex, Integer pageSize) {
+        PageHelper.startPage(pageIndex, pageSize);
+        CommentExample commentExample = new CommentExample();
+        CommentExample.Criteria criteria = commentExample.createCriteria();
+        criteria.andCommentedIdEqualTo(answerId);
+        criteria.andCommentedTypeEqualTo(Answer.class.getSimpleName());
+        List<Comment> comments = commentMapper.selectByExample(commentExample);
+        PageInfo<Comment> commentPageInfo = new PageInfo<>(comments);
+        List<CommentVo> result = new ArrayList<>();
+        for (Comment comment : comments) {
+            CommentVo commentVo = new CommentVo();
+            commentVo.setId(comment.getId());
+            commentVo.setCommentedId(comment.getCommentedId());
+            commentVo.setContent(comment.getContent());
+            commentVo.setCreateTime(comment.getCreatedAt());
+
+            result.add(commentVo);
+        }
+        PageInfo<CommentVo> pageResult = new PageInfo<>();
+        pageResult.setTotal(commentPageInfo.getTotal());
+        pageResult.setPageNum(commentPageInfo.getPageNum());
+        pageResult.setPageSize(commentPageInfo.getPageSize());
+        pageResult.setList(result);
+        return pageResult;
     }
 }
