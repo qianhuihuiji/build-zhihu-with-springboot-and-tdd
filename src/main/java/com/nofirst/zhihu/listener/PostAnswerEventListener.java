@@ -4,8 +4,10 @@ import cn.hutool.json.JSONObject;
 import com.nofirst.zhihu.dao.SubscriptionDao;
 import com.nofirst.zhihu.event.PostAnswerEvent;
 import com.nofirst.zhihu.event.PublishQuestionEvent;
+import com.nofirst.zhihu.mbg.mapper.ActivityMapper;
 import com.nofirst.zhihu.mbg.mapper.NotificationMapper;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
+import com.nofirst.zhihu.mbg.model.Activity;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Notification;
 import com.nofirst.zhihu.mbg.model.Subscription;
@@ -25,6 +27,7 @@ public class PostAnswerEventListener {
     private final NotificationMapper notificationMapper;
     private final UserMapper userMapper;
     private final SubscriptionDao subscriptionDao;
+    private final ActivityMapper activityMapper;
 
     @EventListener
     public void notifySubscribedUsers(PostAnswerEvent event) {
@@ -49,6 +52,21 @@ public class PostAnswerEventListener {
             }
 
         }
+    }
+
+    @EventListener
+    public void recordActivity(PostAnswerEvent event) {
+        Answer answer = event.getAnswer();
+        Activity activity = new Activity();
+        activity.setUserId(answer.getUserId());
+        activity.setType("created_answer");
+        activity.setSubjectId(answer.getId());
+        activity.setSubjectType(answer.getClass().getSimpleName());
+        Date now = new Date();
+        activity.setCreatedAt(now);
+        activity.setUpdatedAt(now);
+
+        activityMapper.insert(activity);
     }
 
     private String getData(Answer answer) {

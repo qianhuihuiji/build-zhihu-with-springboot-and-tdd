@@ -2,8 +2,10 @@ package com.nofirst.zhihu.listener;
 
 import cn.hutool.json.JSONObject;
 import com.nofirst.zhihu.event.PublishQuestionEvent;
+import com.nofirst.zhihu.mbg.mapper.ActivityMapper;
 import com.nofirst.zhihu.mbg.mapper.NotificationMapper;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
+import com.nofirst.zhihu.mbg.model.Activity;
 import com.nofirst.zhihu.mbg.model.Notification;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.User;
@@ -21,6 +23,7 @@ public class PublishQuestionEventListener {
 
     private final NotificationMapper notificationMapper;
     private final UserMapper userMapper;
+    private final ActivityMapper activityMapper;
 
     @EventListener
     public void notifyInvitedUsers(PublishQuestionEvent event) {
@@ -42,6 +45,21 @@ public class PublishQuestionEventListener {
                 notificationMapper.insert(notification);
             }
         }
+    }
+
+    @EventListener
+    public void recordActivity(PublishQuestionEvent event) {
+        Question question = event.getQuestion();
+        Activity activity = new Activity();
+        activity.setUserId(question.getUserId());
+        activity.setType("published_question");
+        activity.setSubjectId(question.getId());
+        activity.setSubjectType(question.getClass().getSimpleName());
+        Date now = new Date();
+        activity.setCreatedAt(now);
+        activity.setUpdatedAt(now);
+
+        activityMapper.insert(activity);
     }
 
     private String getData(Question question) {
