@@ -10,7 +10,6 @@ import com.nofirst.zhihu.factory.AnswerFactory;
 import com.nofirst.zhihu.factory.CommentFactory;
 import com.nofirst.zhihu.factory.QuestionFactory;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
-import com.nofirst.zhihu.mbg.mapper.CategoryMapper;
 import com.nofirst.zhihu.mbg.mapper.CommentMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
@@ -48,9 +47,6 @@ class ViewCommentsTest extends BaseContainerTest {
     @Autowired
     private CommentMapper commentMapper;
 
-    @Autowired
-    private CategoryMapper categoryMapper;
-
 
     @BeforeEach
     public void setup() {
@@ -73,7 +69,7 @@ class ViewCommentsTest extends BaseContainerTest {
         }
 
         // when
-        MvcResult result = this.mockMvc.perform(get("/questions/{questionId}/comments", question.getId()))
+        MvcResult result = this.mockMvc.perform(get("/questions/{questionId}/comments?pageIndex=1&pageSize=20", question.getId()))
                 .andExpect(status().isOk()).andReturn();
 
         // then
@@ -100,7 +96,7 @@ class ViewCommentsTest extends BaseContainerTest {
         }
 
         // when
-        MvcResult result = this.mockMvc.perform(get("/answers/{answerId}/comments", answer.getId()))
+        MvcResult result = this.mockMvc.perform(get("/answers/{answerId}/comments?pageIndex=1&pageSize=20", answer.getId()))
                 .andExpect(status().isOk()).andReturn();
 
         // then

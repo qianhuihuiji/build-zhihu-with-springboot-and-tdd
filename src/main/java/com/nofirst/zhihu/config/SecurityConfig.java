@@ -84,6 +84,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 设置白名单
                 .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/questions").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/answers/*/comments").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/questions/*/comments").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers(URL_WHITELIST).permitAll().anyRequest().authenticated())
                 // 异常处理器
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint).accessDeniedHandler(jwtAccessDeniedHandler))

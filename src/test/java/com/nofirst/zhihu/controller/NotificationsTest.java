@@ -147,7 +147,7 @@ class NotificationsTest extends BaseContainerTest {
         assertThat(beforeCountOfFoo).isEqualTo(0);
         // when
         CommentDto commentDto = new CommentDto();
-        commentDto.setContent("this is a comment");
+        commentDto.setContent("@Jane @Foo look at this");
         this.mockMvc.perform(post("/questions/{questionId}/comments", question.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JSONUtil.toJsonStr(commentDto))
