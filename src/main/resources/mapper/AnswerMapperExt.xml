@@ -14,4 +14,10 @@
         from answer
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
+    <select id="count" resultType="com.nofirst.zhihu.model.dto.UserCountDto">
+        select user_id as userId, count(*) as count
+        from answer
+        where created_at >= ${beginTime}
+        group by userId
+    </select>
 </mapper>
