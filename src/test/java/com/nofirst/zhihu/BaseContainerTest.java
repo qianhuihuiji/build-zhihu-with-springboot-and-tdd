@@ -1,5 +1,6 @@
 package com.nofirst.zhihu;
 
+import com.redis.testcontainers.RedisContainer;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -37,6 +38,9 @@ public abstract class BaseContainerTest {
             DockerImageName.parse("confluentinc/cp-kafka:7.6.1")
     ).withReuse(true);
 
+    public static final RedisContainer redisContainer =
+            new RedisContainer(DockerImageName.parse("redis:6.2.6")).withExposedPorts(63790).withReuse(true);
+
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry registry) {
         // 手动启动
@@ -45,6 +49,10 @@ public abstract class BaseContainerTest {
         registry.add("spring.datasource.username", mysqlContainer::getUsername);
 
         registry.add("spring.kafka.bootstrap-servers", kafkaContainer::getBootstrapServers);
+
+        registry.add("spring.redis.host", redisContainer::getHost);
+        registry.add("spring.redis.port", redisContainer::getFirstMappedPort);
+
     }
 
 
