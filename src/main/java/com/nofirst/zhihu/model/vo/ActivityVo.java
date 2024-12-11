@@ -5,7 +5,9 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class AnswerVo {
+public class ActivityVo {
+
+    private Long id;
 
     private Long questionId;
 
