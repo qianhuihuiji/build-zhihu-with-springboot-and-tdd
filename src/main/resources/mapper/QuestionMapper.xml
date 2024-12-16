@@ -10,6 +10,8 @@
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="answers_count" jdbcType="INTEGER" property="answersCount" />
     <result column="slug" jdbcType="VARCHAR" property="slug" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.nofirst.zhihu.mbg.model.Question">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
@@ -73,7 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, title, published_at, best_answer_id, category_id, answers_count, slug
+    id, user_id, title, published_at, best_answer_id, category_id, answers_count, slug, 
+    created_at, updated_at
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -132,10 +135,12 @@
     </selectKey>
     insert into question (user_id, title, published_at, 
       best_answer_id, category_id, answers_count, 
-      slug, content)
+      slug, created_at, updated_at, 
+      content)
     values (#{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{publishedAt,jdbcType=TIMESTAMP}, 
       #{bestAnswerId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{answersCount,jdbcType=INTEGER}, 
-      #{slug,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+      #{slug,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.nofirst.zhihu.mbg.model.Question">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -164,6 +169,12 @@
       <if test="slug != null">
         slug,
       </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
       <if test="content != null">
         content,
       </if>
@@ -189,6 +200,12 @@
       </if>
       <if test="slug != null">
         #{slug,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null">
         #{content,jdbcType=LONGVARCHAR},
@@ -228,6 +245,12 @@
       <if test="row.slug != null">
         slug = #{row.slug,jdbcType=VARCHAR},
       </if>
+      <if test="row.createdAt != null">
+        created_at = #{row.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.updatedAt != null">
+        updated_at = #{row.updatedAt,jdbcType=TIMESTAMP},
+      </if>
       <if test="row.content != null">
         content = #{row.content,jdbcType=LONGVARCHAR},
       </if>
@@ -246,6 +269,8 @@
       category_id = #{row.categoryId,jdbcType=INTEGER},
       answers_count = #{row.answersCount,jdbcType=INTEGER},
       slug = #{row.slug,jdbcType=VARCHAR},
+      created_at = #{row.createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{row.updatedAt,jdbcType=TIMESTAMP},
       content = #{row.content,jdbcType=LONGVARCHAR}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -260,7 +285,9 @@
       best_answer_id = #{row.bestAnswerId,jdbcType=INTEGER},
       category_id = #{row.categoryId,jdbcType=INTEGER},
       answers_count = #{row.answersCount,jdbcType=INTEGER},
-      slug = #{row.slug,jdbcType=VARCHAR}
+      slug = #{row.slug,jdbcType=VARCHAR},
+      created_at = #{row.createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{row.updatedAt,jdbcType=TIMESTAMP}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -289,6 +316,12 @@
       <if test="slug != null">
         slug = #{slug,jdbcType=VARCHAR},
       </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
       <if test="content != null">
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -304,6 +337,8 @@
       category_id = #{categoryId,jdbcType=INTEGER},
       answers_count = #{answersCount,jdbcType=INTEGER},
       slug = #{slug,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -315,7 +350,9 @@
       best_answer_id = #{bestAnswerId,jdbcType=INTEGER},
       category_id = #{categoryId,jdbcType=INTEGER},
       answers_count = #{answersCount,jdbcType=INTEGER},
-      slug = #{slug,jdbcType=VARCHAR}
+      slug = #{slug,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

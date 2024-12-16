@@ -25,6 +25,7 @@ public abstract class BaseContainerTest {
 
         mysqlContainer.start();
         kafkaContainer.start();
+        redisContainer.start();
     }
 
     // 这里的 mysql:8.0 镜像最好先本地下载，不然启动测试会先尝试下载，测试时间会变得非常长
@@ -39,7 +40,7 @@ public abstract class BaseContainerTest {
     ).withReuse(true);
 
     public static final RedisContainer redisContainer =
-            new RedisContainer(DockerImageName.parse("redis:6.2.6")).withExposedPorts(63790).withReuse(true);
+            new RedisContainer(DockerImageName.parse("redis:latest")).withExposedPorts(6379).withReuse(true);
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry registry) {

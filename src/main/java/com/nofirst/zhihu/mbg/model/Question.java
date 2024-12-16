@@ -39,6 +39,10 @@ public class Question implements Serializable {
 
     private String slug;
 
+    private Date createdAt;
+
+    private Date updatedAt;
+
     private String content;
 
     private static final long serialVersionUID = 1L;
@@ -107,6 +111,22 @@ public class Question implements Serializable {
         this.slug = slug;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public String getContent() {
         return content;
     }
@@ -129,6 +149,8 @@ public class Question implements Serializable {
         sb.append(", categoryId=").append(categoryId);
         sb.append(", answersCount=").append(answersCount);
         sb.append(", slug=").append(slug);
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", updatedAt=").append(updatedAt);
         sb.append(", content=").append(content);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

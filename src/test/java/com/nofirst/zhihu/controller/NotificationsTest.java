@@ -18,6 +18,7 @@ import com.nofirst.zhihu.mbg.model.Subscription;
 import com.nofirst.zhihu.model.dto.AnswerDto;
 import com.nofirst.zhihu.model.dto.CommentDto;
 import com.nofirst.zhihu.model.vo.NotificationVo;
+import com.nofirst.zhihu.security.AccountUserDetailsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -51,6 +53,9 @@ class NotificationsTest extends BaseContainerTest {
 
     @Autowired
     private NotificationMapper notificationMapper;
+
+    @Autowired
+    private AccountUserDetailsService accountUserDetailsService;
 
     @BeforeEach
     public void setup() {
@@ -194,7 +199,9 @@ class NotificationsTest extends BaseContainerTest {
 
 
         // when
-        MvcResult result = this.mockMvc.perform(get("/notifications")).andExpect(status().isOk()).andReturn();
+        MvcResult result = this.mockMvc.perform(get("/notifications?pageIndex=1&pageSize=10")
+                .with(user(accountUserDetailsService.loadUserByUsername("Jane")))
+        ).andExpect(status().isOk()).andReturn();
 
         // then
         String json = result.getResponse().getContentAsString();
@@ -229,7 +236,7 @@ class NotificationsTest extends BaseContainerTest {
 
         // 初始的未读通知数量是0
         NotificationExample example = new NotificationExample();
-        example.createCriteria().andNotifiableIdEqualTo(1);
+        example.createCriteria().andNotifiableIdEqualTo(1).andReadAtIsNull();
         long beforeCount = notificationMapper.countByExample(example);
         assertThat(beforeCount).isEqualTo(0);
 
@@ -243,7 +250,10 @@ class NotificationsTest extends BaseContainerTest {
         assertThat(afterCount).isEqualTo(1);
 
         // when
-        this.mockMvc.perform(get("/notifications")).andExpect(status().isOk()).andReturn();
+        // 切换到1号用户进行访问
+        this.mockMvc.perform(get("/notifications?pageIndex=1&pageSize=10")
+                .with(user(accountUserDetailsService.loadUserByUsername("Jane")))
+        ).andExpect(status().isOk()).andReturn();
 
         // then
         // 最终未读通知数量变成0

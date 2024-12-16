@@ -17,7 +17,7 @@
     <select id="count" resultType="com.nofirst.zhihu.model.dto.UserCountDto">
         select user_id as userId, count(*) as count
         from answer
-        where created_at >= ${beginTime}
-        group by userId
+        where created_at >= #{beginTime}
+        group by user_id
     </select>
 </mapper>

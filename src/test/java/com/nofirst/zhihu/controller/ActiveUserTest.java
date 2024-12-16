@@ -59,6 +59,8 @@ class ActiveUserTest extends BaseContainerTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+        questionMapper.deleteByExample(null);
+        answerMapper.deleteByExample(null);
     }
 
     @Test

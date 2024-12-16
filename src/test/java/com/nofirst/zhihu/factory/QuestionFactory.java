@@ -12,6 +12,7 @@ public class QuestionFactory {
 
     public static Question createPublishedQuestion() {
         Date lastWeek = DateUtils.addWeeks(new Date(), -1);
+        Date now = new Date();
 
         Question question = new Question();
         question.setUserId(1);
@@ -20,6 +21,8 @@ public class QuestionFactory {
         question.setCategoryId(1);
         question.setAnswersCount(0);
         question.setContent("published content");
+        question.setCreatedAt(now);
+        question.setUpdatedAt(now);
 
         return question;
     }
@@ -41,6 +44,9 @@ public class QuestionFactory {
         question.setCategoryId(1);
         question.setContent("unpublished content");
         question.setAnswersCount(0);
+        Date now = new Date();
+        question.setCreatedAt(now);
+        question.setUpdatedAt(now);
 
         return question;
     }

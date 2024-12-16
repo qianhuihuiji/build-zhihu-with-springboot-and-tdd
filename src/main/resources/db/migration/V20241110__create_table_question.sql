@@ -9,6 +9,8 @@ CREATE TABLE `question`
     category_id    int         not null comment '分类编号',
     answers_count  int          not null default 0 comment '回答数量',
     `slug`        varchar(100)     NULL,
+    `created_at` timestamp NOT NULL,
+    `updated_at` timestamp NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1;

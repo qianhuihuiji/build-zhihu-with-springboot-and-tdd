@@ -28,7 +28,7 @@ public class UserNotificationServiceImpl implements UserNotificationService {
         NotificationExample example = new NotificationExample();
         NotificationExample.Criteria criteria = example.createCriteria();
         criteria.andNotifiableIdEqualTo(userId);
-        example.setOrderByClause("create_time desc");
+        example.setOrderByClause("created_at desc");
         List<Notification> notifications = notificationMapper.selectByExample(example);
         // 如果不使用 mapper 返回的对象直接构造分页对象，total会被错误赋值成当前页的数据的数量，而不是总数
         PageInfo<Notification> notificationPageInfo = new PageInfo<>(notifications);

@@ -46,6 +46,7 @@ class ActivityTest extends BaseContainerTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+        activityMapper.deleteByExample(null);
     }
 
     @Test
@@ -87,8 +88,6 @@ class ActivityTest extends BaseContainerTest {
 
         ActivityExample example = new ActivityExample();
         ActivityExample.Criteria criteria = example.createCriteria();
-        criteria.andSubjectIdEqualTo(question.getId());
-        criteria.andSubjectTypeEqualTo(Question.class.getSimpleName());
         criteria.andTypeEqualTo("created_answer");
         long beforeCount = activityMapper.countByExample(example);
         assertThat(beforeCount).isEqualTo(0);
