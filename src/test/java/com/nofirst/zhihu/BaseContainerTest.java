@@ -51,8 +51,8 @@ public abstract class BaseContainerTest {
 
         registry.add("spring.kafka.bootstrap-servers", kafkaContainer::getBootstrapServers);
 
-        registry.add("spring.redis.host", redisContainer::getHost);
-        registry.add("spring.redis.port", redisContainer::getFirstMappedPort);
+        registry.add("spring.data.redis.host", redisContainer::getHost);
+        registry.add("spring.data.redis.port", redisContainer::getFirstMappedPort);
 
     }
 

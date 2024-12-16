@@ -65,6 +65,7 @@ class ActiveUserTest extends BaseContainerTest {
 
     @Test
     void can_calculate_active_user() {
+        jsonRedisTemplate.delete(CACHE_KEY);
         // given
         // John 创建了 1 个 Question，得 4 分
         Question question = QuestionFactory.createPublishedQuestion();
@@ -88,6 +89,7 @@ class ActiveUserTest extends BaseContainerTest {
 
     @Test
     void can_get_all_active_user() throws Exception {
+        jsonRedisTemplate.delete(CACHE_KEY);
         // given
         // John 创建了 1 个 Question，得 4 分
         Question question = QuestionFactory.createPublishedQuestion();

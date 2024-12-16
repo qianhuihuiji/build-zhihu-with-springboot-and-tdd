@@ -66,7 +66,8 @@ public class ActiveUserService {
 
         List<Integer> userIds = finalScoreMap.entrySet()
                 .stream()
-                .sorted(Map.Entry.comparingByValue()).map(Map.Entry::getKey).toList();
+                // 按照得分进行倒序
+                .sorted(Map.Entry.<Integer, Integer>comparingByValue().reversed()).map(Map.Entry::getKey).toList();
 
         int sizeToTake = Math.min(USER_NUMBER, userIds.size());
 
