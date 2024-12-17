@@ -40,7 +40,7 @@ public abstract class BaseContainerTest {
     ).withReuse(true);
 
     public static final RedisContainer redisContainer =
-            new RedisContainer(DockerImageName.parse("redis:latest")).withExposedPorts(6379).withReuse(true);
+            new RedisContainer(DockerImageName.parse("redis:7.2.3")).withExposedPorts(6379).withReuse(true);
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry registry) {
