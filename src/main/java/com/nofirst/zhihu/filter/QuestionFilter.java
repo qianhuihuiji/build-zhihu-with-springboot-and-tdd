@@ -1,4 +1,4 @@
-package com.nofirst.zhihu;
+package com.nofirst.zhihu.filter;
 
 import com.nofirst.zhihu.dao.CategoryDao;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
@@ -10,10 +10,8 @@ import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 @Component
 @AllArgsConstructor
@@ -21,12 +19,6 @@ public class QuestionFilter {
 
     private final UserMapper userMapper;
     private final CategoryDao categoryDao;
-
-    private final Set<String> filters = new HashSet<>() {{
-        add("by");
-        add("popularity");
-        add("slug");
-    }};
 
     public void apply(Map<String, Object> queryConditions, QuestionExample example, QuestionExample.Criteria criteria) {
         if (queryConditions.containsKey("by")) {

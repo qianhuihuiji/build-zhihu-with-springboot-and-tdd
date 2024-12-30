@@ -2,13 +2,13 @@ package com.nofirst.zhihu.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.nofirst.zhihu.QuestionFilter;
 import com.nofirst.zhihu.config.TranslatorConfig;
 import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
+import com.nofirst.zhihu.filter.QuestionFilter;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
