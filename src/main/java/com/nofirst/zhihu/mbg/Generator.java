@@ -13,6 +13,12 @@ import java.util.List;
  * 用于生产MBG的代码
  */
 public class Generator {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws Exception the exception
+     */
     public static void main(String[] args) throws Exception {
         //MBG 执行过程中的警告信息
         List<String> warnings = new ArrayList<String>();

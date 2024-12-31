@@ -9,12 +9,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+/**
+ * The type Answer policy.
+ */
 @Service
 @AllArgsConstructor
 public class AnswerPolicy {
 
     private final AnswerMapper answerMapper;
 
+    /**
+     * Can delete boolean.
+     *
+     * @param answerId    the answer id
+     * @param accountUser the account user
+     * @return the boolean
+     */
     public boolean canDelete(Integer answerId, AccountUser accountUser) {
         Answer answer = answerMapper.selectByPrimaryKey(answerId);
         if (Objects.isNull(answer)) {

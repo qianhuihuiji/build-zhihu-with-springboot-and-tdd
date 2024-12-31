@@ -23,8 +23,17 @@ import java.security.cert.X509Certificate;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * The type Http get.
+ */
 class HttpGet {
+    /**
+     * The constant SOCKET_TIMEOUT.
+     */
     protected static final int SOCKET_TIMEOUT = 10000;
+    /**
+     * The constant GET.
+     */
     protected static final String GET = "GET";
     private static TrustManager myX509TrustManager = new X509TrustManager() {
         public X509Certificate[] getAcceptedIssuers() {
@@ -38,9 +47,19 @@ class HttpGet {
         }
     };
 
+    /**
+     * Instantiates a new Http get.
+     */
     HttpGet() {
     }
 
+    /**
+     * Get string.
+     *
+     * @param host   the host
+     * @param params the params
+     * @return the string
+     */
     public static String get(String host, Map<String, String> params) {
         try {
             SSLContext sslcontext = SSLContext.getInstance("TLS");
@@ -90,6 +109,13 @@ class HttpGet {
         return null;
     }
 
+    /**
+     * Gets url with query string.
+     *
+     * @param url    the url
+     * @param params the params
+     * @return the url with query string
+     */
     public static String getUrlWithQueryString(String url, Map<String, String> params) {
         if (params == null) {
             return url;
@@ -123,6 +149,11 @@ class HttpGet {
         }
     }
 
+    /**
+     * Close.
+     *
+     * @param closeable the closeable
+     */
     protected static void close(Closeable closeable) {
         if (closeable != null) {
             try {
@@ -135,6 +166,12 @@ class HttpGet {
 
     }
 
+    /**
+     * Encode string.
+     *
+     * @param input the input
+     * @return the string
+     */
     public static String encode(String input) {
         if (input == null) {
             return "";

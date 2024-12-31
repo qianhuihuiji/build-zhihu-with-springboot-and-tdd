@@ -23,12 +23,26 @@ public class SubscribeQuestionController {
 
     private final QuestionSubscribeService questionSubscribeService;
 
+    /**
+     * Store common result.
+     *
+     * @param questionId  the question id
+     * @param accountUser the account user
+     * @return the common result
+     */
     @PostMapping("/questions/{questionId}/subscriptions")
     public CommonResult store(@PathVariable Integer questionId, @AuthenticationPrincipal AccountUser accountUser) {
         questionSubscribeService.subscribe(questionId, accountUser);
         return CommonResult.success(null);
     }
 
+    /**
+     * Destroy common result.
+     *
+     * @param questionId  the question id
+     * @param accountUser the account user
+     * @return the common result
+     */
     @DeleteMapping("/questions/{questionId}/subscriptions")
     public CommonResult destroy(@PathVariable Integer questionId, @AuthenticationPrincipal AccountUser accountUser) {
         questionSubscribeService.unsubscribe(questionId, accountUser);

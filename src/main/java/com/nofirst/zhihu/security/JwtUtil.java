@@ -16,15 +16,24 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * The type Jwt util.
+ */
 @Component
 @Slf4j
 public class JwtUtil {
     private static final String SECRET = "zxcvbnmfdasaererafafafafafafakjlkjalkfafadffdafadfafafaaafadfadfaf1234567890";
     private static final long EXPIRE = 60 * 24 * 7;
+    /**
+     * The constant HEADER.
+     */
     public static final String HEADER = "Authorization";
 
     /**
      * 生成jwt token
+     *
+     * @param username the username
+     * @return the string
      */
     public String generateToken(String username) {
         SecretKey signingKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
@@ -40,6 +49,12 @@ public class JwtUtil {
                 .compact();
     }
 
+    /**
+     * Gets claims by token.
+     *
+     * @param token the token
+     * @return the claims by token
+     */
     public Claims getClaimsByToken(String token) {
         SecretKey signingKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
         return Jwts.parser()
@@ -52,7 +67,8 @@ public class JwtUtil {
     /**
      * 检查token是否过期
      *
-     * @return true：过期
+     * @param expiration the expiration
+     * @return true ：过期
      */
     public boolean isTokenExpired(Date expiration) {
         return expiration.before(new Date());
@@ -61,9 +77,9 @@ public class JwtUtil {
     /**
      * 获得token中的自定义信息,一般是获取token的username，无需secret解密也能获得
      *
-     * @param token
-     * @param filed
-     * @return
+     * @param token the token
+     * @param filed the filed
+     * @return claim filed
      */
     public String getClaimFiled(String token, String filed) {
         try {
@@ -75,6 +91,11 @@ public class JwtUtil {
         }
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         JwtUtil jwtUtil = new JwtUtil();
         String token = jwtUtil.generateToken("admin");

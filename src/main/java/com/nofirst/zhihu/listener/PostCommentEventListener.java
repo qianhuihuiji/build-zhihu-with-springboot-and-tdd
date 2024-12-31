@@ -16,6 +16,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Post comment event listener.
+ */
 @Component
 @AllArgsConstructor
 public class PostCommentEventListener {
@@ -23,6 +26,11 @@ public class PostCommentEventListener {
     private final NotificationMapper notificationMapper;
     private final UserMapper userMapper;
 
+    /**
+     * Notify subscribed users.
+     *
+     * @param event the event
+     */
     @EventListener
     public void notifySubscribedUsers(PostCommentEvent event) {
         Comment comment = event.getComment();

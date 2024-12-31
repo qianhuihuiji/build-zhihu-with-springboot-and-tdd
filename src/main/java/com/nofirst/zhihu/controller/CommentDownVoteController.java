@@ -23,12 +23,26 @@ public class CommentDownVoteController {
 
     private final CommentVoteDownService commentVoteDownService;
 
+    /**
+     * Store common result.
+     *
+     * @param commentId   the comment id
+     * @param accountUser the account user
+     * @return the common result
+     */
     @PostMapping("/comments/{commentId}/down-votes")
     public CommonResult store(@PathVariable Integer commentId, @AuthenticationPrincipal AccountUser accountUser) {
         commentVoteDownService.store(commentId, accountUser);
         return CommonResult.success(null);
     }
 
+    /**
+     * Destroy common result.
+     *
+     * @param commentId   the comment id
+     * @param accountUser the account user
+     * @return the common result
+     */
     @DeleteMapping("/comments/{commentId}/down-votes")
     public CommonResult destroy(@PathVariable Integer commentId, @AuthenticationPrincipal AccountUser accountUser) {
         commentVoteDownService.destroy(commentId, accountUser);

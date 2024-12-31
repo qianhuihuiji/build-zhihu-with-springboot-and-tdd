@@ -23,6 +23,13 @@ public class ProfilesController {
 
     private final ProfileService profileService;
 
+    /**
+     * Show common result.
+     *
+     * @param userId      the user id
+     * @param accountUser the account user
+     * @return the common result
+     */
     @GetMapping("/profiles/{userId}")
     public CommonResult<ProfileVo> show(@PathVariable Integer userId, @AuthenticationPrincipal AccountUser accountUser) {
         ProfileVo profileVo = profileService.show(userId, accountUser);

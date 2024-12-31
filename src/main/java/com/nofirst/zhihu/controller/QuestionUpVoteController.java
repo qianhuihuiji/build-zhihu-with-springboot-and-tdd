@@ -23,12 +23,26 @@ public class QuestionUpVoteController {
 
     private final QuestionVoteUpService questionVoteUpService;
 
+    /**
+     * Store common result.
+     *
+     * @param questionId  the question id
+     * @param accountUser the account user
+     * @return the common result
+     */
     @PostMapping("/questions/{questionId}/up-votes")
     public CommonResult store(@PathVariable Integer questionId, @AuthenticationPrincipal AccountUser accountUser) {
         questionVoteUpService.store(questionId, accountUser);
         return CommonResult.success(null);
     }
 
+    /**
+     * Destroy common result.
+     *
+     * @param questionId  the question id
+     * @param accountUser the account user
+     * @return the common result
+     */
     @DeleteMapping("/questions/{questionId}/up-votes")
     public CommonResult destroy(@PathVariable Integer questionId, @AuthenticationPrincipal AccountUser accountUser) {
         questionVoteUpService.destroy(questionId, accountUser);

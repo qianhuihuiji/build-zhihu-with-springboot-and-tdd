@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * The type Account user details service.
+ */
 @Service
 @AllArgsConstructor
 public class AccountUserDetailsService implements UserDetailsService {
@@ -29,8 +32,8 @@ public class AccountUserDetailsService implements UserDetailsService {
     /**
      * 获取用户权限信息（角色、菜单权限）
      *
-     * @param username
-     * @return
+     * @param username the username
+     * @return user authority
      */
     public List<GrantedAuthority> getUserAuthority(String username) {
         // todo:

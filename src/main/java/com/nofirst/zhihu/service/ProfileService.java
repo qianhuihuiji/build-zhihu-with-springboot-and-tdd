@@ -10,5 +10,12 @@ import com.nofirst.zhihu.security.AccountUser;
  */
 public interface ProfileService {
 
+    /**
+     * Show profile vo.
+     *
+     * @param userId      the user id
+     * @param accountUser the account user
+     * @return the profile vo
+     */
     ProfileVo show(Integer userId, AccountUser accountUser);
 }

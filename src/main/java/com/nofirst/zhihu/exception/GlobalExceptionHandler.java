@@ -23,6 +23,12 @@ import java.util.Set;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Handle common result.
+     *
+     * @param e the e
+     * @return the common result
+     */
     @ResponseBody
     @ExceptionHandler(value = ApiException.class)
     public CommonResult handle(ApiException e) {
@@ -32,6 +38,12 @@ public class GlobalExceptionHandler {
         return CommonResult.failed(e.getMessage());
     }
 
+    /**
+     * Handle valid exception common result.
+     *
+     * @param e the e
+     * @return the common result
+     */
     @ResponseBody
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public CommonResult handleValidException(MethodArgumentNotValidException e) {
@@ -46,6 +58,12 @@ public class GlobalExceptionHandler {
         return CommonResult.validateFailed(message);
     }
 
+    /**
+     * Handle valid exception common result.
+     *
+     * @param e the e
+     * @return the common result
+     */
     @ResponseBody
     @ExceptionHandler(value = BindException.class)
     public CommonResult handleValidException(BindException e) {
@@ -60,6 +78,12 @@ public class GlobalExceptionHandler {
         return CommonResult.validateFailed(message);
     }
 
+    /**
+     * Handle constraint violation exception common result.
+     *
+     * @param e the e
+     * @return the common result
+     */
     @ResponseBody
     @ExceptionHandler(value = ConstraintViolationException.class)
     public CommonResult handleConstraintViolationException(ConstraintViolationException e) {
@@ -74,6 +98,12 @@ public class GlobalExceptionHandler {
         return CommonResult.validateFailed(messageBuilder.toString());
     }
 
+    /**
+     * Handle sql syntax error exception common result.
+     *
+     * @param e the e
+     * @return the common result
+     */
     @ResponseBody
     @ExceptionHandler(value = SQLSyntaxErrorException.class)
     public CommonResult handleSQLSyntaxErrorException(SQLSyntaxErrorException e) {

@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * The type Jwt logout success handler.
+ */
 @Component
 public class JwtLogoutSuccessHandler implements LogoutSuccessHandler {
 

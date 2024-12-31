@@ -8,24 +8,78 @@ import com.nofirst.zhihu.security.AccountUser;
  * QuestionService
  *
  * @author nofirst
- * @date 2020-08-24 22:34
+ * @date 2020 -08-24 22:34
  */
 public interface AnswerService {
+    /**
+     * Show answer.
+     *
+     * @param id the id
+     * @return the answer
+     */
     Answer show(Integer id);
 
+    /**
+     * Store.
+     *
+     * @param questionId  the question id
+     * @param answerDto   the answer dto
+     * @param accountUser the account user
+     */
     void store(Integer questionId, AnswerDto answerDto, AccountUser accountUser);
 
+    /**
+     * Mark as best.
+     *
+     * @param answerId    the answer id
+     * @param accountUser the account user
+     */
     void markAsBest(Integer answerId, AccountUser accountUser);
 
+    /**
+     * Destroy.
+     *
+     * @param answerId    the answer id
+     * @param accountUser the account user
+     */
     void destroy(Integer answerId, AccountUser accountUser);
 
+    /**
+     * Is voted up boolean.
+     *
+     * @param answerId the answer id
+     * @return the boolean
+     */
     Boolean isVotedUp(Integer answerId);
 
+    /**
+     * Up votes count integer.
+     *
+     * @param answerId the answer id
+     * @return the integer
+     */
     Integer upVotesCount(Integer answerId);
 
+    /**
+     * Is voted down boolean.
+     *
+     * @param answerId the answer id
+     * @return the boolean
+     */
     Boolean isVotedDown(Integer answerId);
 
+    /**
+     * Down votes count integer.
+     *
+     * @param answerId the answer id
+     * @return the integer
+     */
     Integer downVotesCount(Integer answerId);
 
+    /**
+     * Gets resource type.
+     *
+     * @return the resource type
+     */
     String getResourceType();
 }

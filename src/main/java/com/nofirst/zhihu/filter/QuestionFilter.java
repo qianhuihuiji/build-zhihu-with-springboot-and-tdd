@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Question filter.
+ */
 @Component
 @AllArgsConstructor
 public class QuestionFilter {
@@ -20,6 +23,13 @@ public class QuestionFilter {
     private final UserMapper userMapper;
     private final CategoryDao categoryDao;
 
+    /**
+     * Apply.
+     *
+     * @param queryConditions the query conditions
+     * @param example         the example
+     * @param criteria        the criteria
+     */
     public void apply(Map<String, Object> queryConditions, QuestionExample example, QuestionExample.Criteria criteria) {
         if (queryConditions.containsKey("by")) {
             by(criteria, String.valueOf(queryConditions.get("by")));

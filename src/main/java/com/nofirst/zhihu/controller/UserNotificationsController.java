@@ -25,6 +25,14 @@ public class UserNotificationsController {
 
     private final UserNotificationService notificationService;
 
+    /**
+     * Index common result.
+     *
+     * @param pageIndex   the page index
+     * @param pageSize    the page size
+     * @param accountUser the account user
+     * @return the common result
+     */
     @GetMapping("/notifications")
     public CommonResult<PageInfo<NotificationVo>> index(@RequestParam @NotNull Integer pageIndex,
                                                         @RequestParam @NotNull Integer pageSize,

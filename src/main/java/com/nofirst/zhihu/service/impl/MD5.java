@@ -8,12 +8,24 @@ import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * The type Md 5.
+ */
 public class MD5 {
     private static final char[] hexDigits = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
+    /**
+     * Instantiates a new Md 5.
+     */
     public MD5() {
     }
 
+    /**
+     * Md 5 string.
+     *
+     * @param input the input
+     * @return the string
+     */
     public static String md5(String input) {
         if (input == null) {
             return null;
@@ -30,6 +42,12 @@ public class MD5 {
         }
     }
 
+    /**
+     * Md 5 string.
+     *
+     * @param file the file
+     * @return the string
+     */
     public static String md5(File file) {
         try {
             if (!file.isFile()) {
@@ -52,6 +70,12 @@ public class MD5 {
         return null;
     }
 
+    /**
+     * Md 5 string.
+     *
+     * @param in the in
+     * @return the string
+     */
     public static String md5(InputStream in) {
         try {
             MessageDigest messagedigest = MessageDigest.getInstance("MD5");

@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 
+/**
+ * The type Answer dto.
+ */
 @Data
 public class AnswerDto {
 

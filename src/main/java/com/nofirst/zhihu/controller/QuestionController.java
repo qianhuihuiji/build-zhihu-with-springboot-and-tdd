@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * QuestionController
  *
  * @author nofirst
- * @date 2020-08-24 22:24
+ * @date 2020 -08-24 22:24
  */
 @RestController
 @Validated
@@ -31,17 +31,41 @@ public class QuestionController {
 
     private QuestionService questionService;
 
+    /**
+     * Show question vo.
+     *
+     * @param id the id
+     * @return the question vo
+     */
     @GetMapping("/questions/{id}")
     public QuestionVo show(@PathVariable Integer id) {
         return questionService.show(id);
     }
 
+    /**
+     * Store common result.
+     *
+     * @param dto         the dto
+     * @param accountUser the account user
+     * @return the common result
+     */
     @PostMapping("/questions")
     public CommonResult store(@RequestBody @Validated @ValidCategory QuestionDto dto, @AuthenticationPrincipal AccountUser accountUser) {
         questionService.store(dto, accountUser);
         return CommonResult.success(null);
     }
 
+    /**
+     * Index common result.
+     *
+     * @param pageIndex  the page index
+     * @param pageSize   the page size
+     * @param slug       the slug
+     * @param by         the by
+     * @param popularity the popularity
+     * @param unanswered the unanswered
+     * @return the common result
+     */
     @GetMapping("/questions")
     public CommonResult<PageInfo<QuestionVo>> index(@RequestParam @NotNull Integer pageIndex,
                                                     @RequestParam @NotNull Integer pageSize,

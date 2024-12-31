@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * The type Comment vo.
+ */
 @Data
 public class CommentVo {
 

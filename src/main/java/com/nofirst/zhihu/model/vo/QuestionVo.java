@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * The type Question vo.
+ */
 @Data
 public class QuestionVo {
 
@@ -23,5 +26,8 @@ public class QuestionVo {
 
     private Integer answersCount;
 
+    /**
+     * The Answers.
+     */
     PageInfo<Answer> answers;
 }

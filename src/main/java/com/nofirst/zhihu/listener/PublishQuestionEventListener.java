@@ -17,6 +17,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Publish question event listener.
+ */
 @Component
 @AllArgsConstructor
 public class PublishQuestionEventListener {
@@ -25,6 +28,11 @@ public class PublishQuestionEventListener {
     private final UserMapper userMapper;
     private final ActivityMapper activityMapper;
 
+    /**
+     * Notify invited users.
+     *
+     * @param event the event
+     */
     @EventListener
     public void notifyInvitedUsers(PublishQuestionEvent event) {
         Question question = event.getQuestion();
@@ -47,6 +55,11 @@ public class PublishQuestionEventListener {
         }
     }
 
+    /**
+     * Record activity.
+     *
+     * @param event the event
+     */
     @EventListener
     public void recordActivity(PublishQuestionEvent event) {
         Question question = event.getQuestion();

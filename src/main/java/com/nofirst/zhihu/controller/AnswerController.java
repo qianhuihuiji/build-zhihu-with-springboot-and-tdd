@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * QuestionController
  *
  * @author nofirst
- * @date 2020-08-24 22:24
+ * @date 2020 -08-24 22:24
  */
 @RestController
 @AllArgsConstructor
@@ -27,6 +27,14 @@ public class AnswerController {
 
     private final AnswerService answerService;
 
+    /**
+     * Store common result.
+     *
+     * @param questionId  the question id
+     * @param answerDto   the answer dto
+     * @param accountUser the account user
+     * @return the common result
+     */
     @PostMapping("/questions/{questionId}/answers")
     public CommonResult store(@PathVariable Integer questionId, @RequestBody @Validated AnswerDto answerDto, @AuthenticationPrincipal AccountUser accountUser) {
 
@@ -35,6 +43,13 @@ public class AnswerController {
         return CommonResult.success(null);
     }
 
+    /**
+     * Store common result.
+     *
+     * @param answerId    the answer id
+     * @param accountUser the account user
+     * @return the common result
+     */
     @DeleteMapping("/answers/{answerId}")
     @PreAuthorize("@answerPolicy.canDelete(#answerId, #accountUser)")
     public CommonResult store(@PathVariable Integer answerId, @AuthenticationPrincipal AccountUser accountUser) {

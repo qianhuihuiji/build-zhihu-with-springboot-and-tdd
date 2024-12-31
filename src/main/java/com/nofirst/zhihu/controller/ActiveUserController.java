@@ -22,6 +22,11 @@ public class ActiveUserController {
 
     private final ActiveUserService activeUserService;
 
+    /**
+     * Index common result.
+     *
+     * @return the common result
+     */
     @GetMapping("/active-users")
     public CommonResult<List<UserVo>> index() {
         List<UserVo> activeUsers = activeUserService.getActiveUsers();

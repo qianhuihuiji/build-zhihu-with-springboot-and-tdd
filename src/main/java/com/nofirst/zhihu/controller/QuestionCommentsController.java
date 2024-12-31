@@ -29,6 +29,14 @@ public class QuestionCommentsController {
 
     private final QuestionCommentService questionCommentService;
 
+    /**
+     * Index common result.
+     *
+     * @param questionId the question id
+     * @param pageIndex  the page index
+     * @param pageSize   the page size
+     * @return the common result
+     */
     @GetMapping("/questions/{questionId}/comments")
     public CommonResult<PageInfo<CommentVo>> index(@PathVariable Integer questionId,
                                                    @RequestParam @NotNull Integer pageIndex,
@@ -37,6 +45,14 @@ public class QuestionCommentsController {
         return CommonResult.success(pageInfo);
     }
 
+    /**
+     * Store common result.
+     *
+     * @param questionId  the question id
+     * @param commentDto  the comment dto
+     * @param accountUser the account user
+     * @return the common result
+     */
     @PostMapping("/questions/{questionId}/comments")
     public CommonResult store(@PathVariable Integer questionId,
                               @Validated @RequestBody CommentDto commentDto,

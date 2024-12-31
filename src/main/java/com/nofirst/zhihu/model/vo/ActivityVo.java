@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * The type Activity vo.
+ */
 @Data
 public class ActivityVo {
 

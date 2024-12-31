@@ -3,6 +3,9 @@ package com.nofirst.zhihu.mbg.model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * The type Subscription.
+ */
 public class Subscription implements Serializable {
     /**
      * 主键
@@ -41,42 +44,92 @@ public class Subscription implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     public Integer getUserId() {
         return userId;
     }
 
+    /**
+     * Sets user id.
+     *
+     * @param userId the user id
+     */
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
+    /**
+     * Gets question id.
+     *
+     * @return the question id
+     */
     public Integer getQuestionId() {
         return questionId;
     }
 
+    /**
+     * Sets question id.
+     *
+     * @param questionId the question id
+     */
     public void setQuestionId(Integer questionId) {
         this.questionId = questionId;
     }
 
+    /**
+     * Gets create time.
+     *
+     * @return the create time
+     */
     public Date getCreateTime() {
         return createTime;
     }
 
+    /**
+     * Sets create time.
+     *
+     * @param createTime the create time
+     */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
+    /**
+     * Gets update time.
+     *
+     * @return the update time
+     */
     public Date getUpdateTime() {
         return updateTime;
     }
 
+    /**
+     * Sets update time.
+     *
+     * @param updateTime the update time
+     */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }

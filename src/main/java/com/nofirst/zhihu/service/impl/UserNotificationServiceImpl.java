@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The type User notification service.
+ */
 @Service
 @AllArgsConstructor
 public class UserNotificationServiceImpl implements UserNotificationService {

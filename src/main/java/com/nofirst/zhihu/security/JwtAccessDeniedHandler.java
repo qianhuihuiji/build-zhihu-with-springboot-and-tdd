@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * The type Jwt access denied handler.
+ */
 @Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 

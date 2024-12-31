@@ -7,6 +7,9 @@ import org.springframework.util.Assert;
 
 import java.util.Collection;
 
+/**
+ * The type Account user.
+ */
 @Slf4j
 public class AccountUser implements UserDetails {
     private static final long serialVersionUID = -1L;
@@ -19,10 +22,30 @@ public class AccountUser implements UserDetails {
     private boolean credentialsNonExpired;
     private boolean enabled;
 
+    /**
+     * Instantiates a new Account user.
+     *
+     * @param userId      the user id
+     * @param username    the username
+     * @param password    the password
+     * @param authorities the authorities
+     */
     public AccountUser(Integer userId, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this(userId, username, password, true, true, true, true, authorities);
     }
 
+    /**
+     * Instantiates a new Account user.
+     *
+     * @param userId                the user id
+     * @param username              the username
+     * @param password              the password
+     * @param enabled               the enabled
+     * @param accountNonExpired     the account non expired
+     * @param credentialsNonExpired the credentials non expired
+     * @param accountNonLocked      the account non locked
+     * @param authorities           the authorities
+     */
     public AccountUser(Integer userId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         Assert.isTrue(username != null && !"".equals(username) && password != null, "Cannot pass null or empty values to constructor");
         this.userId = userId;
@@ -40,6 +63,11 @@ public class AccountUser implements UserDetails {
         return this.authorities;
     }
 
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     public Integer getUserId() {
         return this.userId;
     }

@@ -20,6 +20,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Post answer event listener.
+ */
 @Component
 @AllArgsConstructor
 public class PostAnswerEventListener {
@@ -29,6 +32,11 @@ public class PostAnswerEventListener {
     private final SubscriptionDao subscriptionDao;
     private final ActivityMapper activityMapper;
 
+    /**
+     * Notify subscribed users.
+     *
+     * @param event the event
+     */
     @EventListener
     public void notifySubscribedUsers(PostAnswerEvent event) {
         Answer answer = event.getAnswer();
@@ -54,6 +62,11 @@ public class PostAnswerEventListener {
         }
     }
 
+    /**
+     * Record activity.
+     *
+     * @param event the event
+     */
     @EventListener
     public void recordActivity(PostAnswerEvent event) {
         Answer answer = event.getAnswer();

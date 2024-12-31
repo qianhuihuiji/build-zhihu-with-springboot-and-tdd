@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type User controller.
+ */
 @RestController
 @RequestMapping(path = "/user", produces = "application/json;charset=utf-8")
 @AllArgsConstructor
@@ -29,6 +32,13 @@ public class UserController {
     private JwtUtil jwtUtil;
     private UserMapper userMapper;
 
+    /**
+     * Login common result.
+     *
+     * @param userLoginDTO the user login dto
+     * @param response     the response
+     * @return the common result
+     */
     @PostMapping("/login")
     public CommonResult login(@RequestBody @Validated UserLoginDto userLoginDTO, HttpServletResponse response) {
         String username = userLoginDTO.getUsername();
@@ -50,7 +60,14 @@ public class UserController {
         return CommonResult.success(map);
     }
 
-    //@PreAuthorize配合@EnableGlobalMethodSecurity(prePostEnabled = true)使用
+    /**
+     * Logout common result.
+     *
+     * @param request  the request
+     * @param response the response
+     * @return the common result
+     */
+//@PreAuthorize配合@EnableGlobalMethodSecurity(prePostEnabled = true)使用
     //@PreAuthorize("hasAuthority('/user/logout')")
     @GetMapping("/logout")
     public CommonResult logout(HttpServletRequest request, HttpServletResponse response) {

@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type Kafka producer.
+ */
 @Component
 @Slf4j
 public class KafkaProducer {
@@ -14,6 +17,12 @@ public class KafkaProducer {
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
 
+    /**
+     * Send.
+     *
+     * @param topic    the topic
+     * @param question the question
+     */
     public void send(String topic, Question question) {
         TranslateSlugEvent translateSlugEvent = new TranslateSlugEvent(question);
         kafkaTemplate.send(topic, translateSlugEvent);

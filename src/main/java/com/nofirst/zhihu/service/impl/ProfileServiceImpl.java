@@ -9,6 +9,9 @@ import com.nofirst.zhihu.service.ProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Profile service.
+ */
 @Service
 @AllArgsConstructor
 public class ProfileServiceImpl implements ProfileService {

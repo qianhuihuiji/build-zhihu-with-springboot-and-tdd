@@ -12,8 +12,23 @@ import com.nofirst.zhihu.security.AccountUser;
  */
 public interface AnswerCommentService {
 
+    /**
+     * Comment.
+     *
+     * @param answerId    the answer id
+     * @param commentDto  the comment dto
+     * @param accountUser the account user
+     */
     void comment(Integer answerId, CommentDto commentDto, AccountUser accountUser);
 
+    /**
+     * Index page info.
+     *
+     * @param answerId  the answer id
+     * @param pageIndex the page index
+     * @param pageSize  the page size
+     * @return the page info
+     */
     PageInfo<CommentVo> index(Integer answerId, Integer pageIndex, Integer pageSize);
 
 }

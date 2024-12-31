@@ -6,9 +6,17 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type Json redis template.
+ */
 @Component
 public class JsonRedisTemplate extends RedisTemplate<String, Object> {
 
+    /**
+     * Instantiates a new Json redis template.
+     *
+     * @param redisConnectionFactory the redis connection factory
+     */
     public JsonRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
 
         // 构造函数注入 RedisConnectionFactory，设置到父类

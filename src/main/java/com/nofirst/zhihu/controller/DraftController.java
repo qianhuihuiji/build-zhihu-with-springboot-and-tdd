@@ -24,6 +24,12 @@ public class DraftController {
 
     private final QuestionService questionService;
 
+    /**
+     * Store common result.
+     *
+     * @param accountUser the account user
+     * @return the common result
+     */
     @GetMapping("/drafts")
     public CommonResult store(@AuthenticationPrincipal AccountUser accountUser) {
         List<QuestionVo> questionVos = questionService.drafts(accountUser);

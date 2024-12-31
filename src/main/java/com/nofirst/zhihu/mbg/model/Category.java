@@ -2,6 +2,9 @@ package com.nofirst.zhihu.mbg.model;
 
 import java.io.Serializable;
 
+/**
+ * The type Category.
+ */
 public class Category implements Serializable {
     /**
      * 主键
@@ -26,26 +29,56 @@ public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets slug.
+     *
+     * @return the slug
+     */
     public String getSlug() {
         return slug;
     }
 
+    /**
+     * Sets slug.
+     *
+     * @param slug the slug
+     */
     public void setSlug(String slug) {
         this.slug = slug;
     }

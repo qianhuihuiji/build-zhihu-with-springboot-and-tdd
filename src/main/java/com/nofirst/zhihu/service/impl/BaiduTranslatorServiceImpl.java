@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Baidu translator service.
+ */
 @Service
 @Primary
 @AllArgsConstructor
@@ -22,6 +25,14 @@ public class BaiduTranslatorServiceImpl implements TranslatorService {
 
     private TranslatorConfig translatorConfig;
 
+    /**
+     * Gets trans result.
+     *
+     * @param query the query
+     * @param from  the from
+     * @param to    the to
+     * @return the trans result
+     */
     public String getTransResult(String query, String from, String to) {
         Map<String, String> params = this.buildParams(query, from, to);
         return HttpGet.get(TRANS_API_HOST, params);

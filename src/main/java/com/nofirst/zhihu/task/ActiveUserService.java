@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Active user service.
+ */
 @Component
 @AllArgsConstructor
 public class ActiveUserService {
@@ -30,19 +33,42 @@ public class ActiveUserService {
 
     private JsonRedisTemplate jsonRedisTemplate;
 
-    // 发布问题的得分权重
+    /**
+     * The constant QUESTION_WEIGHT.
+     */
+// 发布问题的得分权重
     public static Integer QUESTION_WEIGHT = 4;
-    // 回答问题的得分权重
+    /**
+     * The constant ANSWER_WEIGHT.
+     */
+// 回答问题的得分权重
     public static Integer ANSWER_WEIGHT = 1;
-    // 多少天内发表过内容
+    /**
+     * The constant PASS_DAYS.
+     */
+// 多少天内发表过内容
     public static Integer PASS_DAYS = 7;
-    // 取出来多少用户
+    /**
+     * The constant USER_NUMBER.
+     */
+// 取出来多少用户
     public static Integer USER_NUMBER = 6;
 
-    // 缓存相关配置
+    /**
+     * The constant CACHE_KEY.
+     */
+// 缓存相关配置
     public static String CACHE_KEY = "zhihu_active_users";
+    /**
+     * The constant CACHE_EXPIRE_IN_SECONDS.
+     */
     public static Integer CACHE_EXPIRE_IN_SECONDS = 60 * 60;
 
+    /**
+     * Gets active users.
+     *
+     * @return the active users
+     */
     public List<UserVo> getActiveUsers() {
         // 先尝试获取缓存，获取不到则重新获取活跃用户，并存入缓存
         List<UserVo> userIds = (List<UserVo>) jsonRedisTemplate.opsForValue().get(CACHE_KEY);
@@ -53,6 +79,9 @@ public class ActiveUserService {
         return userIds;
     }
 
+    /**
+     * Calculate and cache active users.
+     */
     public void calculateAndCacheActiveUsers() {
         // 取得活跃用户列表
         List<UserVo> users = calculateActiveUsers();

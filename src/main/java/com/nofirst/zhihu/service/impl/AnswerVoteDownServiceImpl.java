@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+/**
+ * The type Answer vote down service.
+ */
 @Service
 @AllArgsConstructor
 public class AnswerVoteDownServiceImpl implements AnswerVoteDownService {

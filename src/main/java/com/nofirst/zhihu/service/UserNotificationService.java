@@ -10,6 +10,14 @@ import com.nofirst.zhihu.model.vo.NotificationVo;
  */
 public interface UserNotificationService {
 
+    /**
+     * Index page info.
+     *
+     * @param userId    the user id
+     * @param pageIndex the page index
+     * @param pageSize  the page size
+     * @return the page info
+     */
     PageInfo<NotificationVo> index(Integer userId, Integer pageIndex, Integer pageSize);
 
 }

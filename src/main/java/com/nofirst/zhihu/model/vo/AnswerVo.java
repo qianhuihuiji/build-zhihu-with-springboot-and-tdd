@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * The type Answer vo.
+ */
 @Data
 public class AnswerVo {
 

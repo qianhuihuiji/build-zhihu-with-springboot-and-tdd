@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+/**
+ * The type Question policy.
+ */
 @Service
 @AllArgsConstructor
 public class QuestionPolicy {
@@ -20,6 +23,13 @@ public class QuestionPolicy {
     private final QuestionMapper questionMapper;
     private final AnswerMapper answerMapper;
 
+    /**
+     * Can mark answer as best boolean.
+     *
+     * @param answerId    the answer id
+     * @param accountUser the account user
+     * @return the boolean
+     */
     public boolean canMarkAnswerAsBest(Integer answerId, AccountUser accountUser) {
         Answer answer = answerMapper.selectByPrimaryKey(answerId);
         if (Objects.isNull(answer)) {
@@ -35,6 +45,13 @@ public class QuestionPolicy {
         return accountUser.getUserId().equals(question.getUserId());
     }
 
+    /**
+     * Is question owner boolean.
+     *
+     * @param questionId  the question id
+     * @param accountUser the account user
+     * @return the boolean
+     */
     public boolean isQuestionOwner(Integer questionId, AccountUser accountUser) {
         Question question = questionMapper.selectByPrimaryKey(questionId);
         if (Objects.isNull(question)) {

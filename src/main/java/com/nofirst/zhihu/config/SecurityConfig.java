@@ -23,6 +23,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * The type Security config.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -46,7 +49,9 @@ public class SecurityConfig {
      **/
 
     /**
-     * @return 身份校验机制、身份验证提供程序
+     * Authentication provider authentication provider.
+     *
+     * @return 身份校验机制 、身份验证提供程序
      */
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -62,15 +67,22 @@ public class SecurityConfig {
     /**
      * 基于用户名和密码或使用用户名和密码进行身份验证
      *
-     * @param config
-     * @return
-     * @throws Exception
+     * @param config the config
+     * @return authentication manager
+     * @throws Exception the exception
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    /**
+     * Security filter chain security filter chain.
+     *
+     * @param http the http
+     * @return the security filter chain
+     * @throws Exception the exception
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http

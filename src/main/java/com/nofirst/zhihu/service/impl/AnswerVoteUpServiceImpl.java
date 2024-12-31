@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+/**
+ * The type Answer vote up service.
+ */
 @Service
 @AllArgsConstructor
 public class AnswerVoteUpServiceImpl implements AnswerVoteUpService {

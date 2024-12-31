@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 
+/**
+ * The type Comment dto.
+ */
 @Data
 public class CommentDto {
 

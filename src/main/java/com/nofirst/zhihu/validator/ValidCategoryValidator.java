@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+/**
+ * The type Valid category validator.
+ */
 @Slf4j
 @Component
 @AllArgsConstructor
