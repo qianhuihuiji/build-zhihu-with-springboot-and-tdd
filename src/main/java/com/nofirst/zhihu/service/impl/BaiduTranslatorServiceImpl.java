@@ -39,7 +39,7 @@ public class BaiduTranslatorServiceImpl implements TranslatorService {
     }
 
     private Map<String, String> buildParams(String query, String from, String to) {
-        Map<String, String> params = new HashMap();
+        Map<String, String> params = new HashMap<>(8);
         params.put("q", query);
         params.put("from", from);
         params.put("to", to);

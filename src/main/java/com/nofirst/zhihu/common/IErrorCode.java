@@ -2,7 +2,6 @@ package com.nofirst.zhihu.common;
 
 /**
  * API返回码接口
- * Created by macro on 2019/4/19.
  */
 public interface IErrorCode {
     /**

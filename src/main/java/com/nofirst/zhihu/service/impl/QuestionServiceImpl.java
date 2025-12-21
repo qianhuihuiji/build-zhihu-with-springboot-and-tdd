@@ -85,12 +85,15 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void store(QuestionDto dto, AccountUser accountUser) {
+        Date now = new Date();
         Question question = new Question();
         question.setUserId(accountUser.getUserId());
         question.setTitle(dto.getTitle());
         question.setContent(dto.getContent());
         question.setCategoryId(dto.getCategoryId());
         question.setAnswersCount(0);
+        question.setCreatedAt(now);
+        question.setUpdatedAt(now);
 
         questionMapper.insert(question);
 

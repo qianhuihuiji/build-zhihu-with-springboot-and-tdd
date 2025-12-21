@@ -18,7 +18,6 @@ import java.util.Set;
 
 /**
  * 全局异常处理类
- * Created by macro on 2020/2/27.
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {

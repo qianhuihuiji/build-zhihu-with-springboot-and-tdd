@@ -174,7 +174,8 @@ class CreateQuestionsTest extends BaseContainerTest {
 
         await()
                 .pollInterval(Duration.ofSeconds(3))
-                .atMost(5, SECONDS)
+                // 依赖于实际的时间，时间设大一点是为了让kafka消费到消息
+                .atMost(15, SECONDS)
                 .untilAsserted(() -> {
                     // then
                     long afterCount = questionMapper.countByExample(null);
