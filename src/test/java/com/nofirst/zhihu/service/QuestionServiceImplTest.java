@@ -1,6 +1,5 @@
 package com.nofirst.zhihu.service;
 
-import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
@@ -93,21 +92,6 @@ class QuestionServiceImplTest {
             questionService.show(1);
         }).isInstanceOf(QuestionNotExistedException.class)
                 .hasMessageStartingWith("question not exist");
-    }
-
-
-    @Test
-    void a_question_has_many_answers() {
-        // given
-        given(answerDao.selectByQuestionId(1)).willReturn(this.answers);
-
-        // when
-        PageInfo<Answer> answersPage = questionService.answers(1, 1, 10);
-        List<Answer> results = answersPage.getList();
-
-        // then
-        assertThat(answersPage.getTotal()).isEqualTo(2);
-        assertThat(results.size()).isEqualTo(this.answers.size());
     }
 
     @Test

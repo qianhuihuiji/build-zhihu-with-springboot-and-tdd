@@ -1,5 +1,7 @@
 package com.nofirst.zhihu.service;
 
+import com.github.pagehelper.PageInfo;
+import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
@@ -25,6 +27,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -44,6 +48,8 @@ public class AnswerServiceImplTest {
     @Mock
     private AnswerMapper answerMapper;
     @Mock
+    private AnswerDao answerDao;
+    @Mock
     private QuestionMapper questionMapper;
     @Mock
     private QuestionDao questionDao;
@@ -54,11 +60,13 @@ public class AnswerServiceImplTest {
     @Mock
     private CustomEventPublisher customEventPublisher;
 
+    private List<Answer> answers;
     private Answer defaultAnswer;
     private AnswerDto defaultAnswerDto;
 
     @BeforeEach
     public void setup() {
+        this.answers = AnswerFactory.createAnswerBatch(10, 1);
         this.defaultAnswer = AnswerFactory.createAnswer(1);
         this.defaultAnswerDto = AnswerFactory.createAnswerDto();
     }
@@ -138,6 +146,20 @@ public class AnswerServiceImplTest {
 
         // then
         verify(answerMapper, times(1)).deleteByPrimaryKey(1);
+    }
+
+
+    @Test
+    void a_question_has_many_answers() {
+        // given
+        given(answerDao.selectByQuestionId(1)).willReturn(this.answers);
+
+        // when
+        PageInfo<Answer> answersPage = answerService.answers(1, 1, 20);
+
+        // then
+        assertThat(answersPage.getTotal()).isEqualTo(10);
+        assertThat(answersPage.getSize()).isEqualTo(10);
     }
 
     @Test
