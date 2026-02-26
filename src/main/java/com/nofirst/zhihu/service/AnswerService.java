@@ -1,5 +1,6 @@
 package com.nofirst.zhihu.service;
 
+import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.model.dto.AnswerDto;
 import com.nofirst.zhihu.security.AccountUser;
@@ -11,6 +12,17 @@ import com.nofirst.zhihu.security.AccountUser;
  * @date 2020 -08-24 22:34
  */
 public interface AnswerService {
+
+    /**
+     * Answers page info.
+     *
+     * @param questionId the question id
+     * @param pageNow    the page now
+     * @param pageSize   the page size
+     * @return the page info
+     */
+    PageInfo<Answer> answers(Integer questionId, int pageNow, int pageSize);
+
     /**
      * Show answer.
      *

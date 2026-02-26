@@ -1,7 +1,6 @@
 package com.nofirst.zhihu.service;
 
 import com.github.pagehelper.PageInfo;
-import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.User;
 import com.nofirst.zhihu.model.dto.QuestionDto;
 import com.nofirst.zhihu.model.vo.QuestionVo;
@@ -23,16 +22,6 @@ public interface QuestionService {
      * @return the question vo
      */
     QuestionVo show(Integer id);
-
-    /**
-     * Answers page info.
-     *
-     * @param questionId the question id
-     * @param pageNow    the page now
-     * @param pageSize   the page size
-     * @return the page info
-     */
-    PageInfo<Answer> answers(Integer questionId, int pageNow, int pageSize);
 
     /**
      * Owner user.

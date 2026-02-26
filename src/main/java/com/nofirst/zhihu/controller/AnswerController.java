@@ -1,17 +1,22 @@
 package com.nofirst.zhihu.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.common.CommonResult;
+import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.model.dto.AnswerDto;
 import com.nofirst.zhihu.security.AccountUser;
 import com.nofirst.zhihu.service.AnswerService;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -52,10 +57,18 @@ public class AnswerController {
      */
     @DeleteMapping("/answers/{answerId}")
     @PreAuthorize("@answerPolicy.canDelete(#answerId, #accountUser)")
-    public CommonResult store(@PathVariable Integer answerId, @AuthenticationPrincipal AccountUser accountUser) {
+    public CommonResult destroy(@PathVariable Integer answerId, @AuthenticationPrincipal AccountUser accountUser) {
 
         answerService.destroy(answerId, accountUser);
 
         return CommonResult.success(null);
+    }
+
+    @GetMapping("/answers")
+    public CommonResult<PageInfo<Answer>> index(@RequestParam @NotNull Integer pageIndex,
+                                                @RequestParam @NotNull Integer pageSize,
+                                                @RequestParam @NotNull Integer questionId) {
+        PageInfo<Answer> answerPage = answerService.answers(questionId, pageIndex, pageSize);
+        return CommonResult.success(answerPage);
     }
 }

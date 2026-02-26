@@ -3,7 +3,6 @@ package com.nofirst.zhihu.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nofirst.zhihu.config.TranslatorConfig;
-import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.exception.QuestionNotExistedException;
@@ -11,7 +10,6 @@ import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.filter.QuestionFilter;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
 import com.nofirst.zhihu.mbg.mapper.UserMapper;
-import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.mbg.model.QuestionExample;
 import com.nofirst.zhihu.mbg.model.User;
@@ -21,6 +19,7 @@ import com.nofirst.zhihu.model.vo.QuestionVo;
 import com.nofirst.zhihu.producer.KafkaProducer;
 import com.nofirst.zhihu.publisher.CustomEventPublisher;
 import com.nofirst.zhihu.security.AccountUser;
+import com.nofirst.zhihu.service.AnswerService;
 import com.nofirst.zhihu.service.QuestionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,13 +41,14 @@ public class QuestionServiceImpl implements QuestionService {
     private final UserMapper userMapper;
     private QuestionMapper questionMapper;
     private QuestionDao questionDao;
-    private AnswerDao answerDao;
     private VoteDao voteDao;
     private CustomEventPublisher customEventPublisher;
     private QuestionFilter questionFilter;
     private KafkaProducer kafkaProducer;
 
     private TranslatorConfig translatorConfig;
+
+    private AnswerService answerService;
 
     @Override
     public QuestionVo show(Integer id) {
@@ -66,16 +66,9 @@ public class QuestionServiceImpl implements QuestionService {
         questionVo.setTitle(question.getTitle());
         questionVo.setContent(question.getContent());
         questionVo.setPublishedAt(question.getPublishedAt());
-        questionVo.setAnswers(answers(question.getId(), 1, 20));
+        questionVo.setAnswers(answerService.answers(question.getId(), 1, 20));
 
         return questionVo;
-    }
-
-    @Override
-    public PageInfo<Answer> answers(Integer questionId, int pageIndex, int pageSize) {
-        PageHelper.startPage(pageIndex, pageSize);
-        List<Answer> answers = answerDao.selectByQuestionId(questionId);
-        return new PageInfo<>(answers);
     }
 
     @Override

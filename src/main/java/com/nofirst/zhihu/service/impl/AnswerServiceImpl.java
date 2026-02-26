@@ -1,5 +1,8 @@
 package com.nofirst.zhihu.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.nofirst.zhihu.dao.AnswerDao;
 import com.nofirst.zhihu.dao.QuestionDao;
 import com.nofirst.zhihu.dao.VoteDao;
 import com.nofirst.zhihu.exception.AnswerNotExistedException;
@@ -7,7 +10,6 @@ import com.nofirst.zhihu.exception.QuestionNotExistedException;
 import com.nofirst.zhihu.exception.QuestionNotPublishedException;
 import com.nofirst.zhihu.mbg.mapper.AnswerMapper;
 import com.nofirst.zhihu.mbg.mapper.QuestionMapper;
-import com.nofirst.zhihu.mbg.mapper.VoteMapper;
 import com.nofirst.zhihu.mbg.model.Answer;
 import com.nofirst.zhihu.mbg.model.Question;
 import com.nofirst.zhihu.model.dto.AnswerDto;
@@ -19,6 +21,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -31,9 +34,17 @@ public class AnswerServiceImpl implements AnswerService {
     private final AnswerMapper answerMapper;
     private final QuestionMapper questionMapper;
     private final QuestionDao questionDao;
-    private final VoteMapper voteMapper;
+    private AnswerDao answerDao;
     private final VoteDao voteDao;
     private final CustomEventPublisher customEventPublisher;
+
+
+    @Override
+    public PageInfo<Answer> answers(Integer questionId, int pageIndex, int pageSize) {
+        PageHelper.startPage(pageIndex, pageSize);
+        List<Answer> answers = answerDao.selectByQuestionId(questionId);
+        return new PageInfo<>(answers);
+    }
 
     @Override
     public Answer show(Integer id) {
